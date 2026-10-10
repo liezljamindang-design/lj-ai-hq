@@ -107,6 +107,9 @@ interface HqState {
   /** Chat transcripts, kept per employee for the length of the visit. */
   chats: Record<string, ChatMessage[]>;
   addChat: (agentId: string, message: ChatMessage) => void;
+  /** Language of each employee's latest reply, which the suggestion chips follow. */
+  chatLanguage: Record<string, "en" | "tl">;
+  setChatLanguage: (agentId: string, language: "en" | "tl") => void;
 
   agents: Agent[];
   agentsState: LoadState;
@@ -180,6 +183,9 @@ export const useHq = create<HqState>((set, get) => ({
   chats: {},
   addChat: (agentId, message) =>
     set((s) => ({ chats: { ...s.chats, [agentId]: [...(s.chats[agentId] ?? []), message] } })),
+
+  chatLanguage: {},
+  setChatLanguage: (agentId, language) => set((s) => ({ chatLanguage: { ...s.chatLanguage, [agentId]: language } })),
 
   agents: [],
   agentsState: "loading",

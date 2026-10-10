@@ -512,6 +512,13 @@ a.link-btn { font-size: 13.5px; }
 .approval-buttons .btn-primary, .approval-buttons .btn-secondary { min-height: 36px; padding: 0 14px; font-size: 13.5px; }
 .approval .lead-facts div:last-child { border-bottom: 0; }
 
+/* Workflow automations in an employee's Capabilities tab */
+.auto-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.auto-list li { display: grid; gap: 2px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-left: 3px solid var(--lav); border-radius: 8px; font-size: 13.5px; }
+.auto-list strong { font-size: 14px; }
+.auto-list span { color: var(--ink-2); }
+.auto-list b { display: inline-block; min-width: 2.9rem; font-family: var(--font-mono); font-size: 10.5px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
+
 /* ---------- Dialog ---------- */
 .dialog {
   width: min(30rem, calc(100% - 32px)); padding: 28px;

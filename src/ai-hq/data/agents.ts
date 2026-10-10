@@ -18,6 +18,11 @@ export const AGENTS: Agent[] = [
       { label: "Appointments booked", value: "5" },
     ],
     wouldUse: ["Conversation AI", "Voice AI", "Forms", "Contacts", "Calendars"],
+    automations: [
+      { name: "Instant lead reply", trigger: "A form is submitted or a new conversation starts", action: "Replies in seconds and starts the qualifying questions" },
+      { name: "Missed-call text back", trigger: "A call goes unanswered", action: "Texts the caller within a minute" },
+      { name: "Booking confirmation", trigger: "An appointment is booked", action: "Sends the confirmation and schedules the reminders" },
+    ],
   },
   {
     id: "olivia",
@@ -35,6 +40,11 @@ export const AGENTS: Agent[] = [
       { label: "Pipeline value", value: "$48,200" },
     ],
     wouldUse: ["Opportunities", "Pipelines", "Contacts", "Tasks", "Workflows"],
+    automations: [
+      { name: "Opportunity creation", trigger: "A lead is tagged as qualified", action: "Creates the opportunity with a value and an owner" },
+      { name: "Stage-change follow-up", trigger: "An opportunity moves to a new pipeline stage", action: "Sends the next message and assigns a task" },
+      { name: "Stalled deal alert", trigger: "An opportunity has had no activity for several days", action: "Flags it, restarts the follow-up and notifies the team" },
+    ],
   },
   {
     id: "ava",
@@ -44,7 +54,7 @@ export const AGENTS: Agent[] = [
     zone: "automation",
     status: "working",
     description: "Runs email and SMS nurture campaigns.",
-    responsibilities: ["Email campaigns", "SMS campaigns", "Lead nurturing", "Content assistance", "Marketing automation"],
+    responsibilities: ["Email campaigns", "SMS campaigns", "Lead nurturing", "Content assistance", "Workflow and marketing automation"],
     pos: { x: 10.35, y: 1.95 },
     metrics: [
       { label: "Campaigns running", value: "4" },
@@ -52,6 +62,13 @@ export const AGENTS: Agent[] = [
       { label: "SMS sent", value: "96" },
     ],
     wouldUse: ["Workflows", "Email templates", "SMS (A2P 10DLC)", "Smart lists", "Tags"],
+    automations: [
+      { name: "New lead nurture sequence", trigger: "A lead is tagged as not ready yet", action: "Sends timed emails and texts, and stops when the lead replies or books" },
+      { name: "Appointment reminders", trigger: "An appointment is coming up", action: "Sends a reminder the day before and again an hour before" },
+      { name: "Review request", trigger: "A service is marked complete", action: "Asks the customer for a review" },
+      { name: "Reactivation campaign", trigger: "A customer has been inactive for months", action: "Sends a win-back message, after a person approves it" },
+      { name: "Birthday greeting", trigger: "A contact's birthday arrives", action: "Sends a greeting, with an offer if the business wants one" },
+    ],
   },
   {
     id: "chloe",
@@ -69,6 +86,11 @@ export const AGENTS: Agent[] = [
       { label: "Tasks tracked", value: "27" },
     ],
     wouldUse: ["Workflow logs", "Tasks", "Internal notifications", "Reporting", "Webhooks"],
+    automations: [
+      { name: "Workflow failure alert", trigger: "A workflow step fails", action: "Notifies the team with the step and the contacts affected" },
+      { name: "Daily summary", trigger: "Every morning", action: "Sends the owner yesterday's leads, bookings and open items" },
+      { name: "Overdue task reminder", trigger: "A task passes its due date", action: "Reminds the person it's assigned to" },
+    ],
   },
   {
     id: "mia",
@@ -86,5 +108,10 @@ export const AGENTS: Agent[] = [
       { label: "Reports prepared", value: "2" },
     ],
     wouldUse: ["Calendars", "Tasks", "Reporting", "Conversations", "Approvals"],
+    automations: [
+      { name: "Approval hold", trigger: "A high-impact action is prepared", action: "Pauses it until a person approves or rejects" },
+      { name: "Weekly report", trigger: "Every Monday morning", action: "Compiles the week's numbers into a short brief" },
+      { name: "Meeting prep", trigger: "A meeting is about to start", action: "Sends the owner the notes and the contact's history" },
+    ],
   },
 ];

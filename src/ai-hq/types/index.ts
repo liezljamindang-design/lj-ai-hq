@@ -43,6 +43,14 @@ export interface Agent {
   metrics: { label: string; value: string }[];
   /** GoHighLevel features this role would use once real integrations exist. */
   wouldUse: string[];
+  /** Workflow automations this role runs, each as a trigger and what follows it. */
+  automations: AgentAutomation[];
+}
+
+export interface AgentAutomation {
+  name: string;
+  trigger: string;
+  action: string;
 }
 
 export type TaskState = "done" | "in-progress" | "attention" | "waiting-approval";

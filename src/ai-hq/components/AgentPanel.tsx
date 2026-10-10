@@ -21,6 +21,7 @@ const TASK_MARK: Record<TaskState, { mark: string; label: string }> = {
 /** Side panel for one AI employee. A column on desktop, a full-screen card on phones. */
 export function AgentPanel({ agent }: { agent: Agent }) {
   const closeAgent = useHq((s) => s.closeAgent);
+  const openAutomation = useHq((s) => s.openAutomation);
   const [tab, setTab] = useState<Tab>("Chat");
   const { state, tasks, activity, retry } = useAgentDetail(agent.id);
   const panelRef = useRef<HTMLElement>(null);
@@ -137,6 +138,17 @@ export function AgentPanel({ agent }: { agent: Agent }) {
             <ul className="caps-list">
               {agent.responsibilities.map((r) => <li key={r}>{r}</li>)}
             </ul>
+            <h3>Workflow automations {agent.name} runs</h3>
+            <ul className="auto-list">
+              {agent.automations.map((w) => (
+                <li key={w.name}>
+                  <strong>{w.name}</strong>
+                  <span><b>When</b> {w.trigger}</span>
+                  <span><b>Then</b> {w.action}</span>
+                </li>
+              ))}
+            </ul>
+            <button type="button" className="btn-secondary" onClick={openAutomation}>See a workflow step by step</button>
             <h3>GoHighLevel features this role would use</h3>
             <ul className="tag-list">
               {agent.wouldUse.map((f) => <li key={f}>{f}</li>)}

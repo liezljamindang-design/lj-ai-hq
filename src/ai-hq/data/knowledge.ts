@@ -1,127 +1,187 @@
 /**
  * Knowledge base for the AI employees' chat. No AI model is involved: a
  * visitor's question is matched to the closest entry here (see
- * services/knowledgeMatcher.ts). Replies are written in Taglish.
+ * services/knowledgeMatcher.ts).
  *
- * It is niche-neutral on purpose. The HQ is meant for any kind of business,
- * so general answers live in SHARED, each employee's specialty lives in
- * BY_AGENT, and NICHES lets every employee give an example for a specific
- * industry.
+ * LANGUAGE: every answer is written twice. `en` is the default. `tl` is
+ * conyo Taglish, used only when the visitor's own message contains Tagalog.
+ *
+ * NICHES: the HQ is meant for any kind of business. General answers live in
+ * SHARED, each employee's specialty lives in BY_AGENT, and NICHES lets every
+ * employee give an example for a specific industry.
  *
  * To teach the employees something new, add an entry. `keywords` are the
  * words or short phrases, English or Tagalog, that should lead to it.
  * Prices and timelines are deliberately not stated: they route to Liezl.
  */
+export type Lang = "en" | "tl";
+type Both = Record<Lang, string>;
+
 export interface KnowledgeEntry {
   id: string;
-  /** If set, this exact question is offered as a one-tap suggestion. */
-  q?: string;
+  /** If set, this question is offered as a one-tap suggestion. */
+  q?: Both;
   keywords: string[];
-  a: string;
+  a: Both;
 }
 
+/** The first message is always English. */
 export const GREETING: Record<string, string> = {
-  sophia: "Hi! Ako si Sophia, ang AI Receptionist. Ako ang unang sumasagot sa bawat bagong lead, nagka-qualify, at nagbo-book ng appointment. Ano'ng gusto mong malaman?",
-  olivia: "Hello, si Olivia ito, AI Sales Specialist. Ako ang nag-aasikaso ng pipeline kapag qualified na ang lead. Tanong ka lang.",
-  ava: "Hi, ako si Ava, AI Marketing Specialist. Email at SMS campaigns ang hawak ko para hindi lumamig ang mga lead. Ano'ng gusto mong i-explain ko?",
-  chloe: "Hello, si Chloe, AI Operations Specialist. Binabantayan ko ang mga workflow at fina-flag ko agad kapag may pumalya. Ano'ng gusto mong makita?",
-  mia: "Hi, ako si Mia, AI Executive Assistant. Tasks, calendar, at reports ng owner ang inaayos ko. Paano ako makakatulong?",
+  sophia: "Hi, I'm Sophia, the AI Receptionist. I greet every new lead, qualify them and book the appointment. What would you like to know?",
+  olivia: "Hello, I'm Olivia, the AI Sales Specialist. I keep the pipeline moving once a lead is qualified. Ask me how.",
+  ava: "Hi, I'm Ava, the AI Marketing Specialist. I run the email and SMS campaigns that keep leads warm. What can I explain?",
+  chloe: "Hello, I'm Chloe, the AI Operations Specialist. I watch the workflows and flag anything that breaks. What would you like to see?",
+  mia: "Hi, I'm Mia, the AI Executive Assistant. I keep the owner's tasks, calendar and reports in order. How can I help?",
 };
 
 /** Topics every employee can answer. */
 export const SHARED: KnowledgeEntry[] = [
   {
     id: "niches",
-    keywords: ["niche", "industry", "industriya", "anong business", "klase ng business", "type of business", "lahat ng business", "any business"],
-    a: "Open kami sa lahat ng niche. Basta may leads, appointments, o follow-ups ang business mo, gagana ang system: clinics, salons, real estate, restaurants, home services, coaches, online shops, at iba pa. Sabihin mo lang ang niche mo at bibigyan kita ng example.",
+    keywords: ["niche", "industry", "industries", "industriya", "anong business", "klase ng business", "type of business", "kind of business", "lahat ng business", "any business"],
+    a: {
+      en: "We're open to every niche. If your business has leads, appointments or follow-ups, the system fits: clinics, salons, real estate, restaurants, home services, coaches, online shops and more. Tell me your niche and I'll give you an example.",
+      tl: "Open kami sa all niches! As long as may leads, appointments, or follow-ups yung business mo, it works: clinics, salons, real estate, restaurants, home services, coaches, online shops, and more. Just tell me your niche and I'll give you an example.",
+    },
   },
   {
     id: "what-is-ghl",
-    keywords: ["gohighlevel", "highlevel", "ghl", "sub-account", "sub account", "subaccount", "crm", "ano ang system", "what is this"],
-    a: "GoHighLevel ang platform sa likod nito. Bawat business ay may sariling sub-account: isang lugar para sa contacts, pipelines, calendars, website at funnels, at mga automation. Kami ang mga AI employee na gumagalaw sa loob ng sub-account na iyon.",
+    keywords: ["gohighlevel", "highlevel", "ghl", "sub-account", "sub account", "subaccount", "crm", "ano ang system", "what is this", "platform"],
+    a: {
+      en: "GoHighLevel is the platform behind this. Each business gets its own sub-account: one place for contacts, pipelines, calendars, the website and funnels, and the automations. We're the AI employees working inside that sub-account.",
+      tl: "GoHighLevel yung platform behind this. Each business has its own sub-account, so nasa isang place lang yung contacts, pipelines, calendars, website and funnels, pati yung automations. Kami yung AI employees na nagwo-work inside that sub-account.",
+    },
   },
   {
     id: "inclusions",
-    q: "Ano'ng kasama sa setup?",
-    keywords: ["kasama", "included", "inclusion", "services", "serbisyo", "offer", "package", "ano ang ginagawa", "what do you offer", "features"],
-    a: "Karaniwang kasama ang CRM setup, sales pipeline, booking calendar, website o funnel, email at SMS follow-ups, at mga workflow automation. Pwede ring dagdagan ng AI agents para sa chat at calls. Ina-adjust ito ni Liezl depende sa kailangan ng business mo.",
+    q: { en: "What's included in a setup?", tl: "Ano yung kasama sa setup?" },
+    keywords: ["kasama", "included", "include", "inclusion", "services", "serbisyo", "offer", "package", "ano ang ginagawa", "what do you offer", "features"],
+    a: {
+      en: "A setup usually covers the CRM, a sales pipeline, a booking calendar, a website or funnel, email and SMS follow-ups, and workflow automations. AI agents for chat and calls can be added. Liezl adjusts it to what your business needs.",
+      tl: "Usually kasama yung CRM setup, sales pipeline, booking calendar, website or funnel, email and SMS follow-ups, and workflow automations. You can add AI agents din for chat and calls. Ina-adjust ni Liezl depending on what your business needs.",
+    },
   },
   {
     id: "pricing",
-    q: "Magkano ang setup?",
-    keywords: ["magkano", "presyo", "price", "pricing", "rate", "rates", "cost", "bayad", "budget", "mahal", "fee", "quote", "how much"],
-    a: "Depende sa scope ang presyo, kaya walang fixed na rate dito. I-message mo si Liezl kung ano ang kailangan ng business mo at bibigyan ka niya ng quote. Nasa Executive Office ang contact details niya.",
+    q: { en: "How much does a setup cost?", tl: "Magkano yung setup?" },
+    keywords: ["magkano", "presyo", "price", "pricing", "rate", "rates", "cost", "costs", "bayad", "budget", "mahal", "fee", "quote", "how much"],
+    a: {
+      en: "Pricing depends on the scope, so there's no fixed rate here. Message Liezl with what your business needs and she'll send you a quote. Her contact details are in the Executive Office.",
+      tl: "Depends kasi sa scope yung price, so walang fixed rate here. Just message Liezl kung ano yung need ng business mo and she'll send you a quote. Nasa Executive Office yung contact details niya.",
+    },
   },
   {
     id: "timeline",
-    keywords: ["gaano katagal", "how long", "timeline", "ilang araw", "ilang linggo", "kailan matatapos", "turnaround", "deadline", "gaano kabilis"],
-    a: "Depende sa laki ng setup. Mas mabilis ang simpleng CRM at calendar kaysa sa buong system na may website, funnels, at automations. Si Liezl ang magbibigay ng totoong timeline kapag nakita na niya ang kailangan mo.",
+    keywords: ["gaano katagal", "how long", "timeline", "ilang araw", "ilang linggo", "kailan matatapos", "turnaround", "deadline", "gaano kabilis", "how fast", "how soon"],
+    a: {
+      en: "It depends on the size of the setup. A simple CRM and calendar is quicker than a full system with a website, funnels and automations. Liezl gives the real timeline once she's seen what you need.",
+      tl: "Depends sa size ng setup. Mas mabilis yung simple CRM and calendar compared sa full system na may website, funnels, and automations. Si Liezl yung magbibigay ng actual timeline once makita niya yung need mo.",
+    },
   },
   {
     id: "start",
-    keywords: ["paano magsimula", "magsimula", "simulan", "get started", "how to start", "onboard", "onboarding", "process", "proseso", "next step", "unang hakbang"],
-    a: "Simple lang: una, kakausapin ka ni Liezl para maintindihan ang business at ang kasalukuyang proseso mo. Sunod, ise-setup niya ang sub-account, pipeline, calendar, at automations. Tapos ite-test muna lahat bago i-turn over sa iyo, kasama ang walkthrough.",
+    keywords: ["paano magsimula", "magsimula", "simulan", "get started", "how to start", "how do i start", "onboard", "onboarding", "process", "proseso", "next step", "unang hakbang"],
+    a: {
+      en: "It's simple. First, Liezl talks with you to understand the business and how you work today. Next, she sets up the sub-account, pipeline, calendar and automations. Then everything is tested before it's handed over, with a walkthrough.",
+      tl: "Super simple lang. First, kakausapin ka ni Liezl to understand your business and yung current process mo. Then she sets up the sub-account, pipeline, calendar, and automations. Tapos tine-test muna everything before i-turn over sa'yo, with a walkthrough pa.",
+    },
   },
   {
     id: "contact",
     keywords: ["contact", "kontak", "kausapin", "makausap", "email", "tawag", "call", "book a call", "mag-inquire", "inquire", "hire", "reach"],
-    a: "Pwede mong kausapin si Liezl nang direkta. Pumunta sa Executive Office dito sa HQ at buksan ang Contact tab para sa email at phone niya, o gamitin ang contact form sa portfolio.",
+    a: {
+      en: "You can talk to Liezl directly. Go to the Executive Office here in the HQ and open the Contact tab for her email and phone, or use the contact form in her portfolio.",
+      tl: "You can talk to Liezl directly naman. Go to the Executive Office dito sa HQ and open the Contact tab for her email and phone, or use the contact form sa portfolio niya.",
+    },
   },
   {
     id: "tech-skills",
-    keywords: ["marunong", "technical", "techie", "tech-savvy", "mahirap", "madali", "training", "turuan", "matutunan", "hindi ako marunong", "beginner"],
-    a: "Hindi mo kailangang maging techie. Si Liezl ang gagawa ng setup, at ituturo niya sa iyo at sa team mo kung paano gamitin ang mga kailangan lang ninyo araw-araw, gaya ng pagtingin ng leads at pag-check ng calendar.",
+    keywords: ["marunong", "technical", "techie", "tech-savvy", "tech savvy", "mahirap", "madali", "training", "turuan", "matutunan", "beginner", "hard to use", "easy to use"],
+    a: {
+      en: "You don't need to be technical. Liezl does the setup and shows you and your team only the parts you'll use day to day, such as viewing leads and checking the calendar.",
+      tl: "No need to be techie! Si Liezl yung gagawa ng setup, tapos she'll teach you and your team yung mga kailangan niyo lang daily, like viewing leads and checking the calendar.",
+    },
   },
   {
     id: "migration",
-    keywords: ["lumipat", "lipat", "migrate", "migration", "import", "excel", "spreadsheet", "google sheets", "existing crm", "lumang system", "dati naming"],
-    a: "Pwede. Kung nasa Excel, Google Sheets, o ibang CRM ang contacts mo ngayon, pwedeng i-import ang mga iyon sa bagong sub-account, kasama ang paglilinis ng duplicates at paglalagay ng tamang tags.",
+    keywords: ["lumipat", "lilipat", "lipat", "migrate", "migration", "import", "excel", "spreadsheet", "google sheets", "existing crm", "lumang system", "switch from"],
+    a: {
+      en: "Yes. If your contacts live in Excel, Google Sheets or another CRM today, they can be imported into the new sub-account, with duplicates cleaned up and the right tags applied.",
+      tl: "Yes, pwede! If nasa Excel, Google Sheets, or ibang CRM yung contacts mo now, we can import them sa new sub-account, with duplicates cleaned up and the right tags pa.",
+    },
   },
   {
     id: "is-real",
-    keywords: ["totoo ka ba", "tao ka ba", "totoong ai", "real ai", "are you real", "robot", "bot ka ba", "chatgpt", "openai", "scripted", "demo lang"],
-    a: "Honest answer: demo ito. Galing sa inihandang knowledge base ang mga sagot ko, hindi sa live na AI. Sa totoong setup, GoHighLevel Conversation AI o Voice AI ang gumagawa nito, naka-train sa impormasyon ng business mo.",
+    keywords: ["totoo ka", "tao ka", "totoong ai", "real ai", "are you real", "are you a bot", "robot", "bot ka", "chatgpt", "openai", "scripted", "demo lang"],
+    a: {
+      en: "Honest answer: this is a demo. My replies come from a prepared knowledge base, not a live AI. In a real setup, GoHighLevel Conversation AI or Voice AI does this, trained on your business's information.",
+      tl: "Honestly, demo lang 'to. Yung answers ko galing sa prepared knowledge base, not a live AI. Sa real setup, GoHighLevel Conversation AI or Voice AI yung gumagawa nito, trained sa info ng business mo.",
+    },
   },
   {
     id: "language",
-    keywords: ["taglish", "tagalog", "filipino", "english", "language", "wika", "bisaya", "cebuano"],
-    a: "Taglish ang gamit ko dito sa demo. Sa totoong setup, ia-adjust ang tono at wika ng AI sa mga customer mo: English, Tagalog, o Taglish, depende sa kung paano ka nakikipag-usap sa kanila.",
+    keywords: ["taglish", "tagalog", "filipino", "english", "language", "wika", "bisaya", "cebuano", "conyo"],
+    a: {
+      en: "I start in English and switch to Taglish when you type in Tagalog. In a real setup, the AI's tone and language are tuned to how you talk to your own customers.",
+      tl: "I start in English, tapos nag-switch ako to Taglish pag nag-Tagalog ka. Sa real setup, ina-adjust yung tone and language ng AI based sa kung paano ka makipag-usap sa customers mo.",
+    },
   },
   {
     id: "control",
-    keywords: ["mali", "magkamali", "mistake", "kontrol", "control", "bantay", "safe", "tiwala", "trust", "delikado", "risk"],
-    a: "Ikaw pa rin ang may kontrol. Ang mga sensitibong aksyon, gaya ng bulk messages o pagbura ng records, ay naghihintay muna ng approval ng tao. Si Chloe naman ang nagbabantay kung may pumalyang workflow.",
+    keywords: ["mali", "magkamali", "mistake", "mistakes", "kontrol", "control", "safe", "tiwala", "trust", "delikado", "risk", "wrong"],
+    a: {
+      en: "You stay in control. Sensitive actions, like bulk messages or deleting records, wait for a person's approval first. And Chloe watches for any workflow that fails.",
+      tl: "Ikaw pa rin yung in control. Yung sensitive actions, like bulk messages or deleting records, naghihintay muna ng approval ng tao. Plus si Chloe yung nagbabantay if may workflow na nag-fail.",
+    },
   },
   {
     id: "channels",
-    keywords: ["facebook", "messenger", "instagram", "ig", "sms", "text", "whatsapp", "viber", "chat widget", "channel", "saan papasok"],
-    a: "Pwedeng pumasok ang leads mula sa website form, chat widget, Facebook at Instagram messages, SMS, email, at tawag, at lahat ay napupunta sa iisang inbox. Depende sa setup at sa bansa mo ang available na channels, kaya kinukumpirma muna ito ni Liezl.",
+    keywords: ["facebook", "messenger", "instagram", "sms", "whatsapp", "viber", "chat widget", "channel", "channels", "saan papasok"],
+    a: {
+      en: "Leads can come in from a website form, a chat widget, Facebook and Instagram messages, SMS, email and calls, and they all land in one inbox. Which channels are available depends on the setup and your country, so Liezl confirms that first.",
+      tl: "Leads can come from website forms, chat widget, Facebook and Instagram messages, SMS, email, and calls, tapos lahat pumapasok sa isang inbox lang. Depends sa setup and sa country mo yung available channels, so kino-confirm muna ni Liezl.",
+    },
   },
   {
     id: "after-hours",
-    q: "Paano kapag sarado na ang office?",
-    keywords: ["after hours", "sarado", "gabi", "madaling araw", "weekend", "24/7", "24 7", "tulog", "holiday", "missed call", "hindi nasagot"],
-    a: "Sumasagot pa rin ang system. Ang missed call ay nakakatanggap ng text back sa loob ng isang minuto, at ang bagong form submission ay nasasagot agad, kaya walang lead na naghihintay hanggang umaga.",
+    q: { en: "What happens after office hours?", tl: "Paano pag closed na yung office?" },
+    keywords: ["after hours", "office hours", "sarado", "closed", "gabi", "madaling araw", "weekend", "24/7", "tulog", "holiday", "missed call", "hindi nasagot", "at night"],
+    a: {
+      en: "The system still replies. A missed call gets a text back within a minute, and a new form submission is answered right away, so no lead waits until morning.",
+      tl: "The system still replies kahit closed na. Yung missed call, may text back within a minute, and yung new form submission, nasasagot agad. So walang lead na naghihintay until morning.",
+    },
   },
   {
     id: "small-business",
-    keywords: ["maliit", "small business", "solo", "mag-isa", "startup", "bago pa lang", "kakasimula", "walang staff", "freelancer"],
-    a: "Mas malaking tulong ito sa maliit na team. Kapag ikaw lang o kakaunti kayo, ang automation ang sumasalo ng paulit-ulit na trabaho: pag-reply, pag-follow up, at pag-remind, para makapag-focus ka sa mismong serbisyo mo.",
+    keywords: ["maliit", "small business", "solo", "mag-isa", "startup", "bago pa lang", "kakasimula", "walang staff", "freelancer", "one person"],
+    a: {
+      en: "It helps a small team even more. When it's just you or a few people, automation takes the repetitive work, the replying, following up and reminding, so you can focus on the service itself.",
+      tl: "Mas helpful nga siya for small teams! Pag ikaw lang or konti lang kayo, yung automation yung sumasalo ng repetitive work, like replying, following up, and reminding. So you can focus sa mismong service mo.",
+    },
   },
   {
     id: "who-is-liezl",
     keywords: ["sino si liezl", "liezl", "sino gumawa", "who built", "who made", "owner", "may-ari"],
-    a: "Si Liezl Jamindang ang gumawa ng HQ na ito. GoHighLevel Specialist siya: CRM, pipelines, workflows, websites, funnels, calendars, at AI agents ang ginagawa niya. Makikilala mo siya sa Executive Office.",
+    a: {
+      en: "Liezl Jamindang built this HQ. She's a GoHighLevel Specialist who works on CRM, pipelines, workflows, websites, funnels, calendars and AI agents. You can meet her in the Executive Office.",
+      tl: "Si Liezl Jamindang yung gumawa ng HQ na 'to. GoHighLevel Specialist siya: CRM, pipelines, workflows, websites, funnels, calendars, and AI agents yung ginagawa niya. You can meet her sa Executive Office.",
+    },
   },
   {
     id: "hello",
     keywords: ["hi", "hello", "hey", "kumusta", "kamusta", "musta", "good morning", "good afternoon", "good evening", "magandang"],
-    a: "Hello! Salamat sa pagbisita sa AI HQ. Pwede mo akong tanungin tungkol sa trabaho ko, sa setup, o kung paano ito gagana sa niche mo.",
+    a: {
+      en: "Hello! Thanks for visiting the AI HQ. Ask me about my work, the setup, or how this would run in your niche.",
+      tl: "Hello! Thanks for visiting the AI HQ. You can ask me about my work, yung setup, or kung paano 'to mag-work sa niche mo.",
+    },
   },
   {
     id: "thanks",
-    keywords: ["salamat", "thanks", "thank you", "ty", "ok na", "sige", "noted"],
-    a: "Walang anuman! Kung may iba ka pang tanong, nandito lang ako. Pwede mo ring i-try ang Run live demo para makita kung paano gumagalaw ang isang lead sa buong system.",
+    keywords: ["salamat", "thanks", "thank you", "ok na", "noted"],
+    a: {
+      en: "You're welcome! I'm here if you have more questions. You can also try Run live demo to watch one lead move through the whole system.",
+      tl: "You're welcome! Nandito lang ako if may questions ka pa. Try mo rin yung Run live demo to see kung paano gumagalaw yung isang lead sa buong system.",
+    },
   },
 ];
 
@@ -130,185 +190,282 @@ export const BY_AGENT: Record<string, KnowledgeEntry[]> = {
   sophia: [
     {
       id: "follow-up",
-      q: "Paano gumagana ang lead follow-up system mo?",
+      q: { en: "How does your lead follow-up system work?", tl: "Paano nagwo-work yung lead follow-up system mo?" },
       keywords: ["follow-up", "follow up", "followup", "lead", "paano gumagana", "how does", "system mo"],
-      a: "Kapag may bagong lead na pumasok sa CRM, sinasagot ko agad, kinukuha ko ang qualification info, ina-update ko ang contact record, at nilalagay ko ang qualified na opportunity sa tamang pipeline.",
+      a: {
+        en: "When a new lead enters the CRM, I respond immediately, gather qualification information, update the contact record, and route qualified opportunities into the correct pipeline.",
+        tl: "So pag may new lead na pumasok sa CRM, I reply agad, I get their qualification info, ina-update ko yung contact record, tapos nilalagay ko yung qualified opportunity sa right pipeline.",
+      },
     },
     {
       id: "qualify",
       keywords: ["qualify", "qualif", "qualified", "tanong", "questions", "screen", "sinasala"],
-      a: "May maikling set ng tanong na pinipili ng business, gaya ng serbisyong kailangan, timeline, at budget. Nase-save ang mga sagot sa custom fields ng contact, at may tag kung qualified o hindi ang lead.",
+      a: {
+        en: "I ask a short set of questions the business chooses, such as the service needed, timeline and budget. The answers are saved to custom fields on the contact, and a tag marks the lead as qualified or not.",
+        tl: "May short set of questions na pinipili ng business, like yung service na need, timeline, and budget. Nase-save yung answers sa custom fields ng contact, tapos may tag if qualified or not yung lead.",
+      },
     },
     {
       id: "book",
-      q: "Kaya mo bang mag-book ng appointments?",
-      keywords: ["book", "mag-book", "appointment", "calendar", "schedule", "iskedyul", "reservation", "slot"],
-      a: "Oo. Kapag qualified na ang lead, inaalok ko ang mga bakanteng oras mula sa connected calendar, ginagawa ko ang appointment, at kusang lumalabas ang confirmation at reminder messages.",
+      q: { en: "Can you book appointments?", tl: "Kaya mo bang mag-book ng appointments?" },
+      keywords: ["book", "mag-book", "appointment", "appointments", "calendar", "schedule", "iskedyul", "reservation", "slot"],
+      a: {
+        en: "Yes. Once a lead qualifies I offer open times from the connected calendar, create the appointment, and the confirmation and reminder messages go out automatically.",
+        tl: "Yes, kaya! Once qualified na yung lead, I offer yung open slots from the connected calendar, I create the appointment, tapos automatic nang lumalabas yung confirmation and reminder messages.",
+      },
     },
     {
       id: "no-show",
-      keywords: ["no-show", "no show", "hindi sumipot", "di sumipot", "cancel", "reschedule", "nag-cancel"],
-      a: "May reminders bago ang appointment para bumaba ang no-shows. Kapag hindi pa rin sumipot ang customer, pwede akong mag-alok ng bagong schedule, pero dadaan muna iyon sa approval kung maramihan.",
+      keywords: ["no-show", "no show", "sumipot", "cancel", "cancelled", "reschedule", "nag-cancel", "didn't show"],
+      a: {
+        en: "Reminders go out before the appointment to cut down no-shows. If the customer still doesn't come, I can offer a new time, though that goes through approval first when it's a batch.",
+        tl: "May reminders before the appointment para less yung no-shows. Pag hindi pa rin sumipot yung customer, I can offer a new schedule, pero dadaan muna sa approval if maramihan.",
+      },
     },
   ],
   olivia: [
     {
       id: "pipeline",
-      q: "Paano mo mina-manage ang pipeline?",
-      keywords: ["pipeline", "manage", "stage", "opportunit", "deal", "sales process"],
-      a: "Bawat qualified lead ay nagiging opportunity na may value at owner. Mino-move ko ito sa bawat stage habang may nangyayari: contacted, qualified, appointment booked, closed. Bawat galaw ay pwedeng mag-trigger ng susunod na follow-up.",
+      q: { en: "How do you manage the pipeline?", tl: "Paano mo mina-manage yung pipeline?" },
+      keywords: ["pipeline", "manage", "stage", "stages", "opportunit", "deal", "sales process"],
+      a: {
+        en: "Each qualified lead becomes an opportunity with a value and an owner. I move it between stages as things happen: contacted, qualified, appointment booked, closed. Every move can trigger the next follow-up.",
+        tl: "Every qualified lead becomes an opportunity na may value and owner. I move it per stage habang may nangyayari: contacted, qualified, appointment booked, closed. Every move can trigger yung next follow-up.",
+      },
     },
     {
       id: "stalled",
-      q: "Ano'ng nangyayari sa deal na hindi gumagalaw?",
-      keywords: ["stall", "stuck", "hindi gumagalaw", "di gumagalaw", "natengga", "cold", "walang reply", "sumasagot", "nagre-reply", "nagrereply", "na-seen", "seenzone", "ghost"],
-      a: "Kapag matagal nang nasa iisang stage ang opportunity, fina-flag ko ito, nire-restart ko ang follow-up sequence, at gumagawa ako ng task para may taong pumasok. Walang deal na nakakalimutan.",
+      q: { en: "What happens to a stalled deal?", tl: "Paano pag hindi na gumagalaw yung deal?" },
+      keywords: ["stall", "stalled", "stuck", "gumagalaw", "natengga", "cold", "walang reply", "sumasagot", "nagre-reply", "nagrereply", "na-seen", "seenzone", "ghost", "no reply", "stopped replying"],
+      a: {
+        en: "If an opportunity sits in one stage too long, I flag it, restart a follow-up sequence, and create a task for a person to step in. Nothing sits forgotten.",
+        tl: "Pag matagal nang stuck sa isang stage yung opportunity, I flag it, nire-restart ko yung follow-up sequence, tapos I create a task para may taong mag-step in. So walang deal na nakakalimutan.",
+      },
     },
     {
       id: "handoff",
-      keywords: ["human", "tao", "hand off", "handoff", "ipasa", "team", "notify", "abiso", "sales rep"],
-      a: "Nagpapadala ako ng internal notification na may contact, summary ng usapan, at suggested next step, tapos nag-a-assign ako ng task na may due date sa tamang tao.",
+      keywords: ["human", "hand off", "handoff", "ipasa", "team", "notify", "abiso", "sales rep"],
+      a: {
+        en: "I send an internal notification with the contact, the conversation summary and the suggested next step, then assign a task with a due date to the right person.",
+        tl: "I send an internal notification na may contact, summary ng convo, and suggested next step, tapos I assign a task with a due date sa right person.",
+      },
     },
     {
       id: "close",
       keywords: ["close", "isara", "benta", "sales", "convert", "conversion", "proposal", "invoice"],
-      a: "Hindi ako ang nagko-close ng mismong benta, tao pa rin iyon. Ang trabaho ko ay siguraduhing walang lead na nahuhulog: tamang stage, tamang follow-up, at may paalala sa team kapag oras nang kumilos.",
+      a: {
+        en: "I don't close the sale itself. A person still does that. My job is making sure no lead falls through: the right stage, the right follow-up, and a nudge to the team when it's time to act.",
+        tl: "Hindi ako yung nagko-close ng mismong sale, tao pa rin yun. My job is to make sure walang lead na nahuhulog: right stage, right follow-up, and may reminder sa team pag time na to act.",
+      },
     },
   ],
   ava: [
     {
       id: "nurture",
-      q: "Paano gumagana ang lead nurturing?",
-      keywords: ["nurtur", "campaign", "email", "sequence", "drip", "newsletter"],
-      a: "Ang mga lead na hindi pa handa ay pumapasok sa naka-time na sequence ng emails at texts. May tamang pagitan ang bawat message, at kusang humihinto ang sequence kapag nag-reply o nag-book na ang lead.",
+      q: { en: "How does lead nurturing work?", tl: "Paano nagwo-work yung lead nurturing?" },
+      keywords: ["nurtur", "campaign", "campaigns", "email", "sequence", "drip", "newsletter"],
+      a: {
+        en: "Leads who aren't ready yet enter a timed sequence of emails and texts. Each message waits for the right delay, and the sequence stops by itself the moment the lead replies or books.",
+        tl: "Yung leads na hindi pa ready, pumapasok sila sa timed sequence ng emails and texts. May right delay every message, tapos kusa siyang nag-stop once mag-reply or mag-book yung lead.",
+      },
     },
     {
       id: "compliance",
-      keywords: ["complian", "a2p", "10dlc", "opt", "spam", "permission", "consent", "bawal", "legal"],
-      a: "Sa mga nag-opt in lang ako nagme-message, at sinusunod ang opt-out replies. Para sa SMS sa US, kailangan muna ng A2P 10DLC brand at campaign registration. Iba-iba ang patakaran kada bansa, kaya tsine-check ito ni Liezl bago mag-send.",
+      keywords: ["complian", "a2p", "10dlc", "opt", "spam", "permission", "consent", "bawal", "legal", "allowed"],
+      a: {
+        en: "I only message contacts who opted in, and every message honors opt-out replies. For SMS in the US, A2P 10DLC brand and campaign registration comes first. Rules differ by country, so Liezl checks them before anything sends.",
+        tl: "I only message yung nag-opt in, and sinusunod yung opt-out replies. For SMS sa US, need muna ng A2P 10DLC brand and campaign registration. Iba-iba yung rules per country, so chine-check muna ni Liezl before mag-send.",
+      },
     },
     {
       id: "trigger",
-      q: "Ano'ng nagti-trigger ng campaign?",
-      keywords: ["trigger", "nagti-trigger", "start", "nagsisimula", "kailan nagse-send", "automatic"],
-      a: "Kahit anong event sa CRM ay pwedeng trigger: na-submit na form, nadagdag na tag, na-book na appointment, o nagbagong pipeline stage. Nakikinig ang workflow doon at sinisimulan ang tamang messages.",
+      q: { en: "What triggers a campaign?", tl: "Ano yung nagti-trigger ng campaign?" },
+      keywords: ["trigger", "triggers", "nagti-trigger", "start", "nagsisimula", "automatic"],
+      a: {
+        en: "A trigger is any event in the CRM: a form submitted, a tag added, an appointment booked, a pipeline stage changed. The workflow listens for it and starts the right messages.",
+        tl: "Any event sa CRM can be a trigger: form submitted, tag added, appointment booked, or nag-change yung pipeline stage. Nakikinig yung workflow doon, tapos it starts the right messages.",
+      },
     },
     {
       id: "reviews",
       keywords: ["review", "reviews", "rating", "feedback", "testimonial", "reputation"],
-      a: "Pagkatapos ng serbisyo, pwede akong mag-send ng review request sa customer. Malaking tulong ito sa reputation ng business, lalo na sa mga local na negosyo.",
+      a: {
+        en: "After a service, I can send the customer a review request. It's a real help for a business's reputation, especially a local one.",
+        tl: "After ng service, I can send a review request sa customer. Super helpful siya sa reputation ng business, especially for local businesses.",
+      },
     },
     {
       id: "promo",
-      keywords: ["promo", "sale", "discount", "balikan", "reactivat", "lumang customer", "dating customer", "old customers", "bumalik"],
-      a: "May reactivation campaigns para sa mga dating customer: maikling message na may dahilan para bumalik, gaya ng promo o reminder. Dahil maramihan ito, humihingi muna ako ng approval bago mag-send.",
+      keywords: ["promo", "sale", "discount", "balikan", "reactivat", "lumang customer", "dating customer", "old customers", "past customers", "bumalik", "win back"],
+      a: {
+        en: "There are reactivation campaigns for past customers: a short message with a reason to come back, like a promo or a reminder. Because it goes to many people, I ask for approval before sending.",
+        tl: "May reactivation campaigns for past customers: short message lang na may reason to come back, like a promo or reminder. Since maramihan siya, I ask for approval muna before mag-send.",
+      },
     },
   ],
   chloe: [
     {
       id: "monitor",
-      q: "Ano'ng binabantayan mo?",
+      q: { en: "What do you monitor?", tl: "Ano yung binabantayan mo?" },
       keywords: ["monitor", "binabantayan", "bantay", "watch", "check", "track", "tina-track"],
-      a: "Lahat ng active na workflow, ang mga task na naka-assign sa mga tao, at lahat ng dapat sanang nangyari pero hindi, gaya ng reminder na hindi nag-send.",
+      a: {
+        en: "Every active workflow, the tasks assigned to people, and anything that should have happened but didn't, like a reminder that never sent.",
+        tl: "Lahat ng active workflows, yung tasks na naka-assign sa people, and anything na dapat nangyari pero hindi, like a reminder na hindi nag-send.",
+      },
     },
     {
       id: "fail",
-      q: "Ano'ng nangyayari kapag pumalya ang workflow?",
-      keywords: ["fail", "pumalya", "palya", "error", "sira", "nasira", "broken", "alert", "hindi gumana", "bug"],
-      a: "Naglalabas ako ng alert na may pangalan ng workflow, kung saang step pumalya, at kung sinong contacts ang apektado. Tao ang magdedesisyon kung aayusin o ire-rerun, hindi ako.",
+      q: { en: "What happens when a workflow fails?", tl: "Paano pag nag-fail yung workflow?" },
+      keywords: ["fail", "fails", "failed", "nag-fail", "pumalya", "palya", "error", "errors", "sira", "nasira", "broken", "broke", "breaks", "alert", "hindi gumana", "not working", "stopped working", "bug"],
+      a: {
+        en: "I raise an alert with the workflow name, the step that failed and the contacts affected. Fixing or re-running it is a person's decision, not mine.",
+        tl: "I raise an alert na may workflow name, kung saang step nag-fail, and kung sinong contacts yung affected. Tao yung magde-decide if ifi-fix or ire-rerun, not me.",
+      },
     },
     {
       id: "summary",
       keywords: ["summary", "report", "daily", "araw-araw", "buod", "ulat"],
-      a: "Sa daily summary: bagong leads, na-book na appointments, gumalaw na opportunities, tumakbong workflows, at maikling listahan ng mga bagay na kailangan ng tao ngayong araw.",
+      a: {
+        en: "The daily summary covers new leads, appointments booked, opportunities moved, workflows that ran, and the short list of items that need a person today.",
+        tl: "Sa daily summary: new leads, appointments booked, opportunities na gumalaw, workflows na nag-run, and a short list ng things na need ng tao today.",
+      },
     },
     {
       id: "tasks",
       keywords: ["task", "tasks", "gawain", "to-do", "todo", "pending", "overdue"],
-      a: "Tina-track ko ang lahat ng open tasks at kung kanino naka-assign. Kapag may lumampas na sa due date, lumalabas iyon sa summary para hindi makalimutan.",
+      a: {
+        en: "I track every open task and who it's assigned to. Anything past its due date shows up in the summary so it isn't forgotten.",
+        tl: "I track all open tasks and kung kanino naka-assign. Pag may lumampas na sa due date, lumalabas siya sa summary para hindi makalimutan.",
+      },
     },
   ],
   mia: [
     {
       id: "approval",
-      q: "Ano'ng kailangan mo ng approval?",
+      q: { en: "What do you need approval for?", tl: "Saan mo kailangan ng approval?" },
       keywords: ["approv", "permission", "pahintulot", "payag", "sensitive", "sensitibo"],
-      a: "Lahat ng may totoong epekto: bulk messages, pagbura ng records, pagbabago ng automation settings, o paglipat ng high-value opportunities. Inihahanda ko ang aksyon at hinihintay ko ang oo ng tao.",
+      a: {
+        en: "Anything with real consequences: bulk messages, deleting records, changing automation settings, or moving high-value opportunities. I prepare the action and wait for a yes.",
+        tl: "Anything na may real effect: bulk messages, deleting records, changing automation settings, or moving high-value opportunities. I prepare the action, tapos I wait for the yes ng tao.",
+      },
     },
     {
       id: "reports",
-      q: "Paano ka naghahanda ng reports?",
+      q: { en: "How do you prepare reports?", tl: "Paano ka nagpe-prepare ng reports?" },
       keywords: ["report", "reports", "ulat", "brief", "summary", "numbers", "numero", "weekly"],
-      a: "Kinukuha ko ang numbers ng linggo mula sa CRM, ikinukumpara sa nakaraang linggo, at sumusulat ako ng maikling brief: priorities, risks, at next actions.",
+      a: {
+        en: "I pull the week's numbers from the CRM, compare them with last week, and write a short brief covering priorities, risks and next actions.",
+        tl: "I pull yung numbers ng week from the CRM, I compare sa last week, tapos I write a short brief: priorities, risks, and next actions.",
+      },
     },
     {
       id: "coordinate",
-      keywords: ["coordinat", "team", "sama-sama", "magkakasama", "others", "ibang ai", "nagtutulungan"],
-      a: "Ipinapasa ni Sophia ang qualified leads kay Olivia, pinapainit ni Ava ang iba pa, at tsine-check ni Chloe na tumakbo ang bawat step. Ako naman ang nag-a-update sa owner at nangongolekta ng mga desisyong kailangan ng tao.",
+      keywords: ["coordinat", "team", "sama-sama", "magkakasama", "others", "ibang ai", "nagtutulungan", "work together"],
+      a: {
+        en: "Sophia hands qualified leads to Olivia, Ava keeps the rest warm, and Chloe checks that every step ran. I keep the owner informed and collect the decisions that need a person.",
+        tl: "Si Sophia yung nagpapasa ng qualified leads kay Olivia, si Ava yung nagki-keep warm sa iba, and si Chloe yung nagche-check na nag-run every step. Ako naman yung nag-a-update sa owner and nagko-collect ng decisions na need ng tao.",
+      },
     },
     {
       id: "calendar",
-      keywords: ["calendar", "schedule", "iskedyul", "meeting", "appointment", "oras"],
-      a: "Inaayos ko ang calendar ng owner: iniiwasan ang magkasabay na meetings, naglalagay ng paalala, at inihahanda ang kailangan bago ang bawat tawag.",
+      keywords: ["calendar", "schedule", "iskedyul", "meeting", "meetings", "appointment", "oras"],
+      a: {
+        en: "I keep the owner's calendar in order: no double-booked meetings, reminders in place, and what's needed prepared before each call.",
+        tl: "I fix the owner's calendar: walang double-booked meetings, may reminders, and naka-prepare na yung need before every call.",
+      },
     },
   ],
 };
 
-/** Suggested questions shown as chips, per employee. Each must match an entry's `q`, or be a niche example. */
+/** Suggested questions, by entry id. "niche:<id>" asks about that niche. */
 export const SUGGESTIONS: Record<string, string[]> = {
-  sophia: ["Paano gumagana ang lead follow-up system mo?", "Kaya mo bang mag-book ng appointments?", "Pwede ba ito sa dental clinic?", "Magkano ang setup?"],
-  olivia: ["Paano mo mina-manage ang pipeline?", "Ano'ng nangyayari sa deal na hindi gumagalaw?", "Pwede ba ito sa real estate?", "Ano'ng kasama sa setup?"],
-  ava: ["Paano gumagana ang lead nurturing?", "Ano'ng nagti-trigger ng campaign?", "Pwede ba ito sa salon?", "Magkano ang setup?"],
-  chloe: ["Ano'ng binabantayan mo?", "Ano'ng nangyayari kapag pumalya ang workflow?", "Pwede ba ito sa restaurant?", "Paano kapag sarado na ang office?"],
-  mia: ["Ano'ng kailangan mo ng approval?", "Paano ka naghahanda ng reports?", "Pwede ba ito sa online shop?", "Ano'ng kasama sa setup?"],
+  sophia: ["follow-up", "book", "niche:dental", "pricing"],
+  olivia: ["pipeline", "stalled", "niche:real-estate", "inclusions"],
+  ava: ["nurture", "trigger", "niche:beauty", "pricing"],
+  chloe: ["monitor", "fail", "niche:food", "after-hours"],
+  mia: ["approval", "reports", "niche:ecommerce", "inclusions"],
 };
 
+/**
+ * Industries the employees can give an example for. The describing fields are
+ * English noun phrases; conyo Taglish keeps its nouns in English, so the same
+ * wording serves both languages.
+ */
 export interface Niche {
   id: string;
-  /** How the niche is named mid-sentence. */
+  /** Named mid-sentence, with its article: "a dental or medical clinic". */
   label: string;
+  /** Short name for the suggestion chip: "a dental clinic". */
+  chip: string;
   keywords: string[];
-  /** Fits "kapag may ___". */
+  /** Singular, no article: "new patient inquiry". */
   lead: string;
-  /** Fits "iba-book ko ang ___". */
+  /** No article: "consultation or checkup". */
   book: string;
-  /** Fits "mag-run ng ___". */
+  /** What Ava would run: "recall reminders, like ...". */
   nurture: string;
 }
 
 export const NICHES: Niche[] = [
-  { id: "dental", label: "dental o medical clinic", keywords: ["dental", "dentist", "dentista", "clinic", "klinika", "doctor", "doktor", "medical", "derma", "ospital", "pasyente", "patient"],
-    lead: "bagong patient inquiry", book: "consultation o checkup", nurture: "recall reminders, gaya ng cleaning tuwing anim na buwan" },
-  { id: "beauty", label: "salon, spa, o beauty business", keywords: ["salon", "spa", "med spa", "beauty", "parlor", "barber", "nails", "lash", "aesthetic", "facial", "wellness"],
-    lead: "nagtatanong tungkol sa isang treatment", book: "treatment o free consultation", nurture: "rebooking reminders at birthday promos" },
-  { id: "real-estate", label: "real estate", keywords: ["real estate", "realty", "broker", "property", "condo", "bahay at lupa", "house and lot", "rental", "paupahan"],
-    lead: "buyer o renter inquiry", book: "property viewing", nurture: "updates sa bagong listings para sa mga hindi pa bumibili" },
-  { id: "food", label: "restaurant o cafe", keywords: ["restaurant", "resto", "cafe", "coffee", "kainan", "food", "catering", "bakery", "milk tea"],
-    lead: "reservation o catering inquiry", book: "table reservation", nurture: "promos at paanyaya sa mga dating customer" },
-  { id: "fitness", label: "gym, fitness, o coaching business", keywords: ["gym", "fitness", "coach", "coaching", "trainer", "yoga", "pilates", "consultant", "mentor"],
-    lead: "nag-inquire tungkol sa program", book: "trial session o discovery call", nurture: "check-ins at renewal reminders" },
-  { id: "home", label: "home services", keywords: ["plumbing", "plumber", "tubero", "hvac", "aircon", "roofing", "bubong", "landscap", "cleaning", "electrician", "kontratista", "contractor", "repair", "construction", "pest"],
-    lead: "humihingi ng estimate", book: "site visit o inspection", nurture: "maintenance reminders at follow-up sa mga quote na hindi pa nasasagot" },
-  { id: "auto", label: "automotive business", keywords: ["auto", "car", "kotse", "sasakyan", "talyer", "detailing", "car wash", "mekaniko", "motor"],
-    lead: "service inquiry", book: "service appointment", nurture: "paalala para sa susunod na maintenance" },
-  { id: "ecommerce", label: "online shop", keywords: ["online shop", "online store", "e-commerce", "ecommerce", "shopee", "lazada", "tiktok shop", "reseller", "tindahan", "product", "paninda"],
-    lead: "nagtatanong tungkol sa product o order", book: "order confirmation o callback", nurture: "abandoned cart reminders at repeat-order promos" },
-  { id: "professional", label: "professional services", keywords: ["law", "lawyer", "abogado", "accounting", "accountant", "bookkeep", "insurance", "financial", "agency", "ahensya", "travel", "visa"],
-    lead: "bagong client inquiry", book: "consultation", nurture: "follow-ups sa mga proposal at paalala sa mga deadline" },
-  { id: "pets", label: "pet care business", keywords: ["pet", "vet", "veterinar", "grooming", "aso", "pusa", "dog", "cat"],
-    lead: "pet owner na nag-inquire", book: "grooming o vet appointment", nurture: "vaccine at grooming reminders" },
-  { id: "education", label: "school o tutorial center", keywords: ["school", "paaralan", "tutor", "tutorial", "review center", "enroll", "training center", "academy", "klase"],
-    lead: "enrollment inquiry", book: "assessment o trial class", nurture: "paalala sa enrollment at updates para sa mga magulang" },
+  { id: "dental", label: "a dental or medical clinic", chip: "a dental clinic", keywords: ["dental", "dentist", "dentista", "clinic", "klinika", "doctor", "doktor", "medical", "derma", "ospital", "hospital", "pasyente", "patient", "patients"],
+    lead: "new patient inquiry", book: "consultation or checkup", nurture: "recall reminders, like a cleaning every six months" },
+  { id: "beauty", label: "a salon, spa or beauty business", chip: "a salon", keywords: ["salon", "spa", "med spa", "beauty", "parlor", "barber", "nails", "lash", "aesthetic", "facial", "wellness"],
+    lead: "treatment inquiry", book: "treatment or free consultation", nurture: "rebooking reminders and birthday promos" },
+  { id: "real-estate", label: "real estate", chip: "real estate", keywords: ["real estate", "realty", "broker", "property", "properties", "condo", "bahay at lupa", "house and lot", "rental", "paupahan"],
+    lead: "buyer or renter inquiry", book: "property viewing", nurture: "new-listing updates for people who haven't bought yet" },
+  { id: "food", label: "a restaurant or cafe", chip: "a restaurant", keywords: ["restaurant", "resto", "cafe", "coffee", "kainan", "food", "catering", "bakery", "milk tea"],
+    lead: "reservation or catering inquiry", book: "table reservation", nurture: "promos and invitations for past customers" },
+  { id: "fitness", label: "a gym, fitness or coaching business", chip: "a gym", keywords: ["gym", "fitness", "coach", "coaching", "trainer", "yoga", "pilates", "consultant", "mentor"],
+    lead: "program inquiry", book: "trial session or discovery call", nurture: "check-ins and renewal reminders" },
+  { id: "home", label: "a home services business", chip: "home services", keywords: ["plumbing", "plumber", "tubero", "hvac", "aircon", "roofing", "bubong", "landscap", "cleaning", "electrician", "kontratista", "contractor", "repair", "construction", "pest", "home service"],
+    lead: "request for an estimate", book: "site visit or inspection", nurture: "maintenance reminders and follow-ups on unanswered quotes" },
+  { id: "auto", label: "an automotive business", chip: "an auto shop", keywords: ["auto", "automotive", "car", "cars", "kotse", "sasakyan", "talyer", "detailing", "car wash", "mekaniko", "mechanic", "motor"],
+    lead: "service inquiry", book: "service appointment", nurture: "reminders for the next maintenance visit" },
+  { id: "ecommerce", label: "an online shop", chip: "an online shop", keywords: ["online shop", "online store", "e-commerce", "ecommerce", "shopee", "lazada", "tiktok shop", "reseller", "tindahan", "product", "products", "paninda"],
+    lead: "product or order question", book: "order confirmation or callback", nurture: "abandoned-cart reminders and repeat-order promos" },
+  { id: "professional", label: "a professional services firm", chip: "a law or accounting firm", keywords: ["law", "lawyer", "abogado", "accounting", "accountant", "bookkeep", "insurance", "financial", "agency", "ahensya", "travel", "visa"],
+    lead: "new client inquiry", book: "consultation", nurture: "proposal follow-ups and deadline reminders" },
+  { id: "pets", label: "a pet care business", chip: "a pet care business", keywords: ["pet", "pets", "vet", "veterinar", "grooming", "aso", "pusa", "dog", "cat"],
+    lead: "pet owner inquiry", book: "grooming or vet appointment", nurture: "vaccine and grooming reminders" },
+  { id: "education", label: "a school or tutorial center", chip: "a tutorial center", keywords: ["school", "paaralan", "tutor", "tutorial", "review center", "enroll", "enrollment", "training center", "academy", "klase"],
+    lead: "enrollment inquiry", book: "assessment or trial class", nurture: "enrollment reminders and updates for parents" },
 ];
 
-/** How each employee explains their job for a given niche. */
-export const NICHE_ANSWER: Record<string, (n: Niche) => string> = {
-  sophia: (n) => `Pwede. Para sa ${n.label}: kapag may ${n.lead}, sasagutin ko agad, itatanong ko ang ilang qualifying questions, tapos iba-book ko ang ${n.book} sa calendar mo.`,
-  olivia: (n) => `Pwede. Sa ${n.label}, bawat ${n.lead} ay nagiging opportunity sa pipeline. Mino-move ko ito hanggang ma-confirm ang ${n.book}, at may follow-up kapag hindi sumasagot ang lead.`,
-  ava: (n) => `Pwede. Para sa ${n.label}, kaya kong mag-run ng ${n.nurture}, gamit ang email at SMS, para hindi mo na mano-manong tine-text ang bawat isa.`,
-  chloe: (n) => `Pwede. Sa ${n.label}, binabantayan ko kung tumakbo ang lahat: nasagot ba ang bawat ${n.lead}, at na-send ba ang reminder para sa ${n.book}. Kapag may pumalya, fina-flag ko agad.`,
-  mia: (n) => `Pwede. Para sa ${n.label}, inaayos ko ang schedule at tasks ng owner, at naghahanda ako ng weekly report: ilan ang pumasok na leads at ilan ang umabot sa ${n.book}.`,
+const an = (phrase: string) => (/^[aeiou]/i.test(phrase) ? "an" : "a");
+/** "a dental or medical clinic" -> "dental or medical clinic", for Taglish sentences that don't take the article. */
+const bare = (label: string) => label.replace(/^an? /, "");
+
+/** How each employee explains their job for a given niche, in each language. */
+export const NICHE_ANSWER: Record<string, Record<Lang, (n: Niche) => string>> = {
+  sophia: {
+    en: (n) => `Yes. For ${n.label}: when ${an(n.lead)} ${n.lead} comes in, I reply right away, ask a few qualifying questions, then book the ${n.book} on your calendar.`,
+    tl: (n) => `Yes, pwede! For ${bare(n.label)}: pag may ${n.lead}, I reply agad, then I ask a few qualifying questions, tapos I book the ${n.book} sa calendar mo.`,
+  },
+  olivia: {
+    en: (n) => `Yes. For ${n.label}, every ${n.lead} becomes an opportunity in the pipeline. I move it along until the ${n.book} is confirmed, with a follow-up whenever the lead goes quiet.`,
+    tl: (n) => `Pwede! Sa ${bare(n.label)}, every ${n.lead} becomes an opportunity sa pipeline. I move it along hanggang ma-confirm yung ${n.book}, and may follow-up pag hindi nag-reply yung lead.`,
+  },
+  ava: {
+    en: (n) => `Yes. For ${n.label}, I can run ${n.nurture}, by email and SMS, so you're not messaging each person by hand.`,
+    tl: (n) => `Pwede naman! For ${bare(n.label)}, I can run ${n.nurture}, via email and SMS, so hindi mo na kailangan i-message isa-isa.`,
+  },
+  chloe: {
+    en: (n) => `Yes. For ${n.label}, I check that everything ran: whether every ${n.lead} got a reply, and whether the reminder for the ${n.book} went out. If something fails, I flag it right away.`,
+    tl: (n) => `Pwede! Sa ${bare(n.label)}, I check kung nag-run lahat: na-replyan ba every ${n.lead}, and na-send ba yung reminder for the ${n.book}. Pag may nag-fail, I flag it agad.`,
+  },
+  mia: {
+    en: (n) => `Yes. For ${n.label}, I keep the owner's schedule and tasks in order and prepare a weekly report: how many leads came in and how many reached ${an(n.book)} ${n.book}.`,
+    tl: (n) => `Pwede! For ${bare(n.label)}, I fix the owner's schedule and tasks, tapos I prepare a weekly report: ilan yung leads na pumasok and ilan yung umabot sa ${n.book}.`,
+  },
 };
 
-export const FALLBACK =
-  "Pasensya, wala pa iyan sa knowledge base ko sa demo na ito. Subukan mo ang isa sa mga suggested questions sa ibaba, o sabihin mo ang niche mo para mabigyan kita ng example.";
+/** The question a niche suggestion chip asks. */
+export const NICHE_QUESTION: Record<Lang, (n: Niche) => string> = {
+  en: (n) => `Would this work for ${n.chip}?`,
+  tl: (n) => `Pwede ba 'to sa ${bare(n.chip)}?`,
+};
+
+export const FALLBACK: Both = {
+  en: "Sorry, that isn't in my knowledge base for this demo yet. Try one of the suggested questions below, or tell me your niche and I'll give you an example.",
+  tl: "Sorry, wala pa yan sa knowledge base ko for this demo. Try mo yung suggested questions below, or sabihin mo yung niche mo and I'll give you an example.",
+};

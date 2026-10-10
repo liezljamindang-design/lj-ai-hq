@@ -17,7 +17,9 @@ export function AgentChat({ agent }: { agent: Agent }) {
 
   const greeting = services.agents.getGreeting(agent.id);
   const messages = stored ?? [];
-  const suggestions = services.agents.getSuggestions(agent.id);
+  const language = useHq((s) => s.chatLanguage[agent.id] ?? "en");
+  const setChatLanguage = useHq((s) => s.setChatLanguage);
+  const suggestions = services.agents.getSuggestions(agent.id, language);
 
   useEffect(() => {
     const el = logRef.current;
@@ -33,7 +35,8 @@ export function AgentChat({ agent }: { agent: Agent }) {
     setPending(true);
     try {
       const reply = await services.agents.sendMessage(agent.id, clean);
-      addChat(agent.id, msg("agent", reply));
+      addChat(agent.id, msg("agent", reply.text));
+      setChatLanguage(agent.id, reply.language); // the suggestions follow the visitor's language
     } catch {
       setFailed(true);
     } finally {
@@ -48,15 +51,15 @@ export function AgentChat({ agent }: { agent: Agent }) {
 
   return (
     <div className="chat">
-      <p className="chat-note">Replies come from a prepared knowledge base, in Taglish. This chat is not connected to a live AI.</p>
+      <p className="chat-note">Replies come from a prepared knowledge base, not a live AI. Write in Tagalog and {agent.name} answers in Taglish.</p>
 
       <div className="chat-log" ref={logRef} role="log" aria-live="polite" aria-label={`Conversation with ${agent.name}`}>
         <p className="bubble bubble-agent">{greeting}</p>
         {messages.map((m) => (
           <p key={m.id} className={`bubble bubble-${m.from}`}>{m.text}</p>
         ))}
-        {pending && <p className="bubble bubble-agent bubble-pending">Nagta-type si {agent.name}…</p>}
-        {failed && <p className="chat-error">Hindi available si {agent.name} ngayon. Paki-send ulit ang message mo.</p>}
+        {pending && <p className="bubble bubble-agent bubble-pending">{agent.name} is replying…</p>}
+        {failed && <p className="chat-error">{agent.name} is unavailable right now. Send your message again.</p>}
       </div>
 
       <ul className="chat-suggestions" aria-label="Suggested questions">
@@ -74,7 +77,7 @@ export function AgentChat({ agent }: { agent: Agent }) {
           type="text"
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
-          placeholder={`Tanungin si ${agent.name}`}
+          placeholder={`Ask ${agent.name} a question`}
           autoComplete="off"
           maxLength={200}
         />

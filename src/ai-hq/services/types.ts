@@ -8,16 +8,19 @@ import type { ActivityEntry, ActivityEvent, Agent, AgentTask, CrmSnapshot, Workf
  *
  * calendarService is added when real calendar access is.
  */
+/** "en" is the default. "tl" (Taglish) is used when the visitor writes in Tagalog. */
+export type ChatLanguage = "en" | "tl";
+
 export interface AgentService {
   listAgents(): Promise<Agent[]>;
   getTasks(agentId: string): Promise<AgentTask[]>;
   getActivity(agentId: string): Promise<ActivityEntry[]>;
   /** First message the employee shows when a chat opens. */
   getGreeting(agentId: string): string;
-  /** Questions offered as one-tap suggestions. */
-  getSuggestions(agentId: string): string[];
-  /** Sends a visitor message and resolves with the employee's reply. */
-  sendMessage(agentId: string, text: string): Promise<string>;
+  /** Questions offered as one-tap suggestions, in the conversation's current language. */
+  getSuggestions(agentId: string, language: ChatLanguage): string[];
+  /** Sends a visitor message and resolves with the employee's reply and the language it was given in. */
+  sendMessage(agentId: string, text: string): Promise<{ text: string; language: ChatLanguage }>;
 }
 
 /**
