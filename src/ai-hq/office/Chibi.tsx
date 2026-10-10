@@ -31,7 +31,7 @@ const LOOKS: Record<ChibiId, Look> = {
 
 /** Top of the head, shared by every hairstyle. */
 const CAP = "M-9.9 -25 C-11.6 -38.6 11.6 -38.6 9.9 -25 C8 -29.6 4 -31.2 0 -31.2 C-4 -31.2 -8 -29.6 -9.9 -25 Z";
-const BLUNT_FRINGE = "M-9.9 -25 C-9.6 -32.4 9.6 -32.4 9.9 -25 C6 -28.6 -6 -28.6 -9.9 -25 Z";
+const BLUNT_FRINGE = "M-9.9 -25 C-9.6 -35.4 9.6 -35.4 9.9 -25 C6 -28.6 -6 -28.6 -9.9 -25 Z";
 
 function BackHair({ look }: { look: Look }) {
   const f = look.hair;
@@ -67,7 +67,7 @@ function FrontHair({ look }: { look: Look }) {
         </>
       )}
       {look.style === "ponytail" && <path d="M-9.9 -25 C-9.2 -32.6 3 -33.6 9.9 -26 C5 -29.8 -3 -29.2 -9.9 -25 Z" />}
-      {look.style === "short" && <path d="M-9.9 -25 C-9.4 -31.4 6 -33 9.9 -26.4 C5 -29.2 -4 -28.4 -9.9 -25 Z" />}
+      {look.style === "short" && <path d="M-9.9 -25 C-9.4 -35 6 -36 9.9 -26.4 C5 -29.2 -4 -28.4 -9.9 -25 Z" />}
     </g>
   );
 }
