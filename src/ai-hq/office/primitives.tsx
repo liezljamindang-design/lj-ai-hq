@@ -2,7 +2,7 @@ import { project } from "./iso";
 
 export const pt = (x: number, y: number, z = 0) => project(x, y, z).join(",");
 
-export type Material = "desk" | "dark" | "soft" | "gold" | "pot" | "wall";
+export type Material = "desk" | "dark" | "soft" | "gold" | "pot" | "wall" | "shade";
 
 interface BoxProps {
   x: number;

@@ -1,4 +1,5 @@
 import { ZONES } from "../data/zones";
+import { ChibiPortrait } from "../office/Chibi";
 import { useHq } from "../store/hqStore";
 import { ActivityFeed } from "./ActivityFeed";
 import { StatusDot, STATUS_LABEL } from "./StatusDot";
@@ -74,7 +75,7 @@ export function ZoneDirectory({ onRetryAgents, onRetryActivity }: { onRetryAgent
                   )}
                   {team.map((agent) => (
                     <button key={agent.id} type="button" className="agent-line" onClick={() => openAgent(agent.id)}>
-                      <span className="agent-avatar" aria-hidden="true">{agent.name[0]}</span>
+                      <span className="agent-avatar"><ChibiPortrait id={agent.id} size={40} /></span>
                       <span className="agent-id">
                         <strong>{agent.name}</strong>
                         <span>{agent.title}</span>

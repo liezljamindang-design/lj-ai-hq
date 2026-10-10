@@ -128,6 +128,19 @@ function Counter({ x, y, w, h }: FurnitureItem) {
   );
 }
 
+/** A slim brass floor lamp with a glowing shade. */
+function Lamp({ x, y, w, h }: FurnitureItem) {
+  const [cx, cy] = project(x + w / 2, y + h / 2, 44);
+  return (
+    <>
+      <Box x={x} y={y} w={w} h={h} z1={2} m="gold" />
+      <Box x={x + w / 2 - 0.03} y={y + h / 2 - 0.03} w={0.06} h={0.06} z0={2} z1={36} m="gold" />
+      <ellipse className="lamp-glow" cx={cx} cy={cy} rx={15} ry={11} />
+      <Box x={x - 0.04} y={y - 0.04} w={w + 0.08} h={h + 0.08} z0={36} z1={48} m="shade" />
+    </>
+  );
+}
+
 const RENDERERS = {
   desk: Desk,
   chair: Chair,
@@ -140,6 +153,7 @@ const RENDERERS = {
   board: Board,
   cabinet: Cabinet,
   counter: Counter,
+  lamp: Lamp,
 } as const;
 
 export function Furniture({ item }: { item: FurnitureItem }) {

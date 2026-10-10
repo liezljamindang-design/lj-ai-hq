@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
-import { FURNITURE, GLASS_WALLS, WALL_HEIGHT } from "../data/furniture";
+import { FURNITURE, GLASS_WALLS, RUGS, WALL_HEIGHT } from "../data/furniture";
 import { FLOOR, ZONES } from "../data/zones";
 import { useMovement } from "../hooks/useMovement";
 import { useHq } from "../store/hqStore";
@@ -12,6 +12,16 @@ import { Furniture } from "./Furniture";
 import { project, rectPoints } from "./iso";
 import { panelX, panelY, pt } from "./primitives";
 import { WallDisplays } from "./WallDisplays";
+
+/** Marble veins, as paths in floor units. Fixed, so the floor looks the same on every visit. */
+const VEINS: [number, number][][] = [
+  [[0.4, 3.2], [1.6, 3.35], [2.5, 3.1], [3.9, 3.3], [5.2, 3.15]],
+  [[4.3, 4.2], [5.1, 5.0], [5.4, 5.9], [6.3, 6.6], [7.1, 6.9]],
+  [[6.2, 3.3], [7.4, 3.2], [8.1, 3.35], [9.6, 3.1], [11.7, 3.3]],
+  [[4.2, 7.4], [4.35, 8.3], [4.2, 9.0], [4.4, 9.8]],
+  [[5.6, 4.0], [6.6, 4.5], [7.5, 4.4], [7.9, 5.3]],
+  [[0.3, 6.75], [1.5, 6.6], [2.6, 6.8], [4.0, 6.7]],
+];
 
 const SLAB = 14; // visible thickness of the floor slab, in screen pixels
 
@@ -86,10 +96,21 @@ export function FloorMap() {
         <polygon className="slab-side slab-side-right" points={rightFace} />
         <polygon className="slab-top" points={rectPoints(0, 0, W, D)} />
 
+        {/* Polished marble: large tiles with a fine brass inlay, and a few soft veins */}
+        <g className="marble">
+          {[2, 4, 6, 8, 10].map((x) => <polyline key={`tx${x}`} className="tile-line" points={`${pt(x, 0)} ${pt(x, D)}`} />)}
+          {[2, 4, 6, 8].map((y) => <polyline key={`ty${y}`} className="tile-line" points={`${pt(0, y)} ${pt(W, y)}`} />)}
+          {VEINS.map((v, i) => <polyline key={i} className="vein" points={v.map(([x, y]) => pt(x, y)).join(" ")} />)}
+        </g>
+
         {/* Solid outer walls along the two back edges */}
         <polygon className="wall wall-right" points={panelY(0, 0, W, 0, WALL_HEIGHT)} />
         <polygon className="wall wall-left" points={panelX(0, 0, D, 0, WALL_HEIGHT)} />
         <polyline className="wall-cap" points={`${pt(0, D, WALL_HEIGHT)} ${pt(0, 0, WALL_HEIGHT)} ${pt(W, 0, WALL_HEIGHT)}`} />
+        {/* Brass molding: a baseboard line and a picture rail on both walls */}
+        {[7, WALL_HEIGHT - 7].map((z) => (
+          <polyline key={z} className="molding" points={`${pt(0, D, z)} ${pt(0, 0, z)} ${pt(W, 0, z)}`} />
+        ))}
 
         {/* Entrance threshold on the front edge, in front of Reception */}
         <polyline className="entrance" points={`${pt(7.5, D)} ${pt(9, D)}`} />
@@ -116,6 +137,16 @@ export function FloorMap() {
             </g>
           );
         })}
+
+        {/* Rugs and the entrance runner lie on the floor, under the furniture */}
+        <g className="rugs">
+          {RUGS.map((r) => (
+            <g key={r.id}>
+              <polygon className="rug" points={rectPoints(r.x, r.y, r.w, r.h)} />
+              <polygon className="rug-edge" points={rectPoints(r.x, r.y, r.w, r.h, 0, 0.12)} />
+            </g>
+          ))}
+        </g>
 
         <WallDisplays />
         <g className="scene">

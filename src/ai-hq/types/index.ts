@@ -86,7 +86,8 @@ export type FurnitureKind =
   | "kiosk"
   | "board"
   | "cabinet"
-  | "counter";
+  | "counter"
+  | "lamp";
 
 /**
  * One object on the floor. The footprint (x, y, w, h in floor units) is used

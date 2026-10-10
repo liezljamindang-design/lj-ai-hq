@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAgentDetail } from "../hooks/useAgentDetail";
+import { ChibiPortrait } from "../office/Chibi";
 import { useHq } from "../store/hqStore";
 import { onTabListKeyDown } from "./tabKeys";
 import type { Agent, TaskState } from "../types";
@@ -53,7 +54,7 @@ export function AgentPanel({ agent }: { agent: Agent }) {
   return (
     <aside className="side-panel" ref={panelRef} tabIndex={-1} aria-labelledby="agent-panel-name">
       <header className="agent-head">
-        <span className="agent-avatar agent-avatar-lg" aria-hidden="true">{agent.name[0]}</span>
+        <span className="agent-avatar agent-avatar-lg"><ChibiPortrait id={agent.id} size={56} /></span>
         <div className="agent-head-id">
           <h2 id="agent-panel-name">{agent.name}</h2>
           <p>{agent.title} · {agent.department}</p>

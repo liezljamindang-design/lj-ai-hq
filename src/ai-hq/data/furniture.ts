@@ -59,6 +59,20 @@ export const FURNITURE: FurnitureItem[] = [
   { id: "lounge-sofa-2", kind: "sofa", zone: "reception", x: 11.25, y: 8.1, w: 0.6, h: 1.3 },
   { id: "lounge-table", kind: "low-table", zone: "reception", x: 9.85, y: 8.35, w: 0.9, h: 0.55 },
   plant("rec-plant-2", "reception", 11.45, 7.3),
+
+  // Floor lamps
+  { id: "lamp-exec", kind: "lamp", zone: "executive", x: 0.2, y: 0.12, w: 0.26, h: 0.26 },
+  { id: "lamp-meeting", kind: "lamp", zone: "meeting", x: 5.55, y: 0.25, w: 0.26, h: 0.26 },
+  { id: "lamp-sales", kind: "lamp", zone: "sales", x: 3.6, y: 5.9, w: 0.26, h: 0.26 },
+  { id: "lamp-lounge", kind: "lamp", zone: "reception", x: 9.05, y: 7.3, w: 0.26, h: 0.26 },
+];
+
+/** Rugs and the entrance runner. Flat decor: drawn on the floor, walked over, never a collision. */
+export const RUGS: { id: string; x: number; y: number; w: number; h: number }[] = [
+  { id: "rug-runner", x: 7.55, y: 8.95, w: 1.4, h: 1.05 },
+  { id: "rug-lounge", x: 9.3, y: 7.2, w: 2.65, h: 2.35 },
+  { id: "rug-exec", x: 0.7, y: 0.65, w: 1.95, h: 1.75 },
+  { id: "rug-meeting", x: 3.45, y: 0.7, w: 2.1, h: 1.45 },
 ];
 
 export const WALL_HEIGHT = 64;
