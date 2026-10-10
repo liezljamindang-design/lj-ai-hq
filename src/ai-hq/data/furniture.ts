@@ -1,11 +1,13 @@
 import type { FurnitureItem, WallSegment, ZoneId } from "../types";
 
-/** A desk with its monitors, plus one chair on the visitor-facing side. */
-function workstation(id: string, zone: ZoneId, x: number, y: number, w: number, monitors: number): FurnitureItem[] {
-  return [
-    { id, kind: "desk", zone, x, y, w, h: 0.6, monitors },
-    { id: `${id}-chair`, kind: "chair", zone, x: x + w / 2 - 0.19, y: y + 0.76, w: 0.38, h: 0.38 },
-  ];
+/**
+ * A desk with its monitors, plus one chair on the visitor-facing side.
+ * Pass staffed = true where an AI employee stands at the desk instead of a chair.
+ */
+function workstation(id: string, zone: ZoneId, x: number, y: number, w: number, monitors: number, staffed = false): FurnitureItem[] {
+  const desk: FurnitureItem = { id, kind: "desk", zone, x, y, w, h: 0.6, monitors };
+  if (staffed) return [desk];
+  return [desk, { id: `${id}-chair`, kind: "chair", zone, x: x + w / 2 - 0.19, y: y + 0.76, w: 0.38, h: 0.38 }];
 }
 
 const plant = (id: string, zone: ZoneId, x: number, y: number): FurnitureItem => ({
@@ -32,17 +34,17 @@ export const FURNITURE: FurnitureItem[] = [
   { id: "ai-rack", kind: "rack", zone: "ai-lab", x: 8.45, y: 0.25, w: 0.4, h: 0.5 },
 
   // Automation Lab
-  ...workstation("auto-desk", "automation", 9.6, 1.0, 1.5, 2),
+  ...workstation("auto-desk", "automation", 9.6, 1.0, 1.5, 2, true),
   plant("auto-plant", "automation", 11.45, 0.3),
 
   // Sales & CRM
-  ...workstation("sales-desk-1", "sales", 0.7, 4.3, 1.3, 2),
+  ...workstation("sales-desk-1", "sales", 0.7, 4.3, 1.3, 2, true),
   ...workstation("sales-desk-2", "sales", 2.3, 4.3, 1.3, 2),
   plant("sales-plant", "sales", 3.5, 3.75),
 
   // Operations
   { id: "ops-board", kind: "board", zone: "operations", x: 8.9, y: 3.75, w: 1.2, h: 0.14 },
-  ...workstation("ops-desk", "operations", 9.9, 4.5, 1.5, 2),
+  ...workstation("ops-desk", "operations", 9.9, 4.5, 1.5, 2, true),
   plant("ops-plant", "operations", 8.2, 4.6),
 
   // Website & Funnel Studio

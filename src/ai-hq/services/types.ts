@@ -1,4 +1,4 @@
-import type { Agent } from "../types";
+import type { ActivityEntry, Agent, AgentTask } from "../types";
 
 /**
  * Service contracts. The UI talks only to these interfaces.
@@ -11,6 +11,14 @@ import type { Agent } from "../types";
  */
 export interface AgentService {
   listAgents(): Promise<Agent[]>;
+  getTasks(agentId: string): Promise<AgentTask[]>;
+  getActivity(agentId: string): Promise<ActivityEntry[]>;
+  /** First message the employee shows when a chat opens. */
+  getGreeting(agentId: string): string;
+  /** Questions offered as one-tap suggestions. */
+  getSuggestions(agentId: string): string[];
+  /** Sends a visitor message and resolves with the employee's reply. */
+  sendMessage(agentId: string, text: string): Promise<string>;
 }
 
 export interface HqServices {

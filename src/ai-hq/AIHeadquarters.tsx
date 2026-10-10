@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { AgentPanel } from "./components/AgentPanel";
 import { Hud } from "./components/Hud";
 import { Onboarding } from "./components/Onboarding";
 import { HelpDialog } from "./components/HelpDialog";
@@ -12,6 +13,7 @@ import { HQ_CONFIG } from "./config";
 export function AIHeadquarters() {
   const theme = useHq((s) => s.theme);
   const retryAgents = useAgents();
+  const openAgent = useHq((s) => s.agents.find((a) => a.id === s.openAgentId));
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -27,13 +29,13 @@ export function AIHeadquarters() {
             <p className="eyebrow">Portfolio demo</p>
             <h1 id="hq-title">AI employees working inside an automated CRM</h1>
             <p className="hq-lede">
-              Built by {HQ_CONFIG.ownerName}, {HQ_CONFIG.ownerTitle}. Walk in with WASD or the arrow keys, or tap the floor.
+              Built by {HQ_CONFIG.ownerName}, {HQ_CONFIG.ownerTitle}. Walk in with WASD or the arrow keys, or tap the floor. Tap an AI employee to meet them.
             </p>
           </header>
           <FloorMap />
         </section>
 
-        <ZoneDirectory onRetryAgents={retryAgents} />
+        {openAgent ? <AgentPanel agent={openAgent} /> : <ZoneDirectory onRetryAgents={retryAgents} />}
       </main>
 
       <Onboarding />

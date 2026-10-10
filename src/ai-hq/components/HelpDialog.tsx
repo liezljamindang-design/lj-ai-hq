@@ -17,7 +17,9 @@ export function HelpDialog() {
       <dl className="how-to">
         <div><dt>Move</dt><dd>WASD or arrow keys. You can also tap the floor to walk there.</dd></div>
         <div><dt>Rooms</dt><dd>Walk into a room, or pick one in the directory, to see what it does.</dd></div>
+        <div><dt>Employees</dt><dd>Tap an AI employee, or walk up and press E. Chat replies are scripted.</dd></div>
         <div><dt>Camera</dt><dd>Reset view shows the whole floor.</dd></div>
+        <div><dt>Music</dt><dd>The play button starts soft ambient music. It is off until you turn it on.</dd></div>
         <div><dt>Theme</dt><dd>Use the sun or moon button to switch between light and dark.</dd></div>
         <div><dt>Leave</dt><dd>Exit HQ returns you to the portfolio.</dd></div>
       </dl>

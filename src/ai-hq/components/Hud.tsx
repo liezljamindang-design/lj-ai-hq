@@ -1,5 +1,6 @@
 import { HQ_CONFIG } from "../config";
 import { useHq } from "../store/hqStore";
+import { MusicToggle } from "./MusicToggle";
 
 /** Top bar: identity, demo badge, system status, and the theme, help and exit controls. */
 export function Hud({ onRetryAgents }: { onRetryAgents: () => void }) {
@@ -39,6 +40,7 @@ export function Hud({ onRetryAgents }: { onRetryAgents: () => void }) {
       </ul>
 
       <div className="hud-actions">
+        <MusicToggle />
         <button
           type="button"
           className="icon-btn"

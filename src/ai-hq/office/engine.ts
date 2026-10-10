@@ -1,3 +1,4 @@
+import { AGENTS } from "../data/agents";
 import { FURNITURE, GLASS_WALLS } from "../data/furniture";
 import { FLOOR, ZONES } from "../data/zones";
 import type { ZoneId } from "../types";
@@ -20,7 +21,32 @@ export const wallRect = (w: (typeof GLASS_WALLS)[number]): Rect =>
     ? { x: w.at - 0.04, y: w.from, w: 0.08, h: w.to - w.from }
     : { x: w.from, y: w.at - 0.04, w: w.to - w.from, h: 0.08 };
 
-const OBSTACLES: Rect[] = [...FURNITURE, ...GLASS_WALLS.map(wallRect)];
+/** Footprint of an AI employee: the avatar walks around them, not through them. */
+export const agentRect = (pos: Point): Rect => ({ x: pos.x - 0.17, y: pos.y - 0.17, w: 0.34, h: 0.34 });
+
+const OBSTACLES: Rect[] = [...FURNITURE, ...GLASS_WALLS.map(wallRect), ...AGENTS.map((a) => agentRect(a.pos))];
+
+/** How close the avatar must be to an employee for the "talk to" prompt to appear. */
+export const TALK_RANGE = 1.5;
+
+/** Where a visitor stands to talk to an employee: in front of them if there is room, otherwise beside them. */
+export function talkSpot(pos: Point): Point {
+  const offsets = [[0, 0.7], [0, 1.2], [0.7, 0], [-0.7, 0], [0, -0.7]];
+  for (const [dx, dy] of offsets) {
+    if (canStand(pos.x + dx, pos.y + dy)) return { x: pos.x + dx, y: pos.y + dy };
+  }
+  return pos;
+}
+
+export function agentNear(x: number, y: number): string | null {
+  let best: string | null = null;
+  let bestD = TALK_RANGE;
+  for (const a of AGENTS) {
+    const d = Math.hypot(a.pos.x - x, a.pos.y - y);
+    if (d < bestD) { bestD = d; best = a.id; }
+  }
+  return best;
+}
 
 /** True if the avatar's circle fits at this point without touching an obstacle or leaving the floor. */
 export function canStand(x: number, y: number): boolean {

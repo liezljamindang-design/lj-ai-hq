@@ -1,7 +1,8 @@
 import { useEffect, type RefObject } from "react";
 import { project } from "../office/iso";
-import { canStand, findPath, sceneToFloor, SPEED, START, zoneAt, zoneEntry, type Point, type Rect } from "../office/engine";
+import { agentNear, canStand, findPath, talkSpot, sceneToFloor, SPEED, START, zoneAt, zoneEntry, type Point, type Rect } from "../office/engine";
 import { FLOOR } from "../data/zones";
+import { AGENTS } from "../data/agents";
 import { useHq } from "../store/hqStore";
 
 /** Centre of the drawing, in scene pixels. The camera pivots around it. */
@@ -20,7 +21,7 @@ interface Options {
   cameraRef: RefObject<SVGGElement | null>;
   avatarRef: RefObject<SVGGElement | null>;
   /** Footprints of the scene objects, in draw order. Used to slot the avatar in front of or behind them. */
-  boxes: (Rect & { depth: number })[];
+  boxesRef: RefObject<(Rect & { depth: number })[]>;
   onSlot: (slot: number) => void;
 }
 
@@ -28,7 +29,7 @@ interface Options {
  * Drives the avatar and camera. Positions are written straight to the SVG each
  * frame, so walking never re-renders React. The loop stops when nothing moves.
  */
-export function useMovement({ svgRef, cameraRef, avatarRef, boxes, onSlot }: Options) {
+export function useMovement({ svgRef, cameraRef, avatarRef, boxesRef, onSlot }: Options) {
   useEffect(() => {
     const svg = svgRef.current;
     const camera = cameraRef.current;
@@ -39,6 +40,7 @@ export function useMovement({ svgRef, cameraRef, avatarRef, boxes, onSlot }: Opt
     let path: Point[] = [];
     const held = new Set<string>();
     let zone = zoneAt(pos.x, pos.y);
+    let near: string | null = null;
     let slot = -1;
     let raf = 0;
     let running = false;
@@ -58,6 +60,7 @@ export function useMovement({ svgRef, cameraRef, avatarRef, boxes, onSlot }: Opt
     }
 
     function updateSlot() {
+      const boxes = boxesRef.current;
       let frontMax = -1;
       let behindMin = -1;
       boxes.forEach((b, i) => {
@@ -128,6 +131,8 @@ export function useMovement({ svgRef, cameraRef, avatarRef, boxes, onSlot }: Opt
           zone = z;
           if (z) useHq.getState().selectZone(z);
         }
+        const n = agentNear(pos.x, pos.y);
+        if (n !== near) { near = n; useHq.getState().setNearAgent(n); }
       }
       avatar!.classList.toggle("is-walking", moving);
 
@@ -172,6 +177,16 @@ export function useMovement({ svgRef, cameraRef, avatarRef, boxes, onSlot }: Opt
     const onBlur = () => held.clear();
 
     function onClick(e: MouseEvent) {
+      // Clicking an employee opens their panel and walks the avatar over to them.
+      const hit = (e.target as Element).closest<SVGGElement>("[data-agent]");
+      if (hit) {
+        const agent = AGENTS.find((a) => a.id === hit.dataset.agent);
+        if (agent) {
+          useHq.getState().openAgent(agent.id);
+          walkTo(talkSpot(agent.pos));
+        }
+        return;
+      }
       const ctm = camera!.getScreenCTM();
       if (!ctm) return;
       const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
@@ -183,6 +198,8 @@ export function useMovement({ svgRef, cameraRef, avatarRef, boxes, onSlot }: Opt
     const unsubscribe = useHq.subscribe((s, prev) => {
       if (s.walkRequest && s.walkRequest !== prev.walkRequest) walkTo(zoneEntry(s.walkRequest.zone));
       if (s.overview !== prev.overview) kick();
+      // The scene gained or reordered layers (employees loaded), so re-slot the avatar on the next tick.
+      if (s.agents !== prev.agents) queueMicrotask(() => { slot = -1; updateSlot(); });
     });
 
     window.addEventListener("keydown", onKeyDown);
@@ -205,5 +222,5 @@ export function useMovement({ svgRef, cameraRef, avatarRef, boxes, onSlot }: Opt
       svg.removeEventListener("click", onClick);
       mobile.removeEventListener("change", kick);
     };
-  }, [svgRef, cameraRef, avatarRef, boxes, onSlot]);
+  }, [svgRef, cameraRef, avatarRef, boxesRef, onSlot]);
 }

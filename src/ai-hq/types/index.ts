@@ -37,6 +37,32 @@ export interface Agent {
   status: AgentStatus;
   description: string;
   responsibilities: string[];
+  /** Where the employee stands on the floor, in floor units. */
+  pos: { x: number; y: number };
+  /** Headline numbers for today. Demo values. */
+  metrics: { label: string; value: string }[];
+  /** GoHighLevel features this role would use once real integrations exist. */
+  wouldUse: string[];
+}
+
+export type TaskState = "done" | "in-progress" | "attention" | "waiting-approval";
+
+export interface AgentTask {
+  id: string;
+  label: string;
+  state: TaskState;
+}
+
+export interface ActivityEntry {
+  id: string;
+  time: string;
+  text: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  from: "agent" | "visitor";
+  text: string;
 }
 
 export type ThemeChoice = "light" | "dark";

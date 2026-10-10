@@ -14,7 +14,7 @@ export function Onboarding() {
       <dl className="how-to">
         <div><dt>Move</dt><dd>WASD or arrow keys. You can also tap the floor.</dd></div>
         <div><dt>Explore</dt><dd>Walk into a room, or pick one in the directory.</dd></div>
-        <div><dt>Meet the team</dt><dd>Each room shows the AI employee who works there.</dd></div>
+        <div><dt>Interact</dt><dd>Tap an AI employee to chat and see their work.</dd></div>
       </dl>
       <p className="muted">Everything here is fictional demo data. No real clients or contacts.</p>
       <div className="dialog-actions">

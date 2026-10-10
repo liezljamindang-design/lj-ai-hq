@@ -62,11 +62,13 @@ button { font: inherit; color: inherit; }
 .text-btn { padding: 0 12px; }
 .icon-btn:hover, .text-btn:hover { background: var(--surface-2); }
 .text-btn-exit { border-color: var(--line); }
+.music-btn { display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; }
+.music-btn.is-on { color: var(--lav); }
 .link-btn { background: none; border: 0; padding: 0; color: var(--lav); text-decoration: underline; cursor: pointer; font-size: inherit; }
 
 /* ---------- Main ---------- */
 .hq-main {
-  display: grid; grid-template-columns: minmax(0, 1fr) 320px;
+  display: grid; grid-template-columns: minmax(0, 1fr) 360px;
   min-height: 0;
 }
 .hq-stage { display: flex; flex-direction: column; gap: 8px; padding: 28px 28px 20px; min-width: 0; }
@@ -116,6 +118,35 @@ button { font: inherit; color: inherit; }
 @keyframes hq-step { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.6px); } }
 .avatar.is-walking .av-body { animation: hq-step 0.42s ease-in-out infinite; }
 
+/* AI employees */
+.agent { pointer-events: auto; cursor: pointer; }
+.agent-hit { fill: transparent; }
+.ag-torso { fill: var(--dark-t); }
+.ag-band { fill: var(--lav); }
+.ag-head { fill: var(--soft-t); stroke: var(--surface); stroke-width: 1; }
+.ag-tag-bg { fill: var(--surface); stroke: var(--line); stroke-width: 0.8; }
+.ag-name { fill: var(--ink); font-family: var(--font-body); font-size: 7.5px; font-weight: 600; }
+.ag-status { fill: var(--off); }
+.agent-available .ag-status { fill: var(--ok); }
+.agent-working .ag-status { fill: var(--lav); }
+.agent-processing .ag-status { fill: var(--gold); }
+.agent-waiting-approval .ag-status { fill: var(--warn); }
+.agent:hover .ag-tag-bg, .agent.is-active .ag-tag-bg { stroke: var(--lav); stroke-width: 1.4; }
+/* A slow pulse on the status light while an employee is busy. */
+.agent-working .ag-status, .agent-processing .ag-status { animation: hq-breathe 2.8s ease-in-out infinite; }
+
+.talk-prompt {
+  position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 8px 0 14px;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--lav); border-radius: 999px;
+  box-shadow: var(--shadow); cursor: pointer; font-size: 13.5px; font-weight: 600; white-space: nowrap;
+}
+.talk-sub { color: var(--ink-2); font-weight: 400; }
+.talk-prompt kbd {
+  display: grid; place-items: center; width: 24px; height: 24px; border-radius: 6px;
+  background: var(--surface-2); font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+}
+
 /* Furniture, glass and screens never take clicks themselves. */
 .scene, .displays { pointer-events: none; }
 .glass { fill: var(--glass); stroke: var(--glass-edge); stroke-width: 0.8; }
@@ -163,7 +194,11 @@ button { font: inherit; color: inherit; }
 .directory-detail { display: grid; gap: 12px; padding: 4px 8px 16px 44px; font-size: 14px; }
 .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
 .tag-list li { padding: 2px 9px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); font-size: 12.5px; }
-.agent-line { display: flex; align-items: center; gap: 10px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.agent-line {
+  display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 6px; margin-inline: -6px; width: calc(100% + 12px);
+  background: none; border: 0; border-top: 1px dashed var(--line); text-align: left; cursor: pointer; border-radius: 0 0 6px 6px;
+}
+.agent-line:hover { background: var(--surface-2); }
 .agent-avatar {
   display: grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: 50%;
   background: var(--lav-soft); color: var(--ink); font-family: var(--font-display); font-weight: 600; font-size: 13px;
@@ -176,6 +211,70 @@ button { font: inherit; color: inherit; }
 .status-working { background: var(--lav); }
 .status-processing { background: var(--gold); }
 .status-waiting-approval { background: var(--warn); }
+
+/* ---------- Employee panel ---------- */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.agent-panel {
+  display: flex; flex-direction: column; gap: 14px; min-width: 0; min-height: 0;
+  background: var(--surface); border-left: 1px solid var(--line); padding: 20px 18px 16px;
+}
+.agent-panel:focus { outline: none; }
+.agent-head { display: flex; align-items: flex-start; gap: 12px; }
+.agent-avatar-lg { width: 44px; height: 44px; font-size: 17px; }
+.agent-head-id { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.agent-head-id h2 { font-size: 1.25rem; line-height: 1.2; }
+.agent-head-id p { color: var(--ink-2); font-size: 13px; }
+.agent-head-id .agent-status { margin: 4px 0 0; justify-self: start; }
+.agent-desc { font-size: 14px; }
+.agent-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 0; border-block: 1px solid var(--line); }
+.agent-metrics div { display: grid; gap: 2px; padding: 10px 8px 10px 0; }
+.agent-metrics div + div { padding-left: 10px; border-left: 1px solid var(--line); }
+.agent-metrics dd { margin: 0; font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.agent-metrics dt { color: var(--ink-2); font-size: 11.5px; line-height: 1.3; }
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); }
+.tabs button {
+  flex: 1; min-height: 38px; padding: 0 4px; background: none; border: 0; border-bottom: 2px solid transparent;
+  margin-bottom: -1px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--ink-2);
+}
+.tabs button:hover { color: var(--ink); }
+.tabs button.is-active { color: var(--ink); border-bottom-color: var(--lav); }
+.tabpanel { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow-y: auto; }
+
+.chat { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 10px; }
+.chat-note { color: var(--ink-2); font-size: 12px; }
+.chat-log { flex: 1; min-height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding: 2px; }
+.bubble { max-width: 88%; padding: 8px 12px; border-radius: 12px; font-size: 14px; line-height: 1.45; }
+.bubble-agent { align-self: flex-start; background: var(--surface-2); border-bottom-left-radius: 4px; }
+.bubble-visitor { align-self: flex-end; background: var(--lav); color: var(--on-accent); border-bottom-right-radius: 4px; }
+.bubble-pending { color: var(--ink-2); font-style: italic; }
+.chat-error { color: var(--warn); font-size: 13px; }
+.chat-suggestions { display: flex; flex-wrap: wrap; gap: 6px; }
+.chat-suggestions button {
+  padding: 6px 10px; border-radius: 999px; background: none; border: 1px solid var(--line);
+  cursor: pointer; font-size: 12.5px; text-align: left; color: var(--ink);
+}
+.chat-suggestions button:hover:not(:disabled) { border-color: var(--lav); }
+.chat-suggestions button:disabled, .btn-primary:disabled { opacity: 0.5; cursor: default; }
+.chat-form { display: flex; gap: 8px; }
+.chat-form input {
+  flex: 1; min-width: 0; min-height: 42px; padding: 0 12px; border-radius: 8px;
+  background: var(--bg); color: var(--ink); border: 1px solid var(--line); font: inherit; font-size: 16px;
+}
+
+.task-list, .activity-list { display: grid; margin: 0; padding: 0; list-style: none; }
+.task { display: grid; grid-template-columns: 22px 1fr; column-gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.task-mark { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; font-weight: 700; background: var(--surface-2); color: var(--ink-2); }
+.task-state { grid-column: 2; color: var(--ink-2); font-size: 12px; }
+.task-done .task-mark { color: var(--ok); }
+.task-attention .task-mark, .task-attention .task-state { color: var(--warn); }
+.task-waiting-approval .task-mark, .task-waiting-approval .task-state { color: var(--gold); }
+.activity-list li { display: grid; grid-template-columns: 4.6rem 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.activity-list time { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-2); padding-top: 2px; white-space: nowrap; }
+.caps { display: grid; gap: 10px; }
+.caps h3 { margin: 6px 0 0; font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-2); }
+.caps-list { display: grid; gap: 6px; font-size: 14px; }
+.caps-list li { padding-left: 14px; position: relative; }
+.caps-list li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 5px; height: 5px; border-radius: 50%; background: var(--gold-soft); }
 
 /* ---------- Dialog ---------- */
 .dialog {
@@ -204,12 +303,20 @@ button { font: inherit; color: inherit; }
   .directory { border-left: 0; border-top: 1px solid var(--line); padding: 18px 8px 28px; overflow: visible; }
   .floor { flex: none; min-height: 0; height: min(84vw, 440px); }
   .floor-btn, .floor-note { right: 4px; bottom: 4px; }
+  /* On phones the employee panel becomes a full-screen card. */
+  .agent-panel {
+    position: fixed; inset: 0; z-index: 20; border-left: 0;
+    padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+  .talk-prompt { bottom: 46px; }
+  .talk-sub { display: none; }
   .hud { padding: 8px 16px; gap: 8px 14px; }
   .hud-status { order: 3; width: 100%; margin: 0; gap: 4px 16px; }
   .hud-status li { gap: 6px; }
   .directory-row { min-height: 50px; }
 }
 @media (max-width: 420px) {
+  .music-label { display: none; }
   .demo-badge { display: none; }
   .hud-status .hud-label { font-size: 9.5px; }
   .how-to div { grid-template-columns: 1fr; gap: 2px; }
@@ -217,6 +324,7 @@ button { font: inherit; color: inherit; }
 @media (min-width: 901px) {
   .hq { height: 100%; }
   .hq-main { overflow: hidden; }
+  .agent-panel { overflow: hidden; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Agent, ThemeChoice, ZoneId } from "../types";
+import type { Agent, ChatMessage, ThemeChoice, ZoneId } from "../types";
 
 const ONBOARDED_KEY = "ljhq.onboarded";
 const THEME_KEY = "ljhq.theme";
@@ -50,6 +50,17 @@ interface HqState {
   overview: boolean;
   setOverview: (overview: boolean) => void;
 
+  /** The employee whose side panel is open. */
+  openAgentId: string | null;
+  openAgent: (id: string) => void;
+  closeAgent: () => void;
+  /** The employee the avatar is standing next to, if any. */
+  nearAgentId: string | null;
+  setNearAgent: (id: string | null) => void;
+  /** Chat transcripts, kept per employee for the length of the visit. */
+  chats: Record<string, ChatMessage[]>;
+  addChat: (agentId: string, message: ChatMessage) => void;
+
   agents: Agent[];
   agentsState: LoadState;
   setAgents: (agents: Agent[]) => void;
@@ -79,6 +90,15 @@ export const useHq = create<HqState>((set, get) => ({
 
   overview: false,
   setOverview: (overview) => set({ overview }),
+
+  openAgentId: null,
+  openAgent: (openAgentId) => set({ openAgentId }),
+  closeAgent: () => set({ openAgentId: null }),
+  nearAgentId: null,
+  setNearAgent: (nearAgentId) => set({ nearAgentId }),
+  chats: {},
+  addChat: (agentId, message) =>
+    set((s) => ({ chats: { ...s.chats, [agentId]: [...(s.chats[agentId] ?? []), message] } })),
 
   agents: [],
   agentsState: "loading",

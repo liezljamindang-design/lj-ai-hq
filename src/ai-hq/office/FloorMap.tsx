@@ -3,8 +3,10 @@ import { FURNITURE, GLASS_WALLS, WALL_HEIGHT } from "../data/furniture";
 import { FLOOR, ZONES } from "../data/zones";
 import { useMovement } from "../hooks/useMovement";
 import { useHq } from "../store/hqStore";
+import { TalkPrompt } from "../components/TalkPrompt";
+import { AgentFigure } from "./AgentFigure";
 import { Avatar } from "./Avatar";
-import { wallRect, type Rect } from "./engine";
+import { agentRect, wallRect, type Rect } from "./engine";
 import { Furniture } from "./Furniture";
 import { project, rectPoints } from "./iso";
 import { panelX, panelY, pt } from "./primitives";
@@ -22,14 +24,23 @@ export function FloorMap() {
   const selected = useHq((s) => s.selectedZone);
   const overview = useHq((s) => s.overview);
   const setOverview = useHq((s) => s.setOverview);
+  const agents = useHq((s) => s.agents);
+  const openAgentId = useHq((s) => s.openAgentId);
   const svgRef = useRef<SVGSVGElement>(null);
   const cameraRef = useRef<SVGGElement>(null);
   const avatarRef = useRef<SVGGElement>(null);
   const { width: W, depth: D } = FLOOR;
 
-  // Static scene: built once and sorted once. Only the avatar's slot in it changes.
+  // Scene layers are sorted once per data change. Only the avatar's slot in the order moves while walking.
   const { nodes, boxes } = useMemo(() => {
     const layers: { depth: number; box: Rect; node: ReactNode }[] = [];
+    for (const agent of agents) {
+      layers.push({
+        depth: agent.pos.x + agent.pos.y,
+        box: agentRect(agent.pos),
+        node: <AgentFigure key={agent.id} agent={agent} active={agent.id === openAgentId} />,
+      });
+    }
     for (const item of FURNITURE) {
       layers.push({
         depth: item.x + item.w / 2 + item.y + item.h / 2,
@@ -50,11 +61,14 @@ export function FloorMap() {
       nodes: layers.map((l) => l.node),
       boxes: layers.map((l) => ({ x: l.box.x, y: l.box.y, w: l.box.w, h: l.box.h, depth: l.depth })),
     };
-  }, []);
+  }, [agents, openAgentId]);
 
   const [slot, setSlot] = useState(nodes.length);
   const onSlot = useCallback((next: number) => setSlot(next), []);
-  useMovement({ svgRef, cameraRef, avatarRef, boxes, onSlot });
+  // The movement loop reads the footprints through a ref, so it keeps running when the scene updates.
+  const boxesRef = useRef(boxes);
+  boxesRef.current = boxes;
+  useMovement({ svgRef, cameraRef, avatarRef, boxesRef, onSlot });
 
   const leftFace = `${pt(0, D)} ${pt(W, D)} ${pt(W, D, -SLAB)} ${pt(0, D, -SLAB)}`;
   const rightFace = `${pt(W, 0)} ${pt(W, D)} ${pt(W, D, -SLAB)} ${pt(W, 0, -SLAB)}`;
@@ -107,6 +121,7 @@ export function FloorMap() {
         </g>
         </g>
       </svg>
+      <TalkPrompt />
       {overview ? (
         <p className="floor-note">Showing the whole floor. Move to follow your avatar again.</p>
       ) : (

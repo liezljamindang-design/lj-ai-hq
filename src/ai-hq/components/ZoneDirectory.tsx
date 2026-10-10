@@ -7,6 +7,7 @@ export function ZoneDirectory({ onRetryAgents }: { onRetryAgents: () => void }) 
   const selected = useHq((s) => s.selectedZone);
   const selectZone = useHq((s) => s.selectZone);
   const walkToZone = useHq((s) => s.walkToZone);
+  const openAgent = useHq((s) => s.openAgent);
   const agents = useHq((s) => s.agents);
   const agentsState = useHq((s) => s.agentsState);
 
@@ -51,7 +52,7 @@ export function ZoneDirectory({ onRetryAgents }: { onRetryAgents: () => void }) 
                     <p className="muted">No AI employee is stationed here.</p>
                   )}
                   {team.map((agent) => (
-                    <div key={agent.id} className="agent-line">
+                    <button key={agent.id} type="button" className="agent-line" onClick={() => openAgent(agent.id)}>
                       <span className="agent-avatar" aria-hidden="true">{agent.name[0]}</span>
                       <span className="agent-id">
                         <strong>{agent.name}</strong>
@@ -61,7 +62,7 @@ export function ZoneDirectory({ onRetryAgents }: { onRetryAgents: () => void }) 
                         <StatusDot status={agent.status} />
                         {STATUS_LABEL[agent.status]}
                       </span>
-                    </div>
+                    </button>
                   ))}
                 </div>
               )}

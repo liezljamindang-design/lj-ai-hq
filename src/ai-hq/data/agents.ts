@@ -11,6 +11,13 @@ export const AGENTS: Agent[] = [
     status: "available",
     description: "Answers new inquiries, qualifies prospects and books appointments.",
     responsibilities: ["Answer visitor inquiries", "Capture leads", "Qualify prospects", "Book appointments", "Explain services"],
+    pos: { x: 7.45, y: 7.68 },
+    metrics: [
+      { label: "Leads handled", value: "14" },
+      { label: "Qualified", value: "8" },
+      { label: "Appointments booked", value: "5" },
+    ],
+    wouldUse: ["Conversation AI", "Voice AI", "Forms", "Contacts", "Calendars"],
   },
   {
     id: "olivia",
@@ -21,6 +28,13 @@ export const AGENTS: Agent[] = [
     status: "working",
     description: "Keeps opportunities moving through the pipeline.",
     responsibilities: ["Lead qualification", "Pipeline management", "Follow-up", "Opportunity management", "Sales activity"],
+    pos: { x: 1.35, y: 5.25 },
+    metrics: [
+      { label: "Open opportunities", value: "23" },
+      { label: "Moved forward", value: "6" },
+      { label: "Pipeline value", value: "$48,200" },
+    ],
+    wouldUse: ["Opportunities", "Pipelines", "Contacts", "Tasks", "Workflows"],
   },
   {
     id: "ava",
@@ -31,6 +45,13 @@ export const AGENTS: Agent[] = [
     status: "working",
     description: "Runs email and SMS nurture campaigns.",
     responsibilities: ["Email campaigns", "SMS campaigns", "Lead nurturing", "Content assistance", "Marketing automation"],
+    pos: { x: 10.35, y: 1.95 },
+    metrics: [
+      { label: "Campaigns running", value: "4" },
+      { label: "Emails sent", value: "312" },
+      { label: "SMS sent", value: "96" },
+    ],
+    wouldUse: ["Workflows", "Email templates", "SMS (A2P 10DLC)", "Smart lists", "Tags"],
   },
   {
     id: "chloe",
@@ -41,6 +62,13 @@ export const AGENTS: Agent[] = [
     status: "processing",
     description: "Watches every workflow and surfaces what needs attention.",
     responsibilities: ["Monitor workflows", "Detect failed processes", "Track tasks", "Surface alerts", "Prepare summaries"],
+    pos: { x: 10.65, y: 5.45 },
+    metrics: [
+      { label: "Workflows checked", value: "18" },
+      { label: "Needs attention", value: "1" },
+      { label: "Tasks tracked", value: "27" },
+    ],
+    wouldUse: ["Workflow logs", "Tasks", "Internal notifications", "Reporting", "Webhooks"],
   },
   {
     id: "mia",
@@ -48,8 +76,15 @@ export const AGENTS: Agent[] = [
     title: "AI Executive Assistant",
     department: "Executive Office",
     zone: "executive",
-    status: "available",
+    status: "waiting-approval",
     description: "Organizes tasks, schedules and reports for the executive.",
     responsibilities: ["Task organization", "Scheduling", "Reports", "Internal coordination", "Executive support"],
+    pos: { x: 2.65, y: 1.55 },
+    metrics: [
+      { label: "Tasks organized", value: "12" },
+      { label: "Meetings scheduled", value: "3" },
+      { label: "Reports prepared", value: "2" },
+    ],
+    wouldUse: ["Calendars", "Tasks", "Reporting", "Conversations", "Approvals"],
   },
 ];
