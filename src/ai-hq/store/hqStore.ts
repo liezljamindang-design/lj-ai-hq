@@ -20,12 +20,13 @@ function write(key: string, value: string) {
   }
 }
 
+/** Light is the default. A visitor's own choice is remembered and wins on later visits. */
 function initialTheme(): ThemeChoice {
   const saved = read(THEME_KEY);
-  if (saved === "light" || saved === "dark") return saved;
-  const attr = document.documentElement.dataset.theme;
-  if (attr === "light" || attr === "dark") return attr;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  const theme: ThemeChoice = saved === "dark" ? "dark" : "light";
+  // Set before first paint so a dark-mode device doesn't flash the dark palette.
+  document.documentElement.dataset.theme = theme;
+  return theme;
 }
 
 type LoadState = "loading" | "ready" | "error";
