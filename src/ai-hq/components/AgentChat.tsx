@@ -48,15 +48,15 @@ export function AgentChat({ agent }: { agent: Agent }) {
 
   return (
     <div className="chat">
-      <p className="chat-note">Scripted demo replies. This chat is not connected to a live AI.</p>
+      <p className="chat-note">Replies come from a prepared knowledge base, in Taglish. This chat is not connected to a live AI.</p>
 
       <div className="chat-log" ref={logRef} role="log" aria-live="polite" aria-label={`Conversation with ${agent.name}`}>
         <p className="bubble bubble-agent">{greeting}</p>
         {messages.map((m) => (
           <p key={m.id} className={`bubble bubble-${m.from}`}>{m.text}</p>
         ))}
-        {pending && <p className="bubble bubble-agent bubble-pending">{agent.name} is replying…</p>}
-        {failed && <p className="chat-error">{agent.name} is unavailable right now. Send your message again.</p>}
+        {pending && <p className="bubble bubble-agent bubble-pending">Nagta-type si {agent.name}…</p>}
+        {failed && <p className="chat-error">Hindi available si {agent.name} ngayon. Paki-send ulit ang message mo.</p>}
       </div>
 
       <ul className="chat-suggestions" aria-label="Suggested questions">
@@ -74,7 +74,7 @@ export function AgentChat({ agent }: { agent: Agent }) {
           type="text"
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
-          placeholder={`Ask ${agent.name} a question`}
+          placeholder={`Tanungin si ${agent.name}`}
           autoComplete="off"
           maxLength={200}
         />

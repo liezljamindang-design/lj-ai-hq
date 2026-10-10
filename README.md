@@ -33,6 +33,7 @@ Built with React, Vite and TypeScript. The one added library is Zustand, a small
 | About, skills, experience, certifications | `src/ai-hq/data/profile.ts` |
 | Portfolio projects, screenshots and links | `src/ai-hq/data/projects.ts` |
 | AI employees | `src/ai-hq/data/agents.ts`, `agentContent.ts` |
+| What the employees can answer in chat (Taglish knowledge base, niches) | `src/ai-hq/data/knowledge.ts` |
 | CRM leads and numbers | `src/ai-hq/data/crm.ts` |
 | The workflow | `src/ai-hq/data/workflow.ts` |
 | The live demo's steps | `src/ai-hq/demo/script.ts` |
