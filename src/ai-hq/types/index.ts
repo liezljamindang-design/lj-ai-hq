@@ -107,3 +107,44 @@ export interface WallSegment {
   /** Height in screen pixels. */
   height: number;
 }
+
+export type StageId = "new" | "contacted" | "qualified" | "booked" | "closed";
+
+export interface PipelineStage {
+  id: StageId;
+  name: string;
+}
+
+/** A fictional lead and its opportunity. */
+export interface Lead {
+  id: string;
+  name: string;
+  business: string;
+  industry: string;
+  source: string;
+  stage: StageId;
+  /** Opportunity value in US dollars. */
+  value: number;
+  /** Id of the AI employee currently responsible. */
+  ownerId: string;
+  nextAction: string;
+  history: { time: string; text: string }[];
+  /** True when the opportunity has sat in its stage too long. */
+  stalled?: boolean;
+}
+
+export interface CrmMetrics {
+  newLeads: number;
+  qualifiedLeads: number;
+  appointments: number;
+  pipelineValue: number;
+  followUpsRunning: number;
+  /** Total open opportunities, of which the board shows the most recent. */
+  openOpportunities: number;
+}
+
+export interface CrmSnapshot {
+  metrics: CrmMetrics;
+  stages: PipelineStage[];
+  leads: Lead[];
+}

@@ -62,6 +62,9 @@ export function WallDisplays() {
         );
       })}
 
+      {/* Clicking the pipeline board opens the CRM dashboard */}
+      <polygon className="display-hit" data-open="crm" points={panelX(0, 3.8, 6.2, 12, 56)} />
+
       {/* Website & Funnel Studio: three site previews */}
       {[9.0, 8.2, 7.4].map((y) => (
         <g key={y}>

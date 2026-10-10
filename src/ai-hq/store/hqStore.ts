@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Agent, ChatMessage, ThemeChoice, ZoneId } from "../types";
+import type { Agent, ChatMessage, CrmSnapshot, ThemeChoice, ZoneId } from "../types";
 
 const ONBOARDED_KEY = "ljhq.onboarded";
 const THEME_KEY = "ljhq.theme";
@@ -54,6 +54,18 @@ interface HqState {
   openAgentId: string | null;
   openAgent: (id: string) => void;
   closeAgent: () => void;
+  /** A dashboard open in the side panel. Opening one closes any employee panel, and the reverse. */
+  openDashboard: "crm" | null;
+  /** The lead being inspected inside the CRM dashboard. */
+  openLeadId: string | null;
+  openCrm: (leadId?: string | null) => void;
+  setOpenLead: (id: string | null) => void;
+  closeDashboard: () => void;
+
+  crm: CrmSnapshot | null;
+  crmState: LoadState;
+  setCrm: (crm: CrmSnapshot) => void;
+  setCrmState: (state: LoadState) => void;
   /** The employee the avatar is standing next to, if any. */
   nearAgentId: string | null;
   setNearAgent: (id: string | null) => void;
@@ -92,7 +104,17 @@ export const useHq = create<HqState>((set, get) => ({
   setOverview: (overview) => set({ overview }),
 
   openAgentId: null,
-  openAgent: (openAgentId) => set({ openAgentId }),
+  openAgent: (openAgentId) => set({ openAgentId, openDashboard: null }),
+  openDashboard: null,
+  openLeadId: null,
+  openCrm: (leadId = null) => set({ openDashboard: "crm", openLeadId: leadId, openAgentId: null }),
+  setOpenLead: (openLeadId) => set({ openLeadId }),
+  closeDashboard: () => set({ openDashboard: null, openLeadId: null }),
+
+  crm: null,
+  crmState: "loading",
+  setCrm: (crm) => set({ crm, crmState: "ready" }),
+  setCrmState: (crmState) => set({ crmState }),
   closeAgent: () => set({ openAgentId: null }),
   nearAgentId: null,
   setNearAgent: (nearAgentId) => set({ nearAgentId }),

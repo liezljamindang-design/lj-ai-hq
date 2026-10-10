@@ -9,6 +9,7 @@ export function Hud({ onRetryAgents }: { onRetryAgents: () => void }) {
   const setHelpOpen = useHq((s) => s.setHelpOpen);
   const agents = useHq((s) => s.agents);
   const agentsState = useHq((s) => s.agentsState);
+  const openCrm = useHq((s) => s.openCrm);
 
   const online = agents.filter((a) => a.status !== "offline").length;
 
@@ -35,7 +36,9 @@ export function Hud({ onRetryAgents }: { onRetryAgents: () => void }) {
         </li>
         <li>
           <span className="hud-label">CRM</span>
-          <span className="hud-value"><i className="pip pip-ok" />Connected (demo)</span>
+          <button type="button" className="hud-link" onClick={() => openCrm()}>
+            <i className="pip pip-ok" />Connected (demo)
+          </button>
         </li>
       </ul>
 

@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { AgentPanel } from "./components/AgentPanel";
+import { CrmPanel } from "./components/CrmPanel";
 import { Hud } from "./components/Hud";
 import { Onboarding } from "./components/Onboarding";
 import { HelpDialog } from "./components/HelpDialog";
 import { ZoneDirectory } from "./components/ZoneDirectory";
 import { FloorMap } from "./office/FloorMap";
 import { useAgents } from "./hooks/useAgents";
+import { useCrm } from "./hooks/useCrm";
 import { useHq } from "./store/hqStore";
 import { HQ_CONFIG } from "./config";
 
@@ -13,6 +15,8 @@ import { HQ_CONFIG } from "./config";
 export function AIHeadquarters() {
   const theme = useHq((s) => s.theme);
   const retryAgents = useAgents();
+  const retryCrm = useCrm();
+  const dashboard = useHq((s) => s.openDashboard);
   const openAgent = useHq((s) => s.agents.find((a) => a.id === s.openAgentId));
 
   useEffect(() => {
@@ -35,7 +39,13 @@ export function AIHeadquarters() {
           <FloorMap />
         </section>
 
-        {openAgent ? <AgentPanel agent={openAgent} /> : <ZoneDirectory onRetryAgents={retryAgents} />}
+        {openAgent ? (
+          <AgentPanel agent={openAgent} />
+        ) : dashboard === "crm" ? (
+          <CrmPanel onRetry={retryCrm} />
+        ) : (
+          <ZoneDirectory onRetryAgents={retryAgents} />
+        )}
       </main>
 
       <Onboarding />

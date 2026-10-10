@@ -8,6 +8,7 @@ export function ZoneDirectory({ onRetryAgents }: { onRetryAgents: () => void }) 
   const selectZone = useHq((s) => s.selectZone);
   const walkToZone = useHq((s) => s.walkToZone);
   const openAgent = useHq((s) => s.openAgent);
+  const openCrm = useHq((s) => s.openCrm);
   const agents = useHq((s) => s.agents);
   const agentsState = useHq((s) => s.agentsState);
 
@@ -40,6 +41,10 @@ export function ZoneDirectory({ onRetryAgents }: { onRetryAgents: () => void }) 
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
+
+                  {zone.id === "sales" && (
+                    <button type="button" className="btn-secondary" onClick={() => openCrm()}>Open the CRM dashboard</button>
+                  )}
 
                   {agentsState === "loading" && <p className="muted">Loading the team…</p>}
                   {agentsState === "error" && (

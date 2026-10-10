@@ -64,6 +64,13 @@ button { font: inherit; color: inherit; }
 .text-btn-exit { border-color: var(--line); }
 .music-btn { display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; }
 .music-btn.is-on { color: var(--lav); }
+.hud-link { background: none; border: 0; padding: 4px 0; cursor: pointer; font-size: 13px; font-weight: 500; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.hud-link:hover { text-decoration-color: var(--lav); }
+.btn-secondary {
+  justify-self: start; min-height: 38px; padding: 0 14px; border-radius: 8px; cursor: pointer;
+  background: none; border: 1px solid var(--lav); color: var(--lav); font-weight: 600; font-size: 13.5px;
+}
+.btn-secondary:hover { background: var(--surface-2); }
 .link-btn { background: none; border: 0; padding: 0; color: var(--lav); text-decoration: underline; cursor: pointer; font-size: inherit; }
 
 /* ---------- Main ---------- */
@@ -149,6 +156,8 @@ button { font: inherit; color: inherit; }
 
 /* Furniture, glass and screens never take clicks themselves. */
 .scene, .displays { pointer-events: none; }
+.display-hit { pointer-events: auto; cursor: pointer; fill: transparent; stroke: transparent; stroke-width: 1.5; }
+.display-hit:hover { stroke: var(--gold); }
 .glass { fill: var(--glass); stroke: var(--glass-edge); stroke-width: 0.8; }
 .m-desk .f-t { fill: var(--desk-t); } .m-desk .f-l { fill: var(--desk-l); } .m-desk .f-r { fill: var(--desk-r); }
 .m-dark .f-t { fill: var(--dark-t); } .m-dark .f-l { fill: var(--dark-l); } .m-dark .f-r { fill: var(--dark-r); }
@@ -214,11 +223,11 @@ button { font: inherit; color: inherit; }
 
 /* ---------- Employee panel ---------- */
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.agent-panel {
+.side-panel {
   display: flex; flex-direction: column; gap: 14px; min-width: 0; min-height: 0;
   background: var(--surface); border-left: 1px solid var(--line); padding: 20px 18px 16px;
 }
-.agent-panel:focus { outline: none; }
+.side-panel:focus { outline: none; }
 .agent-head { display: flex; align-items: flex-start; gap: 12px; }
 .agent-avatar-lg { width: 44px; height: 44px; font-size: 17px; }
 .agent-head-id { flex: 1; min-width: 0; display: grid; gap: 2px; }
@@ -276,6 +285,56 @@ button { font: inherit; color: inherit; }
 .caps-list li { padding-left: 14px; position: relative; }
 .caps-list li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 5px; height: 5px; border-radius: 50%; background: var(--gold-soft); }
 
+/* ---------- CRM dashboard ---------- */
+.panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.panel-head h2 { font-size: 1.25rem; line-height: 1.2; margin-top: 2px; }
+.panel-scroll { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; margin-right: -8px; padding-right: 8px; }
+.panel-title-flush { padding: 4px 0 0; }
+.crm-metrics { display: grid; grid-template-columns: 1fr 1fr; margin: 0; border-top: 1px solid var(--line); }
+.crm-metrics div { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.crm-metrics div:nth-child(odd):not(.crm-metric-wide) { padding-right: 12px; border-right: 1px solid var(--line); }
+.crm-metrics div:nth-child(even) { padding-left: 12px; }
+.crm-metric-wide { grid-column: 1 / -1; }
+.crm-metrics dt { color: var(--ink-2); font-size: 12.5px; }
+.crm-metrics dd { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+.crm-metric-wide dd { color: var(--gold); }
+
+.pipeline { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.stage { border-left: 2px solid var(--lav-soft); padding-left: 10px; }
+.stage-closed { border-left-color: var(--gold-soft); }
+.stage-head { display: flex; align-items: baseline; gap: 8px; padding-bottom: 4px; }
+.stage-name { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.stage-count { font-size: 11.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.stage-total { margin-left: auto; font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.stage-empty { color: var(--ink-2); font-size: 12.5px; padding: 2px 0 4px; }
+.stage-leads { display: grid; gap: 4px; }
+.lead-card {
+  display: grid; grid-template-columns: 1fr auto; gap: 0 8px; width: 100%; padding: 7px 10px; text-align: left; cursor: pointer;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+}
+.lead-card:hover { border-color: var(--lav); }
+.lead-name { font-weight: 600; font-size: 13.5px; }
+.lead-value { font-size: 13px; font-variant-numeric: tabular-nums; }
+.lead-biz { color: var(--ink-2); font-size: 12px; }
+.lead-flag { justify-self: end; color: var(--warn); font-size: 11.5px; font-weight: 600; }
+
+.lead-detail { display: grid; gap: 14px; }
+.lead-detail .link-btn { justify-self: start; text-decoration: none; font-size: 13px; }
+.lead-detail-biz { color: var(--ink-2); font-size: 14px; }
+.stage-track { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.stage-track li { display: flex; align-items: center; gap: 10px; padding: 5px 0; color: var(--ink-2); font-size: 13.5px; position: relative; }
+.stage-pip { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--surface); flex: none; z-index: 1; }
+.stage-track li + li::before { content: ""; position: absolute; left: 4.25px; top: -50%; height: 100%; width: 1.5px; background: var(--line); }
+.stage-track .is-past .stage-pip { background: var(--lav-soft); border-color: var(--lav-soft); }
+.stage-track .is-past + li::before, .stage-track .is-current::before { background: var(--lav-soft); }
+.stage-track .is-current { color: var(--ink); font-weight: 600; }
+.stage-track .is-current .stage-pip { background: var(--lav); border-color: var(--lav); box-shadow: 0 0 0 3px var(--lav-soft); }
+.lead-facts { display: grid; margin: 0; border-top: 1px solid var(--line); }
+.lead-facts div { display: grid; grid-template-columns: 5.5rem 1fr; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.lead-facts dt { color: var(--ink-2); font-size: 12.5px; padding-top: 1px; }
+.lead-facts dd { margin: 0; }
+.lead-facts .link-btn { text-align: left; }
+
 /* ---------- Dialog ---------- */
 .dialog {
   width: min(30rem, calc(100% - 32px)); padding: 28px;
@@ -304,7 +363,7 @@ button { font: inherit; color: inherit; }
   .floor { flex: none; min-height: 0; height: min(84vw, 440px); }
   .floor-btn, .floor-note { right: 4px; bottom: 4px; }
   /* On phones the employee panel becomes a full-screen card. */
-  .agent-panel {
+  .side-panel {
     position: fixed; inset: 0; z-index: 20; border-left: 0;
     padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(14px + env(safe-area-inset-bottom, 0px));
   }
@@ -324,7 +383,7 @@ button { font: inherit; color: inherit; }
 @media (min-width: 901px) {
   .hq { height: 100%; }
   .hq-main { overflow: hidden; }
-  .agent-panel { overflow: hidden; }
+  .side-panel { overflow: hidden; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }

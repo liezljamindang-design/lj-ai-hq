@@ -187,6 +187,13 @@ export function useMovement({ svgRef, cameraRef, avatarRef, boxesRef, onSlot }: 
         }
         return;
       }
+      // Clicking a wall display opens its dashboard and walks the avatar to that room.
+      const display = (e.target as Element).closest<SVGElement>("[data-open]");
+      if (display?.dataset.open === "crm") {
+        useHq.getState().openCrm();
+        walkTo(zoneEntry("sales"));
+        return;
+      }
       const ctm = camera!.getScreenCTM();
       if (!ctm) return;
       const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());

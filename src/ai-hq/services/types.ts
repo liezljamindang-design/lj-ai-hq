@@ -1,4 +1,4 @@
-import type { ActivityEntry, Agent, AgentTask } from "../types";
+import type { ActivityEntry, Agent, AgentTask, CrmSnapshot } from "../types";
 
 /**
  * Service contracts. The UI talks only to these interfaces.
@@ -6,8 +6,8 @@ import type { ActivityEntry, Agent, AgentTask } from "../types";
  * a secure server-side endpoint (never GoHighLevel, an AI API or n8n directly
  * from the browser), and no component has to change.
  *
- * crmService, workflowService, calendarService and activityService are added
- * in the phases that first use them.
+ * workflowService, calendarService and activityService are added in the
+ * phases that first use them.
  */
 export interface AgentService {
   listAgents(): Promise<Agent[]>;
@@ -21,6 +21,17 @@ export interface AgentService {
   sendMessage(agentId: string, text: string): Promise<string>;
 }
 
+/**
+ * READ operations only in V1. When real GoHighLevel access is added, writes
+ * (create contact, move opportunity, book appointment) go in a separate
+ * interface so they can be gated behind human approval.
+ */
+export interface CrmService {
+  /** Metrics, pipeline stages and the leads on the board. */
+  getSnapshot(): Promise<CrmSnapshot>;
+}
+
 export interface HqServices {
   agents: AgentService;
+  crm: CrmService;
 }

@@ -47,7 +47,7 @@ export function AgentPanel({ agent }: { agent: Agent }) {
     ) : null;
 
   return (
-    <aside className="agent-panel" ref={panelRef} tabIndex={-1} aria-labelledby="agent-panel-name">
+    <aside className="side-panel" ref={panelRef} tabIndex={-1} aria-labelledby="agent-panel-name">
       <header className="agent-head">
         <span className="agent-avatar agent-avatar-lg" aria-hidden="true">{agent.name[0]}</span>
         <div className="agent-head-id">
