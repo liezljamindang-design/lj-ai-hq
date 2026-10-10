@@ -1,0 +1,55 @@
+import type { Agent } from "../types";
+
+/** Fictional AI employees. Every name, number and message in the HQ is demo data. */
+export const AGENTS: Agent[] = [
+  {
+    id: "sophia",
+    name: "Sophia",
+    title: "AI Receptionist",
+    department: "Reception",
+    zone: "reception",
+    status: "available",
+    description: "Answers new inquiries, qualifies prospects and books appointments.",
+    responsibilities: ["Answer visitor inquiries", "Capture leads", "Qualify prospects", "Book appointments", "Explain services"],
+  },
+  {
+    id: "olivia",
+    name: "Olivia",
+    title: "AI Sales Specialist",
+    department: "Sales & CRM",
+    zone: "sales",
+    status: "working",
+    description: "Keeps opportunities moving through the pipeline.",
+    responsibilities: ["Lead qualification", "Pipeline management", "Follow-up", "Opportunity management", "Sales activity"],
+  },
+  {
+    id: "ava",
+    name: "Ava",
+    title: "AI Marketing Specialist",
+    department: "Automation Lab",
+    zone: "automation",
+    status: "working",
+    description: "Runs email and SMS nurture campaigns.",
+    responsibilities: ["Email campaigns", "SMS campaigns", "Lead nurturing", "Content assistance", "Marketing automation"],
+  },
+  {
+    id: "chloe",
+    name: "Chloe",
+    title: "AI Operations Specialist",
+    department: "Operations",
+    zone: "operations",
+    status: "processing",
+    description: "Watches every workflow and surfaces what needs attention.",
+    responsibilities: ["Monitor workflows", "Detect failed processes", "Track tasks", "Surface alerts", "Prepare summaries"],
+  },
+  {
+    id: "mia",
+    name: "Mia",
+    title: "AI Executive Assistant",
+    department: "Executive Office",
+    zone: "executive",
+    status: "available",
+    description: "Organizes tasks, schedules and reports for the executive.",
+    responsibilities: ["Task organization", "Scheduling", "Reports", "Internal coordination", "Executive support"],
+  },
+];
