@@ -389,6 +389,54 @@ button { font: inherit; color: inherit; }
 .run-result-failed .run-result { color: var(--warn); }
 .run-note { grid-column: 2 / -1; color: var(--ink-2); font-size: 12.5px; }
 
+/* ---------- Executive Office, projects, Strategy Room ---------- */
+a.btn-primary, a.btn-secondary { display: inline-grid; place-items: center; text-decoration: none; }
+a.link-btn { font-size: 13.5px; }
+.exec-id { display: grid; gap: 2px; margin-top: -6px; }
+.exec-title { font-family: var(--font-display); font-weight: 500; font-size: 1.02rem; }
+.exec-tagline { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+.exec-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.exec-actions .btn-primary, .exec-actions .btn-secondary { min-height: 40px; padding: 0 16px; font-size: 13.5px; }
+.exec-body { display: grid; gap: 12px; font-size: 14.5px; }
+.exp-list { display: grid; margin: 0; padding: 0; list-style: none; }
+.exp-list li { display: grid; gap: 2px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.exp-list li:first-child { padding-top: 0; }
+.exp-dates { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); }
+.exp-role { font-weight: 600; font-size: 15px; }
+.exp-org { color: var(--ink-2); font-size: 13px; padding-bottom: 4px; }
+.copy-value { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.copy-value .link-btn { user-select: all; overflow-wrap: anywhere; }
+.copy-btn { padding: 2px 9px; border-radius: 999px; background: none; border: 1px solid var(--line); cursor: pointer; font-size: 11.5px; color: var(--ink-2); }
+.copy-btn:hover { border-color: var(--lav); color: var(--ink); }
+
+.proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.proj-card { display: grid; gap: 3px; width: 100%; padding: 6px 6px 9px; text-align: left; cursor: pointer; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; }
+.proj-card:hover { border-color: var(--lav); }
+.proj-thumb { display: block; width: 100%; height: auto; aspect-ratio: 120 / 76; object-fit: cover; border-radius: 6px; }
+.proj-name { font-weight: 600; font-size: 13px; line-height: 1.25; padding: 4px 3px 0; }
+.proj-industry { color: var(--ink-2); font-size: 11.5px; padding: 0 3px; }
+.proj-link { justify-self: start; min-height: 42px; padding: 0 20px; }
+.thumb-bg { fill: var(--surface); } .thumb-bar { fill: var(--dark-t); }
+.thumb-gold { fill: var(--gold-soft); } .thumb-ink { fill: var(--line); }
+.thumb-lav { fill: var(--lav); } .thumb-block { fill: var(--surface-2); }
+
+.case-head { display: grid; gap: 2px; }
+.case-title { font-family: var(--font-display); font-weight: 600; font-size: 1rem; }
+.layers { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.layers li { position: relative; padding-bottom: 18px; }
+.layers li:last-child { padding-bottom: 0; }
+/* The connector between layers is the arrow of the architecture diagram. */
+.layers li:not(:last-child)::after { content: "↓"; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); color: var(--ink-2); font-size: 12px; line-height: 18px; }
+.layer-row {
+  width: 100%; min-height: 42px; padding: 0 14px; text-align: center; cursor: pointer; font-weight: 600; font-size: 14px;
+  background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 9px;
+}
+.layer-row:hover { border-color: var(--lav); }
+.is-open > .layer-row { border-color: var(--lav); background: var(--lav-soft); border-radius: 9px 9px 0 0; }
+.layer-facts { border: 1px solid var(--lav); border-top: 0; border-radius: 0 0 9px 9px; padding: 0 12px; }
+.layer-facts div { grid-template-columns: 6.2rem 1fr; }
+.layer-facts div:last-child { border-bottom: 0; }
+
 /* ---------- Live demo and activity ---------- */
 .panel-title-gap { padding-top: 22px; }
 .directory-feed { padding: 0 8px; }

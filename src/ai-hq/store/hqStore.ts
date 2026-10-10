@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type {
-  ActivityEvent, Agent, ApprovalDecision, ChatMessage, CrmSnapshot, DemoStatus, NodeRunState, ThemeChoice,
+  ActivityEvent, Agent, ApprovalDecision, ChatMessage, CrmSnapshot, DashboardId, DemoStatus, NodeRunState, ThemeChoice,
   WorkflowDefinition, ZoneId,
 } from "../types";
 
@@ -58,7 +58,12 @@ interface HqState {
   openAgent: (id: string) => void;
   closeAgent: () => void;
   /** A dashboard open in the side panel. Opening one closes any employee panel, and the reverse. */
-  openDashboard: "crm" | "automation" | "demo" | null;
+  openDashboard: DashboardId | null;
+  /** Opens any dashboard in the side panel. */
+  openPanel: (id: DashboardId) => void;
+  /** The project being inspected in the project showcase. */
+  openProjectId: string | null;
+  setOpenProject: (id: string | null) => void;
   /** The lead being inspected inside the CRM dashboard. */
   openLeadId: string | null;
   openCrm: (leadId?: string | null) => void;
@@ -136,10 +141,13 @@ export const useHq = create<HqState>((set, get) => ({
   openAgentId: null,
   openAgent: (openAgentId) => set({ openAgentId, openDashboard: null }),
   openDashboard: null,
+  openPanel: (id) => set({ openDashboard: id, openLeadId: null, openProjectId: null, openAgentId: null }),
+  openProjectId: null,
+  setOpenProject: (openProjectId) => set({ openProjectId }),
   openLeadId: null,
   openCrm: (leadId = null) => set({ openDashboard: "crm", openLeadId: leadId, openAgentId: null }),
   setOpenLead: (openLeadId) => set({ openLeadId }),
-  closeDashboard: () => set({ openDashboard: null, openLeadId: null }),
+  closeDashboard: () => set({ openDashboard: null, openLeadId: null, openProjectId: null }),
   openAutomation: () => set({ openDashboard: "automation", openLeadId: null, openAgentId: null }),
   openDemoPanel: () => set({ openDashboard: "demo", openLeadId: null, openAgentId: null }),
 

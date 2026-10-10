@@ -4,7 +4,10 @@ import { AutomationPanel } from "./components/AutomationPanel";
 import { CrmPanel } from "./components/CrmPanel";
 import { DemoButton } from "./components/DemoButton";
 import { DemoPanel } from "./components/DemoPanel";
+import { ExecutivePanel } from "./components/ExecutivePanel";
 import { Hud } from "./components/Hud";
+import { ProjectsPanel } from "./components/ProjectsPanel";
+import { StrategyPanel } from "./components/StrategyPanel";
 import { Onboarding } from "./components/Onboarding";
 import { HelpDialog } from "./components/HelpDialog";
 import { ZoneDirectory } from "./components/ZoneDirectory";
@@ -55,6 +58,12 @@ export function AIHeadquarters() {
           <CrmPanel onRetry={retryCrm} />
         ) : dashboard === "automation" ? (
           <AutomationPanel onRetry={retryWorkflow} />
+        ) : dashboard === "executive" ? (
+          <ExecutivePanel />
+        ) : dashboard === "projects" ? (
+          <ProjectsPanel />
+        ) : dashboard === "strategy" ? (
+          <StrategyPanel />
         ) : dashboard === "demo" ? (
           <DemoPanel onRetryActivity={retryActivity} />
         ) : (

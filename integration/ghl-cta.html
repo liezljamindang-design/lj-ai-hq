@@ -1,0 +1,31 @@
+<!--
+  ENTER AI HEADQUARTERS button for the GoHighLevel portfolio.
+
+  How to add it:
+  1. Open the portfolio page in the GoHighLevel builder.
+  2. Add a "Custom JS / HTML" element where the button should appear.
+  3. Paste everything in this file into it and save.
+
+  If the HQ lives at a different address, change the link below.
+  Class names are prefixed "ljhq-" so they cannot clash with the page's own styles.
+-->
+<style>
+  .ljhq-cta { display: flex; justify-content: center; padding: 8px 16px; font-family: inherit; }
+  .ljhq-cta a {
+    display: inline-flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 16px 32px; border-radius: 12px; text-decoration: none; text-align: center;
+    background: #1c1824; border: 1px solid #d6b878; color: #f1edf7;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .ljhq-cta a:hover, .ljhq-cta a:focus-visible { background: #2a2338; transform: translateY(-1px); }
+  .ljhq-cta a:focus-visible { outline: 2px solid #b9a8ee; outline-offset: 3px; }
+  .ljhq-cta strong { font-size: 15px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+  .ljhq-cta span { font-size: 13px; color: #b9a8ee; }
+  @media (prefers-reduced-motion: reduce) { .ljhq-cta a { transition: none; } .ljhq-cta a:hover { transform: none; } }
+</style>
+<div class="ljhq-cta">
+  <a href="https://hq.liezljamindang.site">
+    <strong>Enter AI Headquarters</strong>
+    <span>See AI + GoHighLevel in action</span>
+  </a>
+</div>

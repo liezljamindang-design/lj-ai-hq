@@ -11,6 +11,7 @@ export function ZoneDirectory({ onRetryAgents, onRetryActivity }: { onRetryAgent
   const openAgent = useHq((s) => s.openAgent);
   const openCrm = useHq((s) => s.openCrm);
   const openAutomation = useHq((s) => s.openAutomation);
+  const openPanel = useHq((s) => s.openPanel);
   const agents = useHq((s) => s.agents);
   const agentsState = useHq((s) => s.agentsState);
 
@@ -48,6 +49,15 @@ export function ZoneDirectory({ onRetryAgents, onRetryActivity }: { onRetryAgent
                     <button type="button" className="btn-secondary" onClick={() => openCrm()}>Open the CRM dashboard</button>
                   )}
 
+                  {zone.id === "executive" && (
+                    <button type="button" className="btn-secondary" onClick={() => openPanel("executive")}>Meet Liezl</button>
+                  )}
+                  {zone.id === "studio" && (
+                    <button type="button" className="btn-secondary" onClick={() => openPanel("projects")}>View the projects</button>
+                  )}
+                  {zone.id === "meeting" && (
+                    <button type="button" className="btn-secondary" onClick={() => openPanel("strategy")}>Open the Strategy Room</button>
+                  )}
                   {zone.id === "automation" && (
                     <button type="button" className="btn-secondary" onClick={openAutomation}>Open the workflow</button>
                   )}
@@ -58,9 +68,6 @@ export function ZoneDirectory({ onRetryAgents, onRetryActivity }: { onRetryAgent
                       The team list didn't load.{" "}
                       <button type="button" className="link-btn" onClick={onRetryAgents}>Try again</button>
                     </p>
-                  )}
-                  {agentsState === "ready" && team.length === 0 && (
-                    <p className="muted">No AI employee is stationed here.</p>
                   )}
                   {team.map((agent) => (
                     <button key={agent.id} type="button" className="agent-line" onClick={() => openAgent(agent.id)}>

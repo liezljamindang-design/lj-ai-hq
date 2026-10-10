@@ -207,3 +207,20 @@ export interface ApprovalRequest {
   details: { label: string; value: string }[];
 }
 export type ApprovalDecision = "pending" | "approved" | "rejected";
+
+/** A portfolio project shown on the Website & Funnel Studio monitors. */
+export interface Project {
+  id: string;
+  name: string;
+  industry: string;
+  built: string[];
+  technology: string[];
+  /** Automation behind the build. Left out where it has not been written up yet. */
+  automation?: string;
+  /** Path or URL of a screenshot. A drawn placeholder is used when missing. */
+  screenshot?: string;
+  /** Link to the live project. Falls back to the portfolio. */
+  url?: string;
+}
+
+export type DashboardId = "crm" | "automation" | "demo" | "executive" | "projects" | "strategy";

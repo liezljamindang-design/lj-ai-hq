@@ -4,9 +4,19 @@ import { agentNear, canStand, findPath, talkSpot, sceneToFloor, SPEED, START, zo
 import { FLOOR } from "../data/zones";
 import { AGENTS } from "../data/agents";
 import { useHq } from "../store/hqStore";
+import type { DashboardId, ZoneId } from "../types";
 
 /** Centre of the drawing, in scene pixels. The camera pivots around it. */
 const CENTRE = { x: 32, y: 150 };
+
+/** Which room each clickable wall display belongs to. */
+const DISPLAY_ZONE: Partial<Record<DashboardId, ZoneId>> = {
+  crm: "sales",
+  automation: "automation",
+  executive: "executive",
+  strategy: "meeting",
+  projects: "studio",
+};
 
 const KEY_DIRS: Record<string, [number, number]> = {
   // Screen-relative: "up" walks toward the back wall, which is -x and -y on the floor.
@@ -189,14 +199,10 @@ export function useMovement({ svgRef, cameraRef, avatarRef, boxesRef, onSlot }: 
       }
       // Clicking a wall display opens its dashboard and walks the avatar to that room.
       const display = (e.target as Element).closest<SVGElement>("[data-open]");
-      if (display?.dataset.open === "crm") {
-        useHq.getState().openCrm();
-        walkTo(zoneEntry("sales"));
-        return;
-      }
-      if (display?.dataset.open === "automation") {
-        useHq.getState().openAutomation();
-        walkTo(zoneEntry("automation"));
+      const target = display?.dataset.open as DashboardId | undefined;
+      if (target && target in DISPLAY_ZONE) {
+        useHq.getState().openPanel(target);
+        walkTo(zoneEntry(DISPLAY_ZONE[target]!));
         return;
       }
       const ctm = camera!.getScreenCTM();
