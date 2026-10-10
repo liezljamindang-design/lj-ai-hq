@@ -12,7 +12,8 @@ export function Onboarding() {
       <h2 id="onboarding-title">Welcome to LJ AI Headquarters</h2>
       <p>Explore how AI employees, CRM systems and GoHighLevel automations can work together.</p>
       <dl className="how-to">
-        <div><dt>Explore</dt><dd>Pick a room on the floor or in the directory.</dd></div>
+        <div><dt>Move</dt><dd>WASD or arrow keys. You can also tap the floor.</dd></div>
+        <div><dt>Explore</dt><dd>Walk into a room, or pick one in the directory.</dd></div>
         <div><dt>Meet the team</dt><dd>Each room shows the AI employee who works there.</dd></div>
       </dl>
       <p className="muted">Everything here is fictional demo data. No real clients or contacts.</p>

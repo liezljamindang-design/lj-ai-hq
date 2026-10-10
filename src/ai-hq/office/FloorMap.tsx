@@ -1,7 +1,10 @@
-import { useMemo, type ReactNode } from "react";
+import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
 import { FURNITURE, GLASS_WALLS, WALL_HEIGHT } from "../data/furniture";
 import { FLOOR, ZONES } from "../data/zones";
+import { useMovement } from "../hooks/useMovement";
 import { useHq } from "../store/hqStore";
+import { Avatar } from "./Avatar";
+import { wallRect, type Rect } from "./engine";
 import { Furniture } from "./Furniture";
 import { project, rectPoints } from "./iso";
 import { panelX, panelY, pt } from "./primitives";
@@ -10,21 +13,27 @@ import { WallDisplays } from "./WallDisplays";
 const SLAB = 14; // visible thickness of the floor slab, in screen pixels
 
 /**
- * The isometric office. Rooms are selectable; the directory is the keyboard path.
- * Furniture and glass are sorted back to front (painter's order) by the sum of
- * their floor coordinates, which is the depth axis in this projection.
+ * The isometric office. The visitor walks with the keyboard or by tapping the
+ * floor; the directory is the screen-reader path. Furniture and glass are sorted
+ * back to front (painter's order) by the sum of their floor coordinates, the
+ * depth axis in this projection, and the avatar is slotted into that order.
  */
 export function FloorMap() {
   const selected = useHq((s) => s.selectedZone);
-  const selectZone = useHq((s) => s.selectZone);
+  const overview = useHq((s) => s.overview);
+  const setOverview = useHq((s) => s.setOverview);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const cameraRef = useRef<SVGGElement>(null);
+  const avatarRef = useRef<SVGGElement>(null);
   const { width: W, depth: D } = FLOOR;
 
-  // Static scene: built once, never re-rendered when a room is selected.
-  const scene = useMemo(() => {
-    const layers: { depth: number; node: ReactNode }[] = [];
+  // Static scene: built once and sorted once. Only the avatar's slot in it changes.
+  const { nodes, boxes } = useMemo(() => {
+    const layers: { depth: number; box: Rect; node: ReactNode }[] = [];
     for (const item of FURNITURE) {
       layers.push({
         depth: item.x + item.w / 2 + item.y + item.h / 2,
+        box: item,
         node: <Furniture key={item.id} item={item} />,
       });
     }
@@ -34,10 +43,18 @@ export function FloorMap() {
         wall.axis === "x"
           ? panelX(wall.at, wall.from, wall.to, 0, wall.height)
           : panelY(wall.at, wall.from, wall.to, 0, wall.height);
-      layers.push({ depth: wall.at + mid, node: <polygon key={wall.id} className="glass" points={points} /> });
+      layers.push({ depth: wall.at + mid, box: wallRect(wall), node: <polygon key={wall.id} className="glass" points={points} /> });
     }
-    return layers.sort((a, b) => a.depth - b.depth).map((l) => l.node);
+    layers.sort((a, b) => a.depth - b.depth);
+    return {
+      nodes: layers.map((l) => l.node),
+      boxes: layers.map((l) => ({ x: l.box.x, y: l.box.y, w: l.box.w, h: l.box.h, depth: l.depth })),
+    };
   }, []);
+
+  const [slot, setSlot] = useState(nodes.length);
+  const onSlot = useCallback((next: number) => setSlot(next), []);
+  useMovement({ svgRef, cameraRef, avatarRef, boxes, onSlot });
 
   const leftFace = `${pt(0, D)} ${pt(W, D)} ${pt(W, D, -SLAB)} ${pt(0, D, -SLAB)}`;
   const rightFace = `${pt(W, 0)} ${pt(W, D)} ${pt(W, D, -SLAB)} ${pt(W, 0, -SLAB)}`;
@@ -45,7 +62,8 @@ export function FloorMap() {
 
   return (
     <div className="floor">
-      <svg viewBox="-336 -84 736 468" className="floor-svg" aria-hidden="true" focusable="false">
+      <svg ref={svgRef} viewBox="-336 -84 736 468" className="floor-svg" aria-hidden="true" focusable="false">
+        <g ref={cameraRef}>
         <polygon className="slab-side slab-side-left" points={leftFace} />
         <polygon className="slab-side slab-side-right" points={rightFace} />
         <polygon className="slab-top" points={rectPoints(0, 0, W, D)} />
@@ -67,11 +85,7 @@ export function FloorMap() {
           const [kx, ky] = project(x + 0.42, y + h - 0.42);
           const [tx, ty] = project(x + 0.78, y + h - 0.3);
           return (
-            <g
-              key={zone.id}
-              className={`zone${isSelected ? " is-selected" : ""}`}
-              onClick={() => selectZone(isSelected ? null : zone.id)}
-            >
+            <g key={zone.id} className={`zone${isSelected ? " is-selected" : ""}`}>
               <polygon className="zone-plate" points={rectPoints(x, y, w, h, 0, 0.1)} />
               {/* Room name printed flat on the floor along the front edge */}
               <text className="zone-name" transform={`matrix(0.894 0.447 -0.894 0.447 ${tx} ${ty})`}>
@@ -86,8 +100,18 @@ export function FloorMap() {
         })}
 
         <WallDisplays />
-        <g className="scene">{scene}</g>
+        <g className="scene">
+          {nodes.slice(0, slot)}
+          <Avatar key="avatar" ref={avatarRef} />
+          {nodes.slice(slot)}
+        </g>
+        </g>
       </svg>
+      {overview ? (
+        <p className="floor-note">Showing the whole floor. Move to follow your avatar again.</p>
+      ) : (
+        <button type="button" className="floor-btn" onClick={() => setOverview(true)}>Reset view</button>
+      )}
     </div>
   );
 }

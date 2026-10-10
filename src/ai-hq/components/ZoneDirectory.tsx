@@ -2,10 +2,11 @@ import { ZONES } from "../data/zones";
 import { useHq } from "../store/hqStore";
 import { StatusDot, STATUS_LABEL } from "./StatusDot";
 
-/** Keyboard-friendly list of rooms. Selecting one highlights it on the floor and shows who works there. */
+/** Keyboard-friendly list of rooms. Choosing one walks the avatar there and shows who works in it. */
 export function ZoneDirectory({ onRetryAgents }: { onRetryAgents: () => void }) {
   const selected = useHq((s) => s.selectedZone);
   const selectZone = useHq((s) => s.selectZone);
+  const walkToZone = useHq((s) => s.walkToZone);
   const agents = useHq((s) => s.agents);
   const agentsState = useHq((s) => s.agentsState);
 
@@ -24,7 +25,7 @@ export function ZoneDirectory({ onRetryAgents }: { onRetryAgents: () => void }) 
                 id={`zone-btn-${zone.id}`}
                 aria-expanded={open}
                 aria-controls={`zone-panel-${zone.id}`}
-                onClick={() => selectZone(open ? null : zone.id)}
+                onClick={() => (open ? selectZone(null) : walkToZone(zone.id))}
               >
                 <span className="directory-key">{zone.key}</span>
                 <span className="directory-name">{zone.name}</span>

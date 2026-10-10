@@ -27,7 +27,7 @@ export function AIHeadquarters() {
             <p className="eyebrow">Portfolio demo</p>
             <h1 id="hq-title">AI employees working inside an automated CRM</h1>
             <p className="hq-lede">
-              Built by {HQ_CONFIG.ownerName}, {HQ_CONFIG.ownerTitle}. Pick a room to see what happens there.
+              Built by {HQ_CONFIG.ownerName}, {HQ_CONFIG.ownerTitle}. Walk in with WASD or the arrow keys, or tap the floor.
             </p>
           </header>
           <FloorMap />

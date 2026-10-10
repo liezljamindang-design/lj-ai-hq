@@ -87,18 +87,36 @@ button { font: inherit; color: inherit; }
 .entrance { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; }
 .entrance-label { fill: var(--gold); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; }
 
-.zone { cursor: pointer; }
 .zone-plate { fill: var(--plate); stroke: var(--plate-edge); stroke-width: 1; transition: fill 0.18s ease, stroke 0.18s ease; }
 .zone-key { fill: var(--surface); stroke: var(--plate-edge); stroke-width: 1; transition: fill 0.18s ease, stroke 0.18s ease; }
 .zone-key-text { fill: var(--ink); font-family: var(--font-mono); font-size: 9.5px; font-weight: 500; }
 .zone-name { fill: var(--ink-2); font-family: var(--font-body); font-size: 9.5px; font-weight: 600; letter-spacing: 0.02em; }
-.zone:hover .zone-plate { stroke: var(--lav); }
 .zone.is-selected .zone-plate { fill: var(--lav-soft); stroke: var(--lav); stroke-width: 1.5; }
 .zone.is-selected .zone-key { fill: var(--lav); stroke: var(--lav); }
 .zone.is-selected .zone-key-text { fill: var(--on-accent); }
 .zone.is-selected .zone-name { fill: var(--ink); }
 
-/* Furniture, glass and screens never take clicks; the room plate underneath does. */
+/* Tapping anywhere on the floor walks the avatar there. */
+.floor-svg { cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.floor-btn, .floor-note { position: absolute; right: 0; bottom: 0; margin: 0; font-size: 12.5px; }
+.floor-btn {
+  min-height: 34px; padding: 0 12px; border-radius: 8px; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--line); color: var(--ink); font-weight: 500;
+}
+.floor-btn:hover { background: var(--surface-2); }
+.floor-note { padding: 7px 10px; border-radius: 8px; background: var(--surface); border: 1px solid var(--line); color: var(--ink-2); }
+
+/* Visitor avatar */
+.av-shadow { fill: var(--ink); opacity: 0.16; }
+.av-ring { fill: none; stroke: var(--gold); stroke-width: 1.2; }
+.av-torso { fill: var(--lav); }
+.av-band { fill: var(--goldm-t); }
+.av-head { fill: var(--goldm-t); stroke: var(--surface); stroke-width: 1; }
+.av-tag { fill: var(--ink); font-family: var(--font-mono); font-size: 7.5px; letter-spacing: 0.1em; text-transform: uppercase; }
+@keyframes hq-step { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.6px); } }
+.avatar.is-walking .av-body { animation: hq-step 0.42s ease-in-out infinite; }
+
+/* Furniture, glass and screens never take clicks themselves. */
 .scene, .displays { pointer-events: none; }
 .glass { fill: var(--glass); stroke: var(--glass-edge); stroke-width: 0.8; }
 .m-desk .f-t { fill: var(--desk-t); } .m-desk .f-l { fill: var(--desk-l); } .m-desk .f-r { fill: var(--desk-r); }
@@ -184,12 +202,8 @@ button { font: inherit; color: inherit; }
   .hq-main { grid-template-columns: minmax(0, 1fr); }
   .hq-stage { padding: 20px 16px 8px; }
   .directory { border-left: 0; border-top: 1px solid var(--line); padding: 18px 8px 28px; overflow: visible; }
-  .floor { flex: none; min-height: 0; }
-  .floor-svg { position: static; height: auto; }
-  .zone-name { display: none; }           /* too small to read at phone scale; the directory carries the names */
-  .entrance-label { display: none; }
-  .zone-key { r: 14px; }
-  .zone-key-text { font-size: 15px; transform: translateY(2px); }
+  .floor { flex: none; min-height: 0; height: min(84vw, 440px); }
+  .floor-btn, .floor-note { right: 4px; bottom: 4px; }
   .hud { padding: 8px 16px; gap: 8px 14px; }
   .hud-status { order: 3; width: 100%; margin: 0; gap: 4px 16px; }
   .hud-status li { gap: 6px; }

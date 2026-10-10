@@ -42,6 +42,13 @@ interface HqState {
 
   selectedZone: ZoneId | null;
   selectZone: (id: ZoneId | null) => void;
+  /** Set by the directory to ask the avatar to walk to a room. A new object each time, so repeats still fire. */
+  walkRequest: { zone: ZoneId } | null;
+  walkToZone: (id: ZoneId) => void;
+
+  /** When true the camera shows the whole floor instead of following the avatar. */
+  overview: boolean;
+  setOverview: (overview: boolean) => void;
 
   agents: Agent[];
   agentsState: LoadState;
@@ -67,6 +74,11 @@ export const useHq = create<HqState>((set, get) => ({
 
   selectedZone: null,
   selectZone: (selectedZone) => set({ selectedZone }),
+  walkRequest: null,
+  walkToZone: (zone) => set({ selectedZone: zone, walkRequest: { zone } }),
+
+  overview: false,
+  setOverview: (overview) => set({ overview }),
 
   agents: [],
   agentsState: "loading",

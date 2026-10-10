@@ -15,7 +15,9 @@ export function HelpDialog() {
         designed by {HQ_CONFIG.ownerName}, {HQ_CONFIG.ownerTitle}.
       </p>
       <dl className="how-to">
-        <div><dt>Rooms</dt><dd>Pick a room on the floor or in the directory to see what it does.</dd></div>
+        <div><dt>Move</dt><dd>WASD or arrow keys. You can also tap the floor to walk there.</dd></div>
+        <div><dt>Rooms</dt><dd>Walk into a room, or pick one in the directory, to see what it does.</dd></div>
+        <div><dt>Camera</dt><dd>Reset view shows the whole floor.</dd></div>
         <div><dt>Theme</dt><dd>Use the sun or moon button to switch between light and dark.</dd></div>
         <div><dt>Leave</dt><dd>Exit HQ returns you to the portfolio.</dd></div>
       </dl>
