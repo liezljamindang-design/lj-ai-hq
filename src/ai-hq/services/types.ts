@@ -1,5 +1,6 @@
 import type {
-  ActivityEntry, ActivityEvent, Agent, AgentTask, ApprovalNotice, ApprovalRequest, CrmSnapshot, WorkflowDefinition,
+  ActivityEntry, ActivityEvent, Agent, AgentTask, ApprovalNotice, ApprovalRequest, ChatMessage, CrmSnapshot, LeadInquiry,
+  WorkflowDefinition,
 } from "../types";
 
 /**
@@ -21,8 +22,11 @@ export interface AgentService {
   getGreeting(agentId: string): string;
   /** Questions offered as one-tap suggestions, in the conversation's current language. */
   getSuggestions(agentId: string, language: ChatLanguage): string[];
-  /** Sends a visitor message and resolves with the employee's reply and the language it was given in. */
-  sendMessage(agentId: string, text: string): Promise<{ text: string; language: ChatLanguage }>;
+  /**
+   * Sends a visitor message and resolves with the employee's reply.
+   * `source` says where the reply came from: live AI, or the written knowledge base.
+   */
+  sendMessage(agentId: string, text: string, history?: ChatMessage[]): Promise<{ text: string; language: ChatLanguage; source: "ai" | "kb" }>;
 }
 
 /**
@@ -55,10 +59,18 @@ export interface NotificationService {
   approvalNotices(request: ApprovalRequest, agent: Agent): ApprovalNotice[];
 }
 
+export type LeadResult = "sent" | "not-configured" | "failed";
+
+/** Delivers a real inquiry to Liezl through the site's own server. */
+export interface LeadService {
+  submit(lead: LeadInquiry): Promise<LeadResult>;
+}
+
 export interface HqServices {
   agents: AgentService;
   crm: CrmService;
   workflows: WorkflowService;
   activity: ActivityService;
   notifications: NotificationService;
+  leads: LeadService;
 }

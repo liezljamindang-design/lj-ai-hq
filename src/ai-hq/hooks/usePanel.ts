@@ -14,6 +14,7 @@ const LOADERS = {
   crm: () => import("../components/CrmPanel").then((m) => m.CrmPanel),
   demo: () => import("../components/DemoPanel").then((m) => m.DemoPanel),
   executive: () => import("../components/ExecutivePanel").then((m) => m.ExecutivePanel),
+  inquiry: () => import("../components/InquiryPanel").then((m) => m.InquiryPanel),
   projects: () => import("../components/ProjectsPanel").then((m) => m.ProjectsPanel),
   strategy: () => import("../components/StrategyPanel").then((m) => m.StrategyPanel),
 } satisfies Record<string, () => Promise<AnyPanel>>;

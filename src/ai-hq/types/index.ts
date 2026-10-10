@@ -247,4 +247,15 @@ export interface Project {
   funnelLabel?: string;
 }
 
-export type DashboardId = "crm" | "automation" | "demo" | "executive" | "projects" | "strategy";
+export type DashboardId = "crm" | "automation" | "demo" | "executive" | "projects" | "strategy" | "inquiry";
+
+/** A real inquiry from a visitor who wants to work with Liezl. Unlike everything else in the HQ, this is not demo data. */
+export interface LeadInquiry {
+  firstName: string;
+  lastName: string;
+  email: string;
+  services: string[];
+  notes: string;
+  /** Hidden field that only bots fill in. */
+  website?: string;
+}

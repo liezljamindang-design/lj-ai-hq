@@ -88,8 +88,8 @@ export const SHARED: KnowledgeEntry[] = [
     q: { en: "How much does a setup cost?", tl: "Magkano yung setup?" },
     keywords: ["magkano", "presyo", "price", "pricing", "rate", "rates", "cost", "costs", "bayad", "budget", "mahal", "fee", "quote", "how much"],
     a: {
-      en: "Pricing depends on the scope, so there's no fixed rate here. Message Liezl with what your business needs and she'll send you a quote. Her contact details are in the Executive Office.",
-      tl: "Depends kasi sa scope yung price, so walang fixed rate here. Just message Liezl kung ano yung need ng business mo and she'll send you a quote. Nasa Executive Office yung contact details niya.",
+      en: "Pricing depends on the scope, so there's no fixed rate here. Tap \"Request a quote\" under this chat, tell Liezl what your business needs, and she'll send you a quote by email.",
+      tl: "Depends kasi sa scope yung price, so walang fixed rate here. Just tap \"Request a quote\" under this chat, sabihin mo kay Liezl kung ano yung need ng business mo, and she'll email you a quote.",
     },
   },
   {
@@ -112,8 +112,8 @@ export const SHARED: KnowledgeEntry[] = [
     id: "contact",
     keywords: ["contact", "kontak", "kausapin", "makausap", "email", "tawag", "call", "book a call", "mag-inquire", "inquire", "hire", "reach"],
     a: {
-      en: "You can talk to Liezl directly. Go to the Executive Office here in the HQ and open the Contact tab for her email and phone, or use the contact form in her portfolio.",
-      tl: "You can talk to Liezl directly naman. Go to the Executive Office dito sa HQ and open the Contact tab for her email and phone, or use the contact form sa portfolio niya.",
+      en: "You can reach Liezl directly. Tap \"Request a quote\" under this chat to send her your details, or open the Contact tab in the Executive Office for her email and phone.",
+      tl: "You can reach Liezl directly naman. Tap mo yung \"Request a quote\" under this chat to send your details, or open the Contact tab sa Executive Office for her email and phone.",
     },
   },
   {

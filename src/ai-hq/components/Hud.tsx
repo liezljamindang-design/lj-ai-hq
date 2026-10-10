@@ -10,6 +10,7 @@ export function Hud({ onRetryAgents }: { onRetryAgents: () => void }) {
   const agents = useHq((s) => s.agents);
   const agentsState = useHq((s) => s.agentsState);
   const openCrm = useHq((s) => s.openCrm);
+  const openPanel = useHq((s) => s.openPanel);
   const openAutomation = useHq((s) => s.openAutomation);
 
   const online = agents.filter((a) => a.status !== "offline").length;
@@ -64,6 +65,7 @@ export function Hud({ onRetryAgents }: { onRetryAgents: () => void }) {
             </svg>
           )}
         </button>
+        <button type="button" className="text-btn hud-quote" onClick={() => openPanel("inquiry")}>Get a quote</button>
         <button type="button" className="text-btn" onClick={() => setHelpOpen(true)}>Help</button>
         <a className="text-btn text-btn-exit" href={HQ_CONFIG.portfolioUrl}>Exit HQ</a>
       </div>

@@ -21,7 +21,8 @@ export function ExecutivePanel() {
       </div>
 
       <div className="exec-actions">
-        <button type="button" className="btn-primary" onClick={() => openPanel("projects")}>View projects</button>
+        <button type="button" className="btn-primary" onClick={() => openPanel("inquiry")}>Request a quote</button>
+        <button type="button" className="btn-secondary" onClick={() => openPanel("projects")}>View projects</button>
         <a className="btn-secondary" href={HQ_CONFIG.cvPath} download>Download CV</a>
         <a className="link-btn" href={HQ_CONFIG.portfolioUrl}>Open the full portfolio</a>
       </div>
@@ -66,6 +67,7 @@ export function ExecutivePanel() {
         {tab === "Contact" && (
           <>
             <p>Tell me what you'd like automated. I usually reply within a day.</p>
+            <button type="button" className="btn-primary exec-contact" onClick={() => openPanel("inquiry")}>Request a quote</button>
             <dl className="lead-facts">
               <div><dt>Email</dt><dd><CopyValue value={HQ_CONFIG.email} href={`mailto:${HQ_CONFIG.email}`} /></dd></div>
               <div><dt>Phone</dt><dd><CopyValue value={HQ_CONFIG.phone} href={`tel:${HQ_CONFIG.phone.replace(/\s/g, "")}`} /></dd></div>

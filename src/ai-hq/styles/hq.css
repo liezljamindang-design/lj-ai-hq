@@ -555,6 +555,30 @@ a.link-btn { font-size: 13.5px; }
 .auto-list span { color: var(--ink-2); }
 .auto-list b { display: inline-block; min-width: 2.9rem; font-family: var(--font-mono); font-size: 10.5px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
 
+/* Inquiry form: the one real form in the HQ */
+.inquiry { display: grid; gap: 14px; }
+.inquiry-real { padding: 10px 12px; border-left: 3px solid var(--gold-soft); background: var(--bg); border-radius: 0 8px 8px 0; font-size: 13px; color: var(--ink-2); }
+.field { display: grid; gap: 5px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.field label, .field legend { padding: 0; font-size: 13px; font-weight: 600; }
+.field input, .field textarea {
+  width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 8px; resize: vertical;
+  background: var(--bg); color: var(--ink); border: 1px solid var(--line); font: inherit; font-size: 16px;
+}
+.field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--lav); outline-offset: 1px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.service-chips { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 2px; }
+.service-chip { min-height: 36px; padding: 0 12px; border-radius: 999px; background: none; border: 1px solid var(--line); cursor: pointer; font-size: 13px; color: var(--ink); }
+.service-chip:hover { border-color: var(--lav); }
+.service-chip[aria-pressed="true"] { background: var(--lav); border-color: var(--lav); color: var(--on-accent); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.field-error { color: var(--warn); font-size: 13.5px; font-weight: 600; }
+.inquiry-submit { justify-self: start; min-height: 46px; padding: 0 22px; }
+.inquiry-done { display: grid; gap: 10px; justify-items: start; }
+.inquiry-done-title { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; }
+.inquiry-address { user-select: all; font-weight: 600; color: var(--ink); }
+.hud-quote { color: var(--lav); font-weight: 700; }
+.chat-note .link-btn { font-weight: 600; }
+
 /* Avatar choice */
 .avatar-pick { display: grid; gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
 .avatar-pick legend { padding: 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
@@ -655,6 +679,8 @@ a.link-btn { font-size: 13.5px; }
   .bottom-nav button:focus-visible { outline-offset: -3px; }
 }
 @media (max-width: 420px) {
+  .field-row { grid-template-columns: 1fr; }
+  .hud-quote { display: none; }   /* the Liezl tab in the bottom bar leads to the same form */
   .hq-intro h1 { font-size: 1.3rem; }
   .hq-lede { font-size: 14px; }
   .demo-badge { display: none; }

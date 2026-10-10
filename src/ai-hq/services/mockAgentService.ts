@@ -31,6 +31,6 @@ export const mockAgentService: AgentService = {
   },
   async sendMessage(agentId, text) {
     await wait(650); // a short pause so the reply reads as a turn in a conversation
-    return answer(agentId, text);
+    return { ...answer(agentId, text), source: "kb" as const };
   },
 };

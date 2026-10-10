@@ -43,7 +43,7 @@ export function BottomNav() {
     { id: "rooms", label: "Rooms", onClick: rooms, current: false },
     { id: "demo", label: demoStatus === "running" ? "Running" : "Demo", onClick: demo, current: dashboard === "demo" },
     { id: "crm", label: "CRM", onClick: () => useHq.getState().openCrm(), current: dashboard === "crm" },
-    { id: "about", label: "Liezl", onClick: () => useHq.getState().openPanel("executive"), current: dashboard === "executive" },
+    { id: "about", label: "Liezl", onClick: () => useHq.getState().openPanel("executive"), current: dashboard === "executive" || dashboard === "inquiry" },
   ] as const;
 
   return (

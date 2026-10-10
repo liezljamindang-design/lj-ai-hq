@@ -13,6 +13,8 @@ export function AgentChat({ agent }: { agent: Agent }) {
   const [draft, setDraft] = useState("");
   const [pending, setPending] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [live, setLive] = useState(false);
+  const openPanel = useHq((s) => s.openPanel);
   const logRef = useRef<HTMLDivElement>(null);
 
   const greeting = services.agents.getGreeting(agent.id);
@@ -34,9 +36,10 @@ export function AgentChat({ agent }: { agent: Agent }) {
     addChat(agent.id, msg("visitor", clean));
     setPending(true);
     try {
-      const reply = await services.agents.sendMessage(agent.id, clean);
+      const reply = await services.agents.sendMessage(agent.id, clean, messages);
       addChat(agent.id, msg("agent", reply.text));
       setChatLanguage(agent.id, reply.language); // the suggestions follow the visitor's language
+      setLive(reply.source === "ai");
     } catch {
       setFailed(true);
     } finally {
@@ -51,7 +54,12 @@ export function AgentChat({ agent }: { agent: Agent }) {
 
   return (
     <div className="chat">
-      <p className="chat-note">Replies come from a prepared knowledge base, not a live AI. Write in Tagalog and {agent.name} answers in Taglish.</p>
+      <p className="chat-note">
+        {live
+          ? `${agent.name} is answering with live AI. It can be wrong, so confirm anything important with Liezl.`
+          : `Replies come from a prepared knowledge base. Write in Tagalog and ${agent.name} answers in Taglish.`}{" "}
+        <button type="button" className="link-btn" onClick={() => openPanel("inquiry")}>Request a quote</button>
+      </p>
 
       <div className="chat-log" ref={logRef} role="log" aria-live="polite" aria-label={`Conversation with ${agent.name}`}>
         <p className="bubble bubble-agent">{greeting}</p>
