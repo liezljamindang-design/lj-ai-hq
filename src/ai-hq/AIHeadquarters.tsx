@@ -2,11 +2,14 @@ import { useEffect } from "react";
 import { AgentPanel } from "./components/AgentPanel";
 import { AutomationPanel } from "./components/AutomationPanel";
 import { CrmPanel } from "./components/CrmPanel";
+import { DemoButton } from "./components/DemoButton";
+import { DemoPanel } from "./components/DemoPanel";
 import { Hud } from "./components/Hud";
 import { Onboarding } from "./components/Onboarding";
 import { HelpDialog } from "./components/HelpDialog";
 import { ZoneDirectory } from "./components/ZoneDirectory";
 import { FloorMap } from "./office/FloorMap";
+import { useActivity } from "./hooks/useActivity";
 import { useAgents } from "./hooks/useAgents";
 import { useCrm } from "./hooks/useCrm";
 import { useWorkflow } from "./hooks/useWorkflow";
@@ -19,6 +22,7 @@ export function AIHeadquarters() {
   const retryAgents = useAgents();
   const retryCrm = useCrm();
   const retryWorkflow = useWorkflow();
+  const retryActivity = useActivity();
   const dashboard = useHq((s) => s.openDashboard);
   const openAgent = useHq((s) => s.agents.find((a) => a.id === s.openAgentId));
 
@@ -33,11 +37,14 @@ export function AIHeadquarters() {
       <main className="hq-main">
         <section className="hq-stage" aria-labelledby="hq-title">
           <header className="hq-intro">
-            <p className="eyebrow">Portfolio demo</p>
-            <h1 id="hq-title">AI employees working inside an automated CRM</h1>
-            <p className="hq-lede">
-              Built by {HQ_CONFIG.ownerName}, {HQ_CONFIG.ownerTitle}. Walk in with WASD or the arrow keys, or tap the floor. Tap an AI employee to meet them.
-            </p>
+            <div className="hq-intro-copy">
+              <p className="eyebrow">Portfolio demo</p>
+              <h1 id="hq-title">AI employees working inside an automated CRM</h1>
+              <p className="hq-lede">
+                Built by {HQ_CONFIG.ownerName}, {HQ_CONFIG.ownerTitle}. Walk in with WASD or the arrow keys, or tap the floor. Tap an AI employee to meet them.
+              </p>
+            </div>
+            <DemoButton />
           </header>
           <FloorMap />
         </section>
@@ -48,8 +55,10 @@ export function AIHeadquarters() {
           <CrmPanel onRetry={retryCrm} />
         ) : dashboard === "automation" ? (
           <AutomationPanel onRetry={retryWorkflow} />
+        ) : dashboard === "demo" ? (
+          <DemoPanel onRetryActivity={retryActivity} />
         ) : (
-          <ZoneDirectory onRetryAgents={retryAgents} />
+          <ZoneDirectory onRetryAgents={retryAgents} onRetryActivity={retryActivity} />
         )}
       </main>
 

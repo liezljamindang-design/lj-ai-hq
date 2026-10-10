@@ -1,4 +1,4 @@
-import type { ActivityEntry, Agent, AgentTask, CrmSnapshot, WorkflowDefinition } from "../types";
+import type { ActivityEntry, ActivityEvent, Agent, AgentTask, CrmSnapshot, WorkflowDefinition } from "../types";
 
 /**
  * Service contracts. The UI talks only to these interfaces.
@@ -6,7 +6,7 @@ import type { ActivityEntry, Agent, AgentTask, CrmSnapshot, WorkflowDefinition }
  * a secure server-side endpoint (never GoHighLevel, an AI API or n8n directly
  * from the browser), and no component has to change.
  *
- * calendarService and activityService are added in the phase that first uses them.
+ * calendarService is added when real calendar access is.
  */
 export interface AgentService {
   listAgents(): Promise<Agent[]>;
@@ -35,8 +35,14 @@ export interface WorkflowService {
   getWorkflow(): Promise<WorkflowDefinition>;
 }
 
+export interface ActivityService {
+  /** The most recent events across the whole HQ, newest first. */
+  getRecent(): Promise<ActivityEvent[]>;
+}
+
 export interface HqServices {
   agents: AgentService;
   crm: CrmService;
   workflows: WorkflowService;
+  activity: ActivityService;
 }

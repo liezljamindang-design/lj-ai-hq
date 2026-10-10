@@ -79,7 +79,11 @@ button { font: inherit; color: inherit; }
   min-height: 0;
 }
 .hq-stage { display: flex; flex-direction: column; gap: 8px; padding: 28px 28px 20px; min-width: 0; }
-.hq-intro { max-width: 46rem; display: grid; gap: 8px; }
+.hq-intro { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 24px; }
+.hq-intro-copy { max-width: 46rem; display: grid; gap: 8px; min-width: 0; flex: 1 1 22rem; }
+.demo-cta { display: grid; gap: 4px; justify-items: start; }
+.demo-cta .btn-primary, .demo-cta .btn-secondary { min-height: 44px; padding: 0 22px; font-size: 14.5px; white-space: nowrap; }
+.demo-caption { color: var(--ink-2); font-size: 12px; }
 .hq-intro h1 { font-size: clamp(1.45rem, 1rem + 1.9vw, 2.25rem); line-height: 1.15; }
 .hq-lede { color: var(--ink-2); max-width: 60ch; }
 
@@ -153,6 +157,13 @@ button { font: inherit; color: inherit; }
   display: grid; place-items: center; width: 24px; height: 24px; border-radius: 6px;
   background: var(--surface-2); font-family: var(--font-mono); font-size: 11px; font-weight: 500;
 }
+
+/* Live demo: the travelling lead and the employee holding it */
+.lead-token { transition: transform 1.3s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; }
+.token-core { fill: var(--screen-gold); stroke: var(--surface); stroke-width: 1.5; }
+.token-halo { fill: var(--screen-gold); opacity: 0.28; }
+.ag-ring { fill: none; stroke: transparent; stroke-width: 1.6; }
+.agent.has-lead .ag-ring { stroke: var(--screen-gold); animation: hq-breathe 1.8s ease-in-out infinite; }
 
 /* Furniture, glass and screens never take clicks themselves. */
 .scene, .displays { pointer-events: none; }
@@ -378,6 +389,44 @@ button { font: inherit; color: inherit; }
 .run-result-failed .run-result { color: var(--warn); }
 .run-note { grid-column: 2 / -1; color: var(--ink-2); font-size: 12.5px; }
 
+/* ---------- Live demo and activity ---------- */
+.panel-title-gap { padding-top: 22px; }
+.directory-feed { padding: 0 8px; }
+.feed { display: grid; margin: 0; padding: 0; list-style: none; }
+.feed li { display: grid; grid-template-columns: 4.4rem 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+.feed time { font-family: var(--font-mono); font-size: 11px; color: var(--ink-2); padding-top: 2px; white-space: nowrap; }
+@keyframes hq-arrive { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.feed-new { animation: hq-arrive 0.45s ease-out; }
+
+.demo-state { font-size: 14px; }
+.demo-run { align-self: flex-start; }
+.demo-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.demo-track { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.demo-track span { display: grid; gap: 5px; font-size: 10.5px; line-height: 1.25; color: var(--ink-2); }
+.demo-track i { height: 4px; border-radius: 2px; background: var(--line); transition: background 0.4s ease; }
+.demo-track .is-past i { background: var(--lav-soft); }
+.demo-track .is-current { color: var(--ink); font-weight: 600; }
+.demo-track .is-current i { background: var(--lav); }
+.demo-steps { display: grid; margin: 0; padding: 0; list-style: none; }
+.demo-step { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 13.5px; color: var(--ink-2); }
+.demo-step-n {
+  display: grid; place-items: center; flex: none; width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid var(--line); font-family: var(--font-mono); font-size: 10.5px;
+}
+.demo-step.is-done { color: var(--ink); }
+.demo-step.is-done .demo-step-n { color: var(--ok); border-color: var(--ok); }
+.demo-step.is-current { color: var(--ink); font-weight: 600; }
+.demo-step.is-current .demo-step-n { background: var(--lav); border-color: var(--lav); color: var(--on-accent); }
+
+.approval { display: grid; gap: 8px; padding: 14px; border: 1px solid var(--gold-soft); border-radius: 10px; background: var(--bg); }
+.approval-approved { border-color: var(--ok); }
+.approval-rejected { border-color: var(--line); }
+.approval-action { font-size: 14.5px; font-weight: 600; }
+.approval-action span { font-weight: 400; color: var(--ink-2); }
+.approval-buttons { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.approval-buttons .btn-primary, .approval-buttons .btn-secondary { min-height: 36px; padding: 0 14px; font-size: 13.5px; }
+.approval .lead-facts div:last-child { border-bottom: 0; }
+
 /* ---------- Dialog ---------- */
 .dialog {
   width: min(30rem, calc(100% - 32px)); padding: 28px;
@@ -410,6 +459,9 @@ button { font: inherit; color: inherit; }
     position: fixed; inset: 0; z-index: 20; border-left: 0;
     padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(14px + env(safe-area-inset-bottom, 0px));
   }
+  /* The demo panel stays in the page on phones, so the office is still visible above it. */
+  .side-panel.side-panel-inline { position: static; border-top: 1px solid var(--line); padding: 18px 16px 28px; }
+  .side-panel-inline .panel-scroll { overflow: visible; }
   .talk-prompt { bottom: 46px; }
   .talk-sub { display: none; }
   .hud { padding: 8px 16px; gap: 8px 14px; }
@@ -427,6 +479,7 @@ button { font: inherit; color: inherit; }
   .hq { height: 100%; }
   .hq-main { overflow: hidden; }
   .side-panel { overflow: hidden; }
+  .side-panel:has(.approval) { overflow-y: auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }

@@ -1,9 +1,10 @@
 import { ZONES } from "../data/zones";
 import { useHq } from "../store/hqStore";
+import { ActivityFeed } from "./ActivityFeed";
 import { StatusDot, STATUS_LABEL } from "./StatusDot";
 
 /** Keyboard-friendly list of rooms. Choosing one walks the avatar there and shows who works in it. */
-export function ZoneDirectory({ onRetryAgents }: { onRetryAgents: () => void }) {
+export function ZoneDirectory({ onRetryAgents, onRetryActivity }: { onRetryAgents: () => void; onRetryActivity: () => void }) {
   const selected = useHq((s) => s.selectedZone);
   const selectZone = useHq((s) => s.selectZone);
   const walkToZone = useHq((s) => s.walkToZone);
@@ -80,6 +81,9 @@ export function ZoneDirectory({ onRetryAgents }: { onRetryAgents: () => void }) 
           );
         })}
       </ul>
+
+      <h2 className="panel-title panel-title-gap">Live activity</h2>
+      <div className="directory-feed"><ActivityFeed limit={7} onRetry={onRetryActivity} /></div>
     </aside>
   );
 }

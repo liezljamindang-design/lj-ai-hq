@@ -188,3 +188,22 @@ export interface WorkflowDefinition {
   stats: { active: number; needsAttention: number };
   runs: WorkflowRun[];
 }
+
+/** One line in the global Live Activity feed. */
+export interface ActivityEvent {
+  id: string;
+  time: string;
+  text: string;
+}
+
+export type DemoStatus = "idle" | "running" | "completed";
+
+/** An action an AI employee has prepared but may not take without a person's decision. */
+export interface ApprovalRequest {
+  id: string;
+  agentId: string;
+  action: string;
+  reason: string;
+  details: { label: string; value: string }[];
+}
+export type ApprovalDecision = "pending" | "approved" | "rejected";

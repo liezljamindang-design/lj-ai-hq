@@ -1,5 +1,8 @@
 import { create } from "zustand";
-import type { Agent, ChatMessage, CrmSnapshot, NodeRunState, ThemeChoice, WorkflowDefinition, ZoneId } from "../types";
+import type {
+  ActivityEvent, Agent, ApprovalDecision, ChatMessage, CrmSnapshot, DemoStatus, NodeRunState, ThemeChoice,
+  WorkflowDefinition, ZoneId,
+} from "../types";
 
 const ONBOARDED_KEY = "ljhq.onboarded";
 const THEME_KEY = "ljhq.theme";
@@ -55,13 +58,31 @@ interface HqState {
   openAgent: (id: string) => void;
   closeAgent: () => void;
   /** A dashboard open in the side panel. Opening one closes any employee panel, and the reverse. */
-  openDashboard: "crm" | "automation" | null;
+  openDashboard: "crm" | "automation" | "demo" | null;
   /** The lead being inspected inside the CRM dashboard. */
   openLeadId: string | null;
   openCrm: (leadId?: string | null) => void;
   setOpenLead: (id: string | null) => void;
   closeDashboard: () => void;
   openAutomation: () => void;
+  openDemoPanel: () => void;
+
+  /** Global Live Activity feed, newest first. */
+  activity: ActivityEvent[];
+  activityState: LoadState;
+  setActivity: (activity: ActivityEvent[]) => void;
+  setActivityState: (state: LoadState) => void;
+
+  /** Run Live Demo. The runner in demo/runner.ts writes these. */
+  demo: { status: DemoStatus; step: number; wasReset: boolean };
+  /** Floor position of the travelling lead marker, or null when hidden. */
+  token: { x: number; y: number } | null;
+  /** The employee currently holding the demo lead. */
+  holderId: string | null;
+
+  /** Decisions on simulated approval requests, by request id. */
+  approvals: Record<string, ApprovalDecision>;
+  decideApproval: (id: string, decision: ApprovalDecision) => void;
 
   workflow: WorkflowDefinition | null;
   workflowState: LoadState;
@@ -120,6 +141,19 @@ export const useHq = create<HqState>((set, get) => ({
   setOpenLead: (openLeadId) => set({ openLeadId }),
   closeDashboard: () => set({ openDashboard: null, openLeadId: null }),
   openAutomation: () => set({ openDashboard: "automation", openLeadId: null, openAgentId: null }),
+  openDemoPanel: () => set({ openDashboard: "demo", openLeadId: null, openAgentId: null }),
+
+  activity: [],
+  activityState: "loading",
+  setActivity: (activity) => set({ activity, activityState: "ready" }),
+  setActivityState: (activityState) => set({ activityState }),
+
+  demo: { status: "idle", step: -1, wasReset: false },
+  token: null,
+  holderId: null,
+
+  approvals: {},
+  decideApproval: (id, decision) => set((s) => ({ approvals: { ...s.approvals, [id]: decision } })),
 
   workflow: null,
   workflowState: "loading",

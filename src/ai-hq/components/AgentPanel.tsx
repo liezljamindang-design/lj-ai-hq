@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useAgentDetail } from "../hooks/useAgentDetail";
 import { useHq } from "../store/hqStore";
 import type { Agent, TaskState } from "../types";
+import { APPROVALS } from "../data/approvals";
 import { AgentChat } from "./AgentChat";
+import { ApprovalCard } from "./ApprovalCard";
 import { StatusDot, STATUS_LABEL } from "./StatusDot";
 
 const TABS = ["Chat", "Tasks", "Activity", "Capabilities"] as const;
@@ -63,6 +65,10 @@ export function AgentPanel({ agent }: { agent: Agent }) {
       </header>
 
       <p className="agent-desc">{agent.description}</p>
+
+      {APPROVALS.filter((r) => r.agentId === agent.id).map((r) => (
+        <ApprovalCard key={r.id} request={r} agent={agent} />
+      ))}
 
       <dl className="agent-metrics" aria-label="Today">
         {agent.metrics.map((m) => (

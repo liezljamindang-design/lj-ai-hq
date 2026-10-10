@@ -20,6 +20,7 @@ export function HelpDialog() {
         <div><dt>Employees</dt><dd>Tap an AI employee, or walk up and press E. Chat replies are scripted.</dd></div>
         <div><dt>CRM</dt><dd>Tap the pipeline board in Sales &amp; CRM, or the CRM status in the top bar.</dd></div>
         <div><dt>Workflows</dt><dd>Tap the workflow screen in the Automation Lab, or the Workflows status in the top bar.</dd></div>
+        <div><dt>Live demo</dt><dd>Run live demo simulates one lead from first inquiry to booked appointment. Reset demo puts everything back.</dd></div>
         <div><dt>Camera</dt><dd>Reset view shows the whole floor.</dd></div>
         <div><dt>Music</dt><dd>The play button starts soft ambient music. It is off until you turn it on.</dd></div>
         <div><dt>Theme</dt><dd>Use the sun or moon button to switch between light and dark.</dd></div>

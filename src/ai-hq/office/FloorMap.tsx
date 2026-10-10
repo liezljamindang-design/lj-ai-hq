@@ -26,6 +26,8 @@ export function FloorMap() {
   const setOverview = useHq((s) => s.setOverview);
   const agents = useHq((s) => s.agents);
   const openAgentId = useHq((s) => s.openAgentId);
+  const holderId = useHq((s) => s.holderId);
+  const token = useHq((s) => s.token);
   const svgRef = useRef<SVGSVGElement>(null);
   const cameraRef = useRef<SVGGElement>(null);
   const avatarRef = useRef<SVGGElement>(null);
@@ -38,7 +40,7 @@ export function FloorMap() {
       layers.push({
         depth: agent.pos.x + agent.pos.y,
         box: agentRect(agent.pos),
-        node: <AgentFigure key={agent.id} agent={agent} active={agent.id === openAgentId} />,
+        node: <AgentFigure key={agent.id} agent={agent} active={agent.id === openAgentId} holding={agent.id === holderId} />,
       });
     }
     for (const item of FURNITURE) {
@@ -61,7 +63,7 @@ export function FloorMap() {
       nodes: layers.map((l) => l.node),
       boxes: layers.map((l) => ({ x: l.box.x, y: l.box.y, w: l.box.w, h: l.box.h, depth: l.depth })),
     };
-  }, [agents, openAgentId]);
+  }, [agents, openAgentId, holderId]);
 
   const [slot, setSlot] = useState(nodes.length);
   const onSlot = useCallback((next: number) => setSlot(next), []);
@@ -119,6 +121,16 @@ export function FloorMap() {
           <Avatar key="avatar" ref={avatarRef} />
           {nodes.slice(slot)}
         </g>
+        {/* The demo lead: a gold marker that glides from one employee to the next */}
+        {token && (() => {
+          const [tx, ty] = project(token.x, token.y);
+          return (
+            <g className="lead-token" style={{ transform: `translate(${tx.toFixed(1)}px, ${(ty - 44).toFixed(1)}px)` }}>
+              <circle className="token-halo" r={10} />
+              <circle className="token-core" r={5} />
+            </g>
+          );
+        })()}
         </g>
       </svg>
       <TalkPrompt />
