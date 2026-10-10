@@ -46,6 +46,27 @@ export const SHARED: KnowledgeEntry[] = [
     },
   },
   {
+    id: "automate-everything",
+    q: { en: "Can this replace my VAs?", tl: "Kaya ba nitong palitan yung VAs ko?" },
+    keywords: [
+      "automate", "automated", "automation", "automatic", "everything automated", "fully automated", "hands-free", "hands free",
+      "replace", "va", "vas", "virtual assistant", "virtual assistants", "assistant", "staff", "employees", "team ko", "tauhan",
+      "palitan", "tanggalin", "hire", "hiring", "sweldo", "salary", "payroll", "save money", "makatipid", "less staff",
+    ],
+    a: {
+      en: "A lot of it, yes. The repetitive work is the easiest to hand over: replying to new leads, qualifying them, booking, reminders, follow-ups, pipeline updates and reports. What still needs a person is judgment: closing deals, handling unusual requests, and approving sensitive actions. Most owners end up with a smaller team doing higher-value work, not zero people. Tell me your niche and what your VAs handle today, and I'll show you which parts we'd take over.",
+      tl: "Yes, marami diyan kaya! Pinaka-easy i-hand over yung repetitive work: replying to new leads, qualifying, booking, reminders, follow-ups, pipeline updates, and reports. Yung need pa rin ng tao is judgment: closing deals, unusual requests, and approving sensitive actions. Usually, mas maliit na team na lang doing higher-value work, hindi totally zero people. Tell me your niche and kung ano yung hawak ng VAs mo ngayon, and I'll show you which parts yung kaya naming saluhin.",
+    },
+  },
+  {
+    id: "have-business",
+    keywords: ["i have a business", "my business", "own a business", "business owner", "may business ako", "may negosyo", "negosyo ko", "business ko", "what can you do", "can you help", "matutulungan", "tulungan"],
+    a: {
+      en: "Great, that's who this is built for. Tell me what kind of business it is and what eats most of your time, like answering inquiries, booking, or chasing follow-ups, and I'll show you how we'd handle it.",
+      tl: "Nice, para sa'yo talaga 'to! Tell me what kind of business siya and kung ano yung pinaka-kumakain ng time mo, like answering inquiries, booking, or follow-ups, and I'll show you kung paano namin siya iha-handle.",
+    },
+  },
+  {
     id: "what-is-ghl",
     keywords: ["gohighlevel", "highlevel", "ghl", "sub-account", "sub account", "subaccount", "crm", "ano ang system", "what is this", "platform"],
     a: {
@@ -504,7 +525,7 @@ export const BY_AGENT: Record<string, KnowledgeEntry[]> = {
 
 /** Suggested questions, by entry id. "niche:<id>" asks about that niche. */
 export const SUGGESTIONS: Record<string, string[]> = {
-  sophia: ["follow-up", "book", "niche:dental", "pricing"],
+  sophia: ["follow-up", "automate-everything", "niche:dental", "pricing"],
   olivia: ["pipeline", "stalled", "niche:real-estate", "inclusions"],
   ava: ["nurture", "trigger", "niche:beauty", "pricing"],
   chloe: ["monitor", "fail", "niche:food", "after-hours"],
