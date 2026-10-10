@@ -1,5 +1,6 @@
 import { startDemo } from "../demo/runner";
 import { useHq } from "../store/hqStore";
+import { AvatarPicker } from "./AvatarPicker";
 import { Dialog } from "./Dialog";
 
 /** First-visit welcome. Kept to one screen. */
@@ -19,6 +20,7 @@ export function Onboarding() {
         <div><dt>Interact</dt><dd>Tap an AI employee to chat and see their work.</dd></div>
         <div><dt>Try</dt><dd>Run live demo sends one lead through the whole system.</dd></div>
       </dl>
+      <AvatarPicker />
       <p className="muted">Everything here is fictional demo data. No real clients or contacts.</p>
       <div className="dialog-actions">
         <button type="button" className="btn-secondary" disabled={!ready} onClick={() => { finish(); startDemo(); }}>Run demo</button>

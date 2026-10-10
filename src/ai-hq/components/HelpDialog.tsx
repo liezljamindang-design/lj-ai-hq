@@ -1,5 +1,6 @@
 import { HQ_CONFIG } from "../config";
 import { useHq } from "../store/hqStore";
+import { AvatarPicker } from "./AvatarPicker";
 import { Dialog } from "./Dialog";
 
 export function HelpDialog() {
@@ -25,6 +26,7 @@ export function HelpDialog() {
         <div><dt>Theme</dt><dd>Use the sun or moon button to switch between light and dark.</dd></div>
         <div><dt>Leave</dt><dd>Exit HQ returns you to the portfolio.</dd></div>
       </dl>
+      <AvatarPicker />
       <p className="muted">All contacts, businesses, messages and numbers are fictional.</p>
       <div className="dialog-actions">
         <button type="button" className="btn-primary" onClick={close} autoFocus>Close</button>

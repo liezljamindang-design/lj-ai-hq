@@ -23,6 +23,7 @@ const TASK_MARK: Record<TaskState, { mark: string; label: string }> = {
 export function AgentPanel({ agent }: { agent: Agent }) {
   const closeAgent = useHq((s) => s.closeAgent);
   const openAutomation = useHq((s) => s.openAutomation);
+  const openPanel = useHq((s) => s.openPanel);
   const [tab, setTab] = useState<Tab>("Chat");
   const { state, tasks, activity, retry } = useAgentDetail(agent.id);
   const panelRef = useRef<HTMLElement>(null);
@@ -150,6 +151,9 @@ export function AgentPanel({ agent }: { agent: Agent }) {
               ))}
             </ul>
             <button type="button" className="btn-secondary" onClick={openAutomation}>See a workflow step by step</button>
+            {agent.zone === "studio" && (
+              <button type="button" className="btn-secondary" onClick={() => openPanel("projects")}>View the websites and funnels</button>
+            )}
             <h3>GoHighLevel features this role would use</h3>
             <ul className="tag-list">
               {agent.wouldUse.map((f) => <li key={f}>{f}</li>)}

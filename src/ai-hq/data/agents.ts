@@ -114,4 +114,33 @@ export const AGENTS: Agent[] = [
       { name: "Meeting prep", trigger: "A meeting is about to start", action: "Sends the owner the notes and the contact's history" },
     ],
   },
+  {
+    id: "ethan",
+    name: "Ethan",
+    title: "AI Web Developer",
+    department: "Website & Funnel Studio",
+    zone: "studio",
+    status: "working",
+    description: "Builds websites and funnels that convert, wired straight into the CRM.",
+    responsibilities: [
+      "Conversion-focused websites and funnels",
+      "Custom code: HTML, CSS and JavaScript",
+      "Forms, calendars and payments connected to the CRM",
+      "Mobile layout, page speed and SEO setup",
+      "Tracking, split tests and ongoing improvements",
+    ],
+    pos: { x: 1.85, y: 8.72 },
+    metrics: [
+      { label: "Sites live", value: "10" },
+      { label: "Funnels live", value: "10" },
+      { label: "Forms connected", value: "24" },
+    ],
+    wouldUse: ["Websites", "Funnels", "Custom code", "Forms and surveys", "Online store", "Domains"],
+    automations: [
+      { name: "Form to CRM", trigger: "A visitor submits a form on the site", action: "Creates the contact, tags the source and starts the follow-up workflow" },
+      { name: "Booking embed", trigger: "A visitor picks a time on the embedded calendar", action: "Books the appointment and moves the opportunity to the right stage" },
+      { name: "Abandoned funnel step", trigger: "A visitor starts a funnel but doesn't finish", action: "Sends a reminder with a link back to where they stopped" },
+      { name: "Order follow-up", trigger: "A payment or order goes through", action: "Sends the receipt and hands the customer to the next workflow" },
+    ],
+  },
 ];

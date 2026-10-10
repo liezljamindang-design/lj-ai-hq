@@ -2,7 +2,7 @@
 
 An interactive demo of AI employees working inside an automated CRM. A portfolio project by Liezl Jamindang, GoHighLevel Specialist.
 
-Visitors walk a small isometric office, meet five AI employees, open a CRM dashboard and a workflow diagram, and run a simulated lead journey from first inquiry to booked appointment.
+Visitors walk a small isometric office, meet six AI employees, open a CRM dashboard and a workflow diagram, and run a simulated lead journey from first inquiry to booked appointment.
 
 **Everything a visitor sees is demo data.** No real clients, contacts, credentials or integrations are involved. The only real information is Liezl's own profile in the Executive Office.
 

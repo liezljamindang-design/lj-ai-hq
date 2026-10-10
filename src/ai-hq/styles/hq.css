@@ -162,6 +162,7 @@ button { font: inherit; color: inherit; }
 [data-agent="ava"] .chibi-eyes { animation-delay: -2.7s; }
 [data-agent="chloe"] .chibi-eyes { animation-delay: -3.9s; }
 [data-agent="mia"] .chibi-eyes { animation-delay: -4.6s; }
+[data-agent="ethan"] .chibi-eyes { animation-delay: -0.6s; }
 .chibi-portrait { display: block; border-radius: 50%; background: var(--lav-soft); }
 .chibi-portrait .chibi-eyes { animation: none; }
 
@@ -554,13 +555,24 @@ a.link-btn { font-size: 13.5px; }
 .auto-list span { color: var(--ink-2); }
 .auto-list b { display: inline-block; min-width: 2.9rem; font-family: var(--font-mono); font-size: 10.5px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
 
+/* Avatar choice */
+.avatar-pick { display: grid; gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.avatar-pick legend { padding: 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.avatar-options { display: flex; gap: 10px; }
+.avatar-option {
+  display: flex; align-items: center; gap: 10px; min-height: 60px; padding: 6px 16px 6px 8px; cursor: pointer;
+  background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 999px; font-weight: 600; font-size: 14px;
+}
+.avatar-option:hover { border-color: var(--lav); }
+.avatar-option[aria-pressed="true"] { border-color: var(--lav); background: var(--lav-soft); box-shadow: 0 0 0 2px var(--lav-soft); }
+
 /* ---------- Dialog ---------- */
 .dialog {
   width: min(30rem, calc(100% - 32px)); padding: 28px;
   background: var(--surface); color: var(--ink);
   border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow);
 }
-.dialog[open] { display: grid; gap: 14px; }
+.dialog[open] { display: grid; gap: 14px; max-height: calc(100% - 32px); overflow-y: auto; }
 .dialog::backdrop { background: rgba(15, 11, 24, 0.55); }
 .dialog h2 { font-size: 1.4rem; line-height: 1.2; }
 .how-to { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }

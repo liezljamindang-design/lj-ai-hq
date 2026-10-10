@@ -27,6 +27,13 @@ export const AGENT_TASKS: Record<string, AgentTask[]> = {
     { id: "c3", label: "1 workflow needs attention: missed-call text back", state: "attention" },
     { id: "c4", label: "Tracking 27 open tasks", state: "in-progress" },
   ],
+  ethan: [
+    { id: "e1", label: "Landing page published for a roofing inspection offer", state: "done" },
+    { id: "e2", label: "Booking form connected to the pipeline", state: "done" },
+    { id: "e3", label: "Mobile layout pass on a 5-page site", state: "in-progress" },
+    { id: "e4", label: "Split test running on a funnel headline", state: "in-progress" },
+    { id: "e5", label: "Custom domain waiting on a DNS record", state: "attention" },
+  ],
   mia: [
     { id: "m1", label: "Weekly pipeline report prepared", state: "done" },
     { id: "m2", label: "Strategy call scheduled for Friday", state: "done" },
@@ -57,6 +64,12 @@ export const AGENT_ACTIVITY: Record<string, ActivityEntry[]> = {
     { id: "c1", time: "12:47 PM", text: "Verified the new-lead workflow ran end to end" },
     { id: "c2", time: "12:10 PM", text: "Raised an alert: missed-call text back failed twice" },
     { id: "c3", time: "9:00 AM", text: "Sent the daily operations summary" },
+  ],
+  ethan: [
+    { id: "e1", time: "12:20 PM", text: "Published a landing page and connected its form" },
+    { id: "e2", time: "11:10 AM", text: "Fixed the mobile layout of a booking funnel" },
+    { id: "e3", time: "10:00 AM", text: "Started a split test on a funnel headline" },
+    { id: "e4", time: "9:20 AM", text: "Added tracking to a new thank-you page" },
   ],
   mia: [
     { id: "m0", time: "12:30 PM", text: "Notified the owner by email and Slack" },

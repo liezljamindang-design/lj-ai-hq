@@ -48,7 +48,7 @@ export const FURNITURE: FurnitureItem[] = [
   plant("ops-plant", "operations", 8.2, 4.6),
 
   // Website & Funnel Studio
-  ...workstation("studio-bench", "studio", 0.7, 7.75, 2.3, 3),
+  ...workstation("studio-bench", "studio", 0.7, 7.75, 2.3, 3, true),
   plant("studio-plant", "studio", 3.5, 7.3),
 
   // Reception

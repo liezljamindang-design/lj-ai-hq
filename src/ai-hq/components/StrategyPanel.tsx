@@ -11,7 +11,7 @@ const LAYERS = [
   {
     id: "employee",
     name: "AI Employee",
-    here: "Sophia, Olivia, Ava, Chloe and Mia, each with one clear job.",
+    here: "Sophia, Olivia, Ava, Chloe, Ethan and Mia, each with one clear job.",
     live: "Conversation AI and Voice AI agents, or an OpenAI or Claude model called from a secure backend.",
   },
   {

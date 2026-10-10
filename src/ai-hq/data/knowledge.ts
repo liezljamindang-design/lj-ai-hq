@@ -31,6 +31,7 @@ export const GREETING: Record<string, string> = {
   olivia: "Hello, I'm Olivia, the AI Sales Specialist. I keep the pipeline moving once a lead is qualified. Ask me how.",
   ava: "Hi, I'm Ava, the AI Marketing Specialist. I run the email and SMS campaigns that keep leads warm. What can I explain?",
   chloe: "Hello, I'm Chloe, the AI Operations Specialist. I watch the workflows and flag anything that breaks. What would you like to see?",
+  ethan: "Hi, I'm Ethan, the AI Web Developer. I build websites and funnels that bring in leads, not just pages that look nice. What are you planning to build?",
   mia: "Hi, I'm Mia, the AI Executive Assistant. I keep the owner's tasks, calendar and reports in order. How can I help?",
 };
 
@@ -339,6 +340,130 @@ export const BY_AGENT: Record<string, KnowledgeEntry[]> = {
       },
     },
   ],
+  ethan: [
+    {
+      id: "not-simple",
+      q: { en: "How is this different from a simple website?", tl: "Ano yung difference nito sa simple website?" },
+      keywords: ["simple website", "basic website", "difference", "different", "pinagkaiba", "bakit ikaw", "why you", "just a website", "ordinary", "template", "brochure"],
+      a: {
+        en: "A simple website is a brochure: it sits there. What I build is part of the sales system. Every page has one job, every form and calendar feeds the CRM, the follow-up starts by itself, and tracking shows which pages bring in leads so we keep improving them.",
+        tl: "Yung simple website, parang brochure lang, nandun lang siya. Yung ginagawa ko, part siya ng sales system. Every page may one job, every form and calendar pumapasok sa CRM, kusa nang nag-start yung follow-up, tapos may tracking para makita which pages yung nagdadala ng leads, so we keep improving.",
+      },
+    },
+    {
+      id: "site-vs-funnel",
+      q: { en: "Do I need a website or a funnel?", tl: "Website ba or funnel yung kailangan ko?" },
+      keywords: ["funnel", "funnels", "landing page", "website or", "sales page", "opt-in", "squeeze"],
+      a: {
+        en: "Often both. A website tells the whole story of the business and helps people find you. A funnel does one thing: it takes a visitor from an ad or a link to one action, like booking or buying, with no menu to wander off into. I usually pair a site with a funnel for each main offer.",
+        tl: "Usually both! Yung website, sinasabi niya yung whole story ng business and tumutulong na mahanap ka. Yung funnel, isa lang yung job: dalhin yung visitor from an ad or link to one action, like booking or buying, walang menu na pwedeng paglibangan. I usually pair a site with a funnel for each main offer.",
+      },
+    },
+    {
+      id: "custom-code",
+      keywords: ["custom code", "code", "coding", "html", "css", "javascript", "animation", "interactive", "custom design", "unique", "advanced"],
+      a: {
+        en: "Yes. When the builder's blocks aren't enough, I write custom HTML, CSS and JavaScript inside GoHighLevel: interactive sections, calculators, quizzes, animations, even a full dashboard. This HQ and Liezl's portfolio are both custom-coded.",
+        tl: "Yes! Pag kulang yung blocks ng builder, I write custom HTML, CSS, and JavaScript inside GoHighLevel: interactive sections, calculators, quizzes, animations, pati full dashboard. Itong HQ and yung portfolio ni Liezl, parehong custom-coded.",
+      },
+    },
+    {
+      id: "conversion",
+      keywords: ["convert", "conversion", "conversions", "more leads", "more sales", "mas maraming lead", "benta", "cta", "call to action", "copy", "headline", "walang nag-iinquire"],
+      a: {
+        en: "I design for the action, not the scroll. That means one clear offer above the fold, proof right beside it, a short form or a calendar instead of a long one, a button that says what happens next, and nothing on the page that doesn't help the visitor decide.",
+        tl: "I design for the action, not for scrolling lang. So one clear offer sa taas, proof right beside it, short form or calendar instead of mahaba, button na sinasabi kung ano yung next, and walang kahit ano sa page na hindi tumutulong sa visitor mag-decide.",
+      },
+    },
+    {
+      id: "mobile",
+      keywords: ["mobile", "phone", "cellphone", "responsive", "tablet", "small screen"],
+      a: {
+        en: "Most visitors arrive on a phone, so I build the mobile layout on purpose instead of letting the desktop one shrink: bigger tap targets, shorter sections, and forms that are easy to fill with a thumb. I check every page at phone, tablet and desktop sizes before it goes live.",
+        tl: "Most visitors naka-phone, so sinasadya ko yung mobile layout, hindi lang pinapaliit yung desktop: bigger tap targets, shorter sections, and forms na madaling i-fill gamit thumb. I check every page sa phone, tablet, and desktop sizes before mag-live.",
+      },
+    },
+    {
+      id: "speed",
+      keywords: ["speed", "fast", "slow", "is slow", "mabagal", "mabilis", "load", "loads", "loading", "performance", "lag"],
+      a: {
+        en: "A slow page loses people before they read a word. I compress images, load heavy parts only when they're needed, keep scripts light, and avoid stacking effects that make phones stutter.",
+        tl: "Pag slow yung page, umaalis na yung tao before pa makabasa. I compress images, nilo-load ko lang yung heavy parts pag kailangan na, light lang yung scripts, and iniiwasan ko yung patong-patong na effects na nagpapa-lag sa phone.",
+      },
+    },
+    {
+      id: "seo",
+      keywords: ["seo", "google", "search", "rank", "ranking", "mahanap", "keywords", "meta"],
+      a: {
+        en: "I set up the on-page basics properly: page titles and descriptions, clean headings, image alt text, fast loading and mobile-friendly layouts, plus the business details search engines look for. Ranking also depends on content and time, so I won't promise a position.",
+        tl: "Inaayos ko nang maayos yung on-page basics: page titles and descriptions, clean headings, image alt text, fast loading, mobile-friendly layouts, plus yung business details na hinahanap ng search engines. Depends din sa content and time yung ranking, so hindi ako magpa-promise ng position.",
+      },
+    },
+    {
+      id: "crm-connect",
+      keywords: ["form", "forms", "survey", "quiz", "integrat", "connect to the crm", "naka-connect", "calendar", "booking", "embed"],
+      a: {
+        en: "Every form, survey, quiz and calendar on the site is wired into the CRM. A submission creates the contact, tags where it came from, places the opportunity in the pipeline and starts the follow-up, so nothing is copied by hand.",
+        tl: "Every form, survey, quiz, and calendar sa site naka-wire sa CRM. Pag may nag-submit, nagki-create ng contact, tina-tag kung saan galing, nilalagay yung opportunity sa pipeline, and nag-start na yung follow-up. So walang mano-manong copy-paste.",
+      },
+    },
+    {
+      id: "store",
+      keywords: ["store", "shop", "e-commerce", "ecommerce", "payment", "payments", "checkout", "cart", "product", "products", "order", "bayad online", "sell online"],
+      a: {
+        en: "Yes. I build online stores with product pages, a cart and checkout, and order forms inside funnels for a single offer. Payments connect through a payment provider, and each order can trigger its own receipt and follow-up.",
+        tl: "Yes! I build online stores na may product pages, cart, and checkout, pati order forms inside funnels for a single offer. Naka-connect yung payments through a payment provider, and every order pwedeng mag-trigger ng sariling receipt and follow-up.",
+      },
+    },
+    {
+      id: "domain",
+      keywords: ["domain", "domains", "connect my domain", "dns", "ssl", "https", "url", "subdomain", "namecheap", "godaddy", "hosting", "host"],
+      a: {
+        en: "I connect your own domain or a subdomain, set the DNS records, and make sure SSL is active so the site loads on https. Hosting is included in the platform, so there's no separate server to manage.",
+        tl: "Kino-connect ko yung own domain mo or subdomain, sine-set ko yung DNS records, and sinisigurado kong active yung SSL para https yung site. Kasama na yung hosting sa platform, so walang separate server na kailangan i-manage.",
+      },
+    },
+    {
+      id: "tracking",
+      keywords: ["tracking", "analytics", "pixel", "ga4", "google analytics", "meta pixel", "data", "measure", "split test", "a/b", "ab test", "testing"],
+      a: {
+        en: "I add tracking so decisions come from numbers: analytics and ad pixels on the right pages, and conversion events on forms and bookings. In funnels I run split tests, two versions of a page shown to real visitors, and keep the one that converts better.",
+        tl: "Naglalagay ako ng tracking para numbers yung basis ng decisions: analytics and ad pixels sa right pages, and conversion events sa forms and bookings. Sa funnels, nagra-run ako ng split tests, two versions ng page na pinapakita sa real visitors, tapos kini-keep yung mas nagko-convert.",
+      },
+    },
+    {
+      id: "redesign",
+      keywords: ["redesign", "existing website", "old website", "lumang website", "wordpress", "wix", "squarespace", "shopify", "migrate", "rebuild", "revamp", "may website na"],
+      a: {
+        en: "I can rebuild an existing site from WordPress, Wix or another builder inside GoHighLevel. I keep what works, your content and your brand, fix the structure, and connect everything to the CRM. Old links are pointed to the new pages so visitors and search engines don't hit dead ends.",
+        tl: "Kaya kong i-rebuild yung existing site mo from WordPress, Wix, or ibang builder inside GoHighLevel. I keep what works, yung content and brand mo, inaayos ko yung structure, and kino-connect ko lahat sa CRM. Yung old links, pino-point ko sa new pages para walang dead ends for visitors and search engines.",
+      },
+    },
+    {
+      id: "content",
+      keywords: ["content", "copywriting", "text", "images", "photos", "logo", "branding", "brand", "design", "kulay", "colors", "fonts"],
+      a: {
+        en: "I start from your brand: colors, fonts, logo and tone. If you have copy and photos, I shape them to fit the page. If you don't, I draft the structure and headlines for you to fill in, so the build isn't stuck waiting on content.",
+        tl: "I start sa brand mo: colors, fonts, logo, and tone. If may copy and photos ka na, ina-adjust ko to fit the page. If wala pa, I draft yung structure and headlines na ifi-fill in mo, para hindi na-stuck yung build waiting sa content.",
+      },
+    },
+    {
+      id: "maintenance",
+      keywords: ["maintenance", "update", "updates", "edit", "edits", "changes", "baguhin", "after launch", "support", "ako na mag-edit"],
+      a: {
+        en: "After launch you can edit text and images yourself in the builder, and I'll show you how. Bigger changes, new pages or new funnels go back through Liezl, and I keep checking the numbers to suggest what to improve next.",
+        tl: "After launch, you can edit text and images yourself sa builder, and ituturo ko kung paano. Yung bigger changes, new pages, or new funnels, dadaan ulit kay Liezl. And I keep checking the numbers to suggest kung ano yung next na i-improve.",
+      },
+    },
+    {
+      id: "accessibility",
+      keywords: ["accessib", "contrast", "readable", "screen reader", "pwd", "keyboard"],
+      a: {
+        en: "I build for everyone who visits: readable text contrast, proper headings, labels on every form field, buttons that work from the keyboard, and reduced motion for people who ask for it. It also happens to make sites clearer for all visitors.",
+        tl: "I build for everyone na bibisita: readable text contrast, proper headings, labels sa every form field, buttons na gumagana sa keyboard, and reduced motion for people na nag-request. Bonus, mas clear din yung site for all visitors.",
+      },
+    },
+  ],
   mia: [
     {
       id: "approval",
@@ -362,8 +487,8 @@ export const BY_AGENT: Record<string, KnowledgeEntry[]> = {
       id: "coordinate",
       keywords: ["coordinat", "team", "sama-sama", "magkakasama", "others", "ibang ai", "nagtutulungan", "work together"],
       a: {
-        en: "Sophia hands qualified leads to Olivia, Ava keeps the rest warm, and Chloe checks that every step ran. I keep the owner informed and collect the decisions that need a person.",
-        tl: "Si Sophia yung nagpapasa ng qualified leads kay Olivia, si Ava yung nagki-keep warm sa iba, and si Chloe yung nagche-check na nag-run every step. Ako naman yung nag-a-update sa owner and nagko-collect ng decisions na need ng tao.",
+        en: "Ethan builds the pages that bring leads in. Sophia answers them and hands the qualified ones to Olivia, Ava keeps the rest warm, and Chloe checks that every step ran. I keep the owner informed and collect the decisions that need a person.",
+        tl: "Si Ethan yung nagbi-build ng pages na nagdadala ng leads. Si Sophia yung sumasagot and nagpapasa ng qualified leads kay Olivia, si Ava yung nagki-keep warm sa iba, and si Chloe yung nagche-check na nag-run every step. Ako naman yung nag-a-update sa owner and nagko-collect ng decisions na need ng tao.",
       },
     },
     {
@@ -383,6 +508,7 @@ export const SUGGESTIONS: Record<string, string[]> = {
   olivia: ["pipeline", "stalled", "niche:real-estate", "inclusions"],
   ava: ["nurture", "trigger", "niche:beauty", "pricing"],
   chloe: ["monitor", "fail", "niche:food", "after-hours"],
+  ethan: ["not-simple", "site-vs-funnel", "niche:home", "pricing"],
   mia: ["approval", "reports", "niche:ecommerce", "inclusions"],
 };
 
@@ -452,6 +578,10 @@ export const NICHE_ANSWER: Record<string, Record<Lang, (n: Niche) => string>> = 
   chloe: {
     en: (n) => `Yes. For ${n.label}, I check that everything ran: whether every ${n.lead} got a reply, and whether the reminder for the ${n.book} went out. If something fails, I flag it right away.`,
     tl: (n) => `Pwede! Sa ${bare(n.label)}, I check kung nag-run lahat: na-replyan ba every ${n.lead}, and na-send ba yung reminder for the ${n.book}. Pag may nag-fail, I flag it agad.`,
+  },
+  ethan: {
+    en: (n) => `Yes. For ${n.label}, I'd build pages where ${an(n.lead)} ${n.lead} turns into ${an(n.book)} ${n.book} in a few taps: a clear offer, proof beside it, and a form or calendar wired straight into the CRM.`,
+    tl: (n) => `Pwede! For ${bare(n.label)}, I'd build pages kung saan yung ${n.lead} nagiging ${n.book} in a few taps lang: clear offer, proof beside it, and form or calendar na naka-wire straight sa CRM.`,
   },
   mia: {
     en: (n) => `Yes. For ${n.label}, I keep the owner's schedule and tasks in order and prepare a weekly report: how many leads came in and how many reached ${an(n.book)} ${n.book}.`,

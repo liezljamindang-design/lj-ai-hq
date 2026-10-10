@@ -6,6 +6,7 @@ import type {
 
 const ONBOARDED_KEY = "ljhq.onboarded";
 const THEME_KEY = "ljhq.theme";
+const AVATAR_KEY = "ljhq.avatar";
 
 /** Storage can be blocked or empty, so every read and write is guarded. */
 function read(key: string): string | null {
@@ -37,6 +38,10 @@ type LoadState = "loading" | "ready" | "error";
 interface HqState {
   theme: ThemeChoice;
   toggleTheme: () => void;
+
+  /** Which chibi the visitor walks around as. Remembered between visits. */
+  avatar: "girl" | "boy";
+  setAvatar: (avatar: "girl" | "boy") => void;
 
   onboardingOpen: boolean;
   helpOpen: boolean;
@@ -123,6 +128,12 @@ export const useHq = create<HqState>((set, get) => ({
     const next: ThemeChoice = get().theme === "dark" ? "light" : "dark";
     write(THEME_KEY, next);
     set({ theme: next });
+  },
+
+  avatar: read(AVATAR_KEY) === "boy" ? "boy" : "girl",
+  setAvatar: (avatar) => {
+    write(AVATAR_KEY, avatar);
+    set({ avatar });
   },
 
   onboardingOpen: read(ONBOARDED_KEY) !== "1",

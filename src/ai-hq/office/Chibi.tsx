@@ -6,7 +6,7 @@
  *
  * The art is drawn with the feet at (0, 0) and is about 38 units tall.
  */
-export type ChibiId = "sophia" | "olivia" | "ava" | "chloe" | "mia" | "visitor";
+export type ChibiId = "sophia" | "olivia" | "ava" | "chloe" | "mia" | "ethan" | "visitor-girl" | "visitor-boy";
 
 interface Look {
   skin: string;
@@ -14,7 +14,9 @@ interface Look {
   outfit: string;
   /** Collar, trim or shirt colour. */
   trim: string;
-  style: "long-wavy" | "bob" | "bun" | "ponytail" | "long-straight" | "short";
+  style: "long-wavy" | "bob" | "bun" | "ponytail" | "long-straight" | "short" | "swept" | "pigtails";
+  /** Trouser colour. Left out for characters in a skirt or dress, whose legs show. */
+  legs?: string;
 }
 
 const GOLD = "#c9a86a";
@@ -26,7 +28,9 @@ const LOOKS: Record<ChibiId, Look> = {
   ava: { skin: "#f5d2bb", hair: "#9a5440", outfit: "#c7b3e6", trim: "#ffffff", style: "bun" },
   chloe: { skin: "#e9c19f", hair: "#b07f45", outfit: "#2f3a55", trim: "#e6d2a8", style: "ponytail" },
   mia: { skin: "#f8dcc9", hair: "#3d2a4d", outfit: "#f4ecdf", trim: "#6b4f93", style: "long-straight" },
-  visitor: { skin: "#f3cfb4", hair: "#4a3f55", outfit: "#755a9d", trim: GOLD, style: "short" },
+  ethan: { skin: "#e6b995", hair: "#3a2a22", outfit: "#39405a", trim: "#cdbdea", style: "swept", legs: "#252a3a" },
+  "visitor-girl": { skin: "#f6d3bd", hair: "#7a4a36", outfit: "#755a9d", trim: GOLD, style: "pigtails" },
+  "visitor-boy": { skin: "#f3cfb4", hair: "#4a3f55", outfit: "#755a9d", trim: GOLD, style: "short", legs: "#2f2a3d" },
 };
 
 /** Top of the head, shared by every hairstyle. */
@@ -46,6 +50,13 @@ function BackHair({ look }: { look: Look }) {
       return <path fill={f} d="M8.4 -30.5 C15.6 -30.5 16 -20 12.8 -14 C12 -18 11.2 -22 9.4 -24.6 Z" />;
     case "long-straight":
       return <path fill={f} d="M-10.4 -27 C-12.2 -18 -11.6 -9 -10 -6.4 L-7.8 -6.4 L-8.2 -19 L8.2 -19 L7.8 -6.4 L10 -6.4 C11.6 -9 12.2 -18 10.4 -27 Z" />;
+    case "pigtails":
+      return (
+        <g fill={f}>
+          <ellipse cx={-11.8} cy={-21.4} rx={3.1} ry={5.6} transform="rotate(14 -11.8 -21.4)" />
+          <ellipse cx={11.8} cy={-21.4} rx={3.1} ry={5.6} transform="rotate(-14 11.8 -21.4)" />
+        </g>
+      );
     default:
       return null;
   }
@@ -64,6 +75,18 @@ function FrontHair({ look }: { look: Look }) {
           <path d="M9.9 -25 C9.6 -31.8 3 -32.8 0.3 -31.2 C3 -29.6 7 -27.6 9.9 -25 Z" />
           <path d="M-9.9 -25.4 C-11.2 -22 -10.8 -19.4 -9.5 -18.2 C-9 -21 -9.2 -23.2 -9.9 -25.4 Z" />
           <path d="M9.9 -25.4 C11.2 -22 10.8 -19.4 9.5 -18.2 C9 -21 9.2 -23.2 9.9 -25.4 Z" />
+        </>
+      )}
+      {look.style === "pigtails" && (
+        <>
+          <path d="M-9.9 -25 C-9.6 -32.2 -3 -33.2 -0.3 -31.4 C-3 -29.8 -7 -27.6 -9.9 -25 Z" />
+          <path d="M9.9 -25 C9.6 -32.2 3 -33.2 0.3 -31.4 C3 -29.8 7 -27.6 9.9 -25 Z" />
+        </>
+      )}
+      {look.style === "swept" && (
+        <>
+          <path d="M-9.9 -25 C-9.6 -35 3 -37 9.9 -27.4 C6 -30.6 0 -30.2 -4 -27.8 C-6 -26.8 -8 -25.8 -9.9 -25 Z" />
+          <path d="M-3 -35.6 Q1 -40.4 6.4 -36 Q2 -36.8 -3 -35.6 Z" />
         </>
       )}
       {look.style === "ponytail" && <path d="M-9.9 -25 C-9.2 -32.6 3 -33.6 9.9 -26 C5 -29.8 -3 -29.2 -9.9 -25 Z" />}
@@ -100,6 +123,22 @@ function Accessory({ id }: { id: ChibiId }) {
       );
     case "mia": // hair clip
       return <rect x={4.6} y={-30.6} width={3} height={1.2} rx={0.6} fill={GOLD} transform="rotate(18 6 -30)" />;
+    case "ethan": // headphones resting around the neck
+      return (
+        <g>
+          <path d="M-5 -17 Q0 -12.6 5 -17" fill="none" stroke={GOLD} strokeWidth={1.3} strokeLinecap="round" />
+          <rect x={-6.3} y={-18.6} width={2.4} height={3.4} rx={1.1} fill={INK} />
+          <rect x={3.9} y={-18.6} width={2.4} height={3.4} rx={1.1} fill={INK} />
+        </g>
+      );
+    case "visitor-girl": // gold hair ties, and the visitor's pin
+      return (
+        <g fill={GOLD}>
+          <circle cx={-9.9} cy={-27.2} r={1.3} />
+          <circle cx={9.9} cy={-27.2} r={1.3} />
+          <circle cx={-2.6} cy={-13} r={1} />
+        </g>
+      );
     default: // the visitor wears a small gold pin
       return <circle cx={-2.6} cy={-13} r={1} fill={GOLD} />;
   }
@@ -112,8 +151,8 @@ export function ChibiArt({ id }: { id: ChibiId }) {
     <g className="chibi">
       <BackHair look={look} />
       {/* legs and shoes */}
-      <rect x={-3.7} y={-5.4} width={2.9} height={4.6} rx={1.2} fill={look.skin} />
-      <rect x={0.8} y={-5.4} width={2.9} height={4.6} rx={1.2} fill={look.skin} />
+      <rect x={-3.7} y={-5.4} width={2.9} height={4.6} rx={1.2} fill={look.legs ?? look.skin} />
+      <rect x={0.8} y={-5.4} width={2.9} height={4.6} rx={1.2} fill={look.legs ?? look.skin} />
       <ellipse cx={-2.4} cy={-0.7} rx={2.5} ry={1.3} fill={INK} />
       <ellipse cx={2.4} cy={-0.7} rx={2.5} ry={1.3} fill={INK} />
       {/* arms, behind the body */}
@@ -125,7 +164,7 @@ export function ChibiArt({ id }: { id: ChibiId }) {
       <path d="M-4.7 -16.2 Q0 -17.4 4.7 -16.2 L6.3 -5.3 Q0 -3.8 -6.3 -5.3 Z" fill={look.outfit} />
       <path d="M-2.5 -16.6 L0 -12.6 L2.5 -16.6 Z" fill={look.trim} />
       {id === "mia" && <path d="M-5.6 -9.8 Q0 -8.6 5.6 -9.8 L6.3 -5.3 Q0 -3.8 -6.3 -5.3 Z" fill={look.trim} />}
-      {id === "visitor" && <rect x={-5.3} y={-10.6} width={10.6} height={1.6} fill={look.trim} />}
+      {(id === "visitor-girl" || id === "visitor-boy") && <rect x={-5.3} y={-10.6} width={10.6} height={1.6} fill={look.trim} />}
       {/* head */}
       <rect x={-1.7} y={-17.8} width={3.4} height={2.6} fill={look.skin} />
       <circle cx={-9.3} cy={-24.4} r={1.6} fill={look.skin} />
@@ -149,7 +188,7 @@ export function ChibiArt({ id }: { id: ChibiId }) {
 
 /** Head-and-shoulders portrait, for panels and lists. */
 export function ChibiPortrait({ id, size = 40 }: { id: string; size?: number }) {
-  const known = (id in LOOKS ? id : "visitor") as ChibiId;
+  const known = (id in LOOKS ? id : "visitor-girl") as ChibiId;
   return (
     <svg className="chibi-portrait" viewBox="-14 -42 28 28" width={size} height={size} aria-hidden="true">
       <ChibiArt id={known} />
