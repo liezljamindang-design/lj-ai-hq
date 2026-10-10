@@ -65,4 +65,5 @@ Rules for that work:
 - **No secrets in the browser.** GoHighLevel tokens, AI API keys, n8n credentials and webhook URLs belong in serverless functions or another server. Only `VITE_` values that are safe to publish may be used client-side.
 - **Reads and writes stay separate.** The CRM service is read-only today. Add writes as a separate interface.
 - **High-impact actions need a person.** Bulk messages, deletions, automation changes and high-value moves should go through an approval step, as the simulated approval card shows.
+- **Approval notifications are composed, not sent.** `notificationService` writes the email and Slack message the demo shows. To send them for real, call it from a serverless function that holds the Slack incoming-webhook URL and the email credentials, or trigger a GoHighLevel workflow that sends the email. Only do this for real approval requests, never from the public demo, or any visitor could trigger messages to you.
 - **Admin mode is reserved, not built.** `config.ts` has a `mode` value for a future private build. Keep private features out of the public demo bundle.

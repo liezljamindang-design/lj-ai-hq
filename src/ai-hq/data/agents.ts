@@ -109,7 +109,7 @@ export const AGENTS: Agent[] = [
     ],
     wouldUse: ["Calendars", "Tasks", "Reporting", "Conversations", "Approvals"],
     automations: [
-      { name: "Approval hold", trigger: "A high-impact action is prepared", action: "Pauses it until a person approves or rejects" },
+      { name: "Approval hold", trigger: "A high-impact action is prepared", action: "Pauses it and notifies the owner by email and Slack, until a person approves or rejects" },
       { name: "Weekly report", trigger: "Every Monday morning", action: "Compiles the week's numbers into a short brief" },
       { name: "Meeting prep", trigger: "A meeting is about to start", action: "Sends the owner the notes and the contact's history" },
     ],

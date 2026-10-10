@@ -1,6 +1,7 @@
 import { mockActivityService } from "./mockActivityService";
 import { mockAgentService } from "./mockAgentService";
 import { mockCRMService } from "./mockCRMService";
+import { mockNotificationService } from "./mockNotificationService";
 import { mockWorkflowService } from "./mockWorkflowService";
 import type { HqServices } from "./types";
 
@@ -10,6 +11,7 @@ export const services: HqServices = {
   crm: mockCRMService,
   workflows: mockWorkflowService,
   activity: mockActivityService,
+  notifications: mockNotificationService,
 };
 
-export type { HqServices, ActivityService, AgentService, CrmService, WorkflowService } from "./types";
+export type { HqServices, ActivityService, AgentService, CrmService, NotificationService, WorkflowService } from "./types";

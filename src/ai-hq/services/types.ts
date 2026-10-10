@@ -1,4 +1,6 @@
-import type { ActivityEntry, ActivityEvent, Agent, AgentTask, CrmSnapshot, WorkflowDefinition } from "../types";
+import type {
+  ActivityEntry, ActivityEvent, Agent, AgentTask, ApprovalNotice, ApprovalRequest, CrmSnapshot, WorkflowDefinition,
+} from "../types";
 
 /**
  * Service contracts. The UI talks only to these interfaces.
@@ -43,9 +45,20 @@ export interface ActivityService {
   getRecent(): Promise<ActivityEvent[]>;
 }
 
+/**
+ * Tells a person that an action is waiting for approval. V1 only composes the
+ * messages so the demo can show them; nothing is sent. A live version sends
+ * them from a server, where the Slack webhook URL and email credentials live.
+ */
+export interface NotificationService {
+  /** The notices that go out for an approval request, one per channel. */
+  approvalNotices(request: ApprovalRequest, agent: Agent): ApprovalNotice[];
+}
+
 export interface HqServices {
   agents: AgentService;
   crm: CrmService;
   workflows: WorkflowService;
   activity: ActivityService;
+  notifications: NotificationService;
 }

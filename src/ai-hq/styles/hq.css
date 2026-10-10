@@ -511,6 +511,21 @@ a.link-btn { font-size: 13.5px; }
 .approval-buttons { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
 .approval-buttons .btn-primary, .approval-buttons .btn-secondary { min-height: 36px; padding: 0 14px; font-size: 13.5px; }
 .approval .lead-facts div:last-child { border-bottom: 0; }
+.approval-notified { font-size: 13px; color: var(--ink-2); }
+.approval-notified em { font-style: normal; color: var(--gold); }
+.notices { display: grid; gap: 8px; }
+.notice { margin: 0; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; font-size: 13px; }
+.notice-slack { border-left: 3px solid var(--lav); }
+.notice-email { border-left: 3px solid var(--gold-soft); }
+.notice figcaption { color: var(--ink-2); font-size: 12px; padding-bottom: 4px; }
+.notice figcaption strong { color: var(--ink); }
+.notice-subject { font-weight: 600; padding-bottom: 4px; }
+.notice-body { white-space: pre-line; color: var(--ink-2); overflow-wrap: anywhere; }
+
+/* A panel with an approval card can be taller than the screen, so the whole panel scrolls and the tab area keeps a usable height. */
+.side-panel:has(.approval) { overflow-y: auto; }
+.side-panel:has(.approval) .tabpanel { flex: none; min-height: 300px; overflow: visible; }
+.side-panel:has(.approval) .chat-log { max-height: 320px; }
 
 /* Workflow automations in an employee's Capabilities tab */
 .auto-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }

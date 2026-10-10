@@ -81,7 +81,7 @@ export function StrategyPanel() {
         <li>Every screen reads from a service. Today the services return demo data.</li>
         <li>Real GoHighLevel, AI or n8n services can replace them without changing the interface.</li>
         <li>Secrets stay on a server. Nothing sensitive ships to the browser.</li>
-        <li>High-impact actions wait for a person's approval.</li>
+        <li>High-impact actions wait for a person's approval, and the owner is notified by email or Slack.</li>
       </ul>
     </PanelShell>
   );

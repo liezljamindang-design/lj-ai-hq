@@ -130,8 +130,8 @@ export const SHARED: KnowledgeEntry[] = [
     id: "control",
     keywords: ["mali", "magkamali", "mistake", "mistakes", "kontrol", "control", "safe", "tiwala", "trust", "delikado", "risk", "wrong"],
     a: {
-      en: "You stay in control. Sensitive actions, like bulk messages or deleting records, wait for a person's approval first. And Chloe watches for any workflow that fails.",
-      tl: "Ikaw pa rin yung in control. Yung sensitive actions, like bulk messages or deleting records, naghihintay muna ng approval ng tao. Plus si Chloe yung nagbabantay if may workflow na nag-fail.",
+      en: "You stay in control. Sensitive actions, like bulk messages or deleting records, wait for a person's approval first, and you get an email or Slack notification when one is waiting. Chloe also watches for any workflow that fails.",
+      tl: "Ikaw pa rin yung in control. Yung sensitive actions, like bulk messages or deleting records, naghihintay muna ng approval ng tao, and may email or Slack notification ka pag may naghihintay. Plus si Chloe yung nagbabantay if may workflow na nag-fail.",
     },
   },
   {
@@ -343,10 +343,10 @@ export const BY_AGENT: Record<string, KnowledgeEntry[]> = {
     {
       id: "approval",
       q: { en: "What do you need approval for?", tl: "Saan mo kailangan ng approval?" },
-      keywords: ["approv", "permission", "pahintulot", "payag", "sensitive", "sensitibo"],
+      keywords: ["approv", "permission", "pahintulot", "payag", "sensitive", "sensitibo", "notify", "notification", "slack", "alert me"],
       a: {
-        en: "Anything with real consequences: bulk messages, deleting records, changing automation settings, or moving high-value opportunities. I prepare the action and wait for a yes.",
-        tl: "Anything na may real effect: bulk messages, deleting records, changing automation settings, or moving high-value opportunities. I prepare the action, tapos I wait for the yes ng tao.",
+        en: "Anything with real consequences: bulk messages, deleting records, changing automation settings, or moving high-value opportunities. I prepare the action, notify the owner by email or Slack, and wait for a yes.",
+        tl: "Anything na may real effect: bulk messages, deleting records, changing automation settings, or moving high-value opportunities. I prepare the action, nagno-notify ako sa owner via email or Slack, tapos I wait for the yes ng tao.",
       },
     },
     {

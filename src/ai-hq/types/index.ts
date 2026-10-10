@@ -214,6 +214,18 @@ export interface ApprovalRequest {
   reason: string;
   details: { label: string; value: string }[];
 }
+
+export type NotificationChannel = "email" | "slack";
+
+/** A message telling a person that something is waiting for their decision. */
+export interface ApprovalNotice {
+  channel: NotificationChannel;
+  /** Who or where it goes: an address, or a Slack channel. */
+  to: string;
+  /** Emails only. */
+  subject?: string;
+  body: string;
+}
 export type ApprovalDecision = "pending" | "approved" | "rejected";
 
 /** A portfolio project shown on the Website & Funnel Studio monitors. */

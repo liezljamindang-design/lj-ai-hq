@@ -59,6 +59,7 @@ export const AGENT_ACTIVITY: Record<string, ActivityEntry[]> = {
     { id: "c3", time: "9:00 AM", text: "Sent the daily operations summary" },
   ],
   mia: [
+    { id: "m0", time: "12:30 PM", text: "Notified the owner by email and Slack" },
     { id: "m1", time: "12:30 PM", text: "Requested approval for a 124-contact campaign" },
     { id: "m2", time: "11:05 AM", text: "Scheduled Friday's strategy call" },
     { id: "m3", time: "9:30 AM", text: "Delivered the weekly pipeline report" },
