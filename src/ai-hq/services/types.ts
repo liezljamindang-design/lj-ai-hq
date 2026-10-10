@@ -1,4 +1,4 @@
-import type { ActivityEntry, Agent, AgentTask, CrmSnapshot } from "../types";
+import type { ActivityEntry, Agent, AgentTask, CrmSnapshot, WorkflowDefinition } from "../types";
 
 /**
  * Service contracts. The UI talks only to these interfaces.
@@ -6,8 +6,7 @@ import type { ActivityEntry, Agent, AgentTask, CrmSnapshot } from "../types";
  * a secure server-side endpoint (never GoHighLevel, an AI API or n8n directly
  * from the browser), and no component has to change.
  *
- * workflowService, calendarService and activityService are added in the
- * phases that first use them.
+ * calendarService and activityService are added in the phase that first uses them.
  */
 export interface AgentService {
   listAgents(): Promise<Agent[]>;
@@ -31,7 +30,13 @@ export interface CrmService {
   getSnapshot(): Promise<CrmSnapshot>;
 }
 
+export interface WorkflowService {
+  /** The workflow shown in the Automation Lab: its steps, connections and recent runs. */
+  getWorkflow(): Promise<WorkflowDefinition>;
+}
+
 export interface HqServices {
   agents: AgentService;
   crm: CrmService;
+  workflows: WorkflowService;
 }

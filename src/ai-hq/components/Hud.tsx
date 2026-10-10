@@ -10,6 +10,7 @@ export function Hud({ onRetryAgents }: { onRetryAgents: () => void }) {
   const agents = useHq((s) => s.agents);
   const agentsState = useHq((s) => s.agentsState);
   const openCrm = useHq((s) => s.openCrm);
+  const openAutomation = useHq((s) => s.openAutomation);
 
   const online = agents.filter((a) => a.status !== "offline").length;
 
@@ -32,7 +33,9 @@ export function Hud({ onRetryAgents }: { onRetryAgents: () => void }) {
         </li>
         <li>
           <span className="hud-label">Workflows</span>
-          <span className="hud-value"><i className="pip pip-ok" />Active</span>
+          <button type="button" className="hud-link" onClick={openAutomation}>
+            <i className="pip pip-ok" />Active
+          </button>
         </li>
         <li>
           <span className="hud-label">CRM</span>

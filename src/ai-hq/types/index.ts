@@ -148,3 +148,43 @@ export interface CrmSnapshot {
   stages: PipelineStage[];
   leads: Lead[];
 }
+
+export type WorkflowNodeKind = "trigger" | "action" | "ai" | "condition" | "end";
+export type NodeRunState = "idle" | "active" | "done" | "skipped";
+
+export interface WorkflowNode {
+  id: string;
+  kind: WorkflowNodeKind;
+  title: string;
+  summary: string;
+  /** The GoHighLevel building block this step corresponds to. */
+  ghl: string;
+  /** AI employee responsible for the step, if any. */
+  ownerId?: string;
+  /** Column (0 = main path, 1 = branch) and row in the diagram. */
+  col: 0 | 1;
+  row: number;
+}
+
+export interface WorkflowEdge {
+  from: string;
+  to: string;
+  label?: string;
+}
+
+export interface WorkflowRun {
+  id: string;
+  time: string;
+  subject: string;
+  result: "completed" | "waiting" | "failed";
+  note: string;
+}
+
+export interface WorkflowDefinition {
+  id: string;
+  name: string;
+  nodes: WorkflowNode[];
+  edges: WorkflowEdge[];
+  stats: { active: number; needsAttention: number };
+  runs: WorkflowRun[];
+}

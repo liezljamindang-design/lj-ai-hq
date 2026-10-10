@@ -62,6 +62,9 @@ export function WallDisplays() {
         );
       })}
 
+      {/* Clicking the workflow screen opens the Automation Lab */}
+      <polygon className="display-hit" data-open="automation" points={panelY(0, 9.4, 11.7, 12, 56)} />
+
       {/* Clicking the pipeline board opens the CRM dashboard */}
       <polygon className="display-hit" data-open="crm" points={panelX(0, 3.8, 6.2, 12, 56)} />
 

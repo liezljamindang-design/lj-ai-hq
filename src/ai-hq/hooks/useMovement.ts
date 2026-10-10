@@ -194,6 +194,11 @@ export function useMovement({ svgRef, cameraRef, avatarRef, boxesRef, onSlot }: 
         walkTo(zoneEntry("sales"));
         return;
       }
+      if (display?.dataset.open === "automation") {
+        useHq.getState().openAutomation();
+        walkTo(zoneEntry("automation"));
+        return;
+      }
       const ctm = camera!.getScreenCTM();
       if (!ctm) return;
       const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());

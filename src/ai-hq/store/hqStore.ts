@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Agent, ChatMessage, CrmSnapshot, ThemeChoice, ZoneId } from "../types";
+import type { Agent, ChatMessage, CrmSnapshot, NodeRunState, ThemeChoice, WorkflowDefinition, ZoneId } from "../types";
 
 const ONBOARDED_KEY = "ljhq.onboarded";
 const THEME_KEY = "ljhq.theme";
@@ -55,12 +55,21 @@ interface HqState {
   openAgent: (id: string) => void;
   closeAgent: () => void;
   /** A dashboard open in the side panel. Opening one closes any employee panel, and the reverse. */
-  openDashboard: "crm" | null;
+  openDashboard: "crm" | "automation" | null;
   /** The lead being inspected inside the CRM dashboard. */
   openLeadId: string | null;
   openCrm: (leadId?: string | null) => void;
   setOpenLead: (id: string | null) => void;
   closeDashboard: () => void;
+  openAutomation: () => void;
+
+  workflow: WorkflowDefinition | null;
+  workflowState: LoadState;
+  setWorkflow: (workflow: WorkflowDefinition) => void;
+  setWorkflowState: (state: LoadState) => void;
+  /** Live state of each workflow step during a demo run. Steps not listed are idle. */
+  nodeStates: Record<string, NodeRunState>;
+  setNodeStates: (states: Record<string, NodeRunState>) => void;
 
   crm: CrmSnapshot | null;
   crmState: LoadState;
@@ -110,6 +119,14 @@ export const useHq = create<HqState>((set, get) => ({
   openCrm: (leadId = null) => set({ openDashboard: "crm", openLeadId: leadId, openAgentId: null }),
   setOpenLead: (openLeadId) => set({ openLeadId }),
   closeDashboard: () => set({ openDashboard: null, openLeadId: null }),
+  openAutomation: () => set({ openDashboard: "automation", openLeadId: null, openAgentId: null }),
+
+  workflow: null,
+  workflowState: "loading",
+  setWorkflow: (workflow) => set({ workflow, workflowState: "ready" }),
+  setWorkflowState: (workflowState) => set({ workflowState }),
+  nodeStates: {},
+  setNodeStates: (nodeStates) => set({ nodeStates }),
 
   crm: null,
   crmState: "loading",

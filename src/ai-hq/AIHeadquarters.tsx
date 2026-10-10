@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { AgentPanel } from "./components/AgentPanel";
+import { AutomationPanel } from "./components/AutomationPanel";
 import { CrmPanel } from "./components/CrmPanel";
 import { Hud } from "./components/Hud";
 import { Onboarding } from "./components/Onboarding";
@@ -8,6 +9,7 @@ import { ZoneDirectory } from "./components/ZoneDirectory";
 import { FloorMap } from "./office/FloorMap";
 import { useAgents } from "./hooks/useAgents";
 import { useCrm } from "./hooks/useCrm";
+import { useWorkflow } from "./hooks/useWorkflow";
 import { useHq } from "./store/hqStore";
 import { HQ_CONFIG } from "./config";
 
@@ -16,6 +18,7 @@ export function AIHeadquarters() {
   const theme = useHq((s) => s.theme);
   const retryAgents = useAgents();
   const retryCrm = useCrm();
+  const retryWorkflow = useWorkflow();
   const dashboard = useHq((s) => s.openDashboard);
   const openAgent = useHq((s) => s.agents.find((a) => a.id === s.openAgentId));
 
@@ -43,6 +46,8 @@ export function AIHeadquarters() {
           <AgentPanel agent={openAgent} />
         ) : dashboard === "crm" ? (
           <CrmPanel onRetry={retryCrm} />
+        ) : dashboard === "automation" ? (
+          <AutomationPanel onRetry={retryWorkflow} />
         ) : (
           <ZoneDirectory onRetryAgents={retryAgents} />
         )}
