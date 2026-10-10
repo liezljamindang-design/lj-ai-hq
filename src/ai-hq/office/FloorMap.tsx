@@ -3,6 +3,7 @@ import { FURNITURE, GLASS_WALLS, WALL_HEIGHT } from "../data/furniture";
 import { FLOOR, ZONES } from "../data/zones";
 import { useMovement } from "../hooks/useMovement";
 import { useHq } from "../store/hqStore";
+import { DemoTicker } from "../components/DemoTicker";
 import { TalkPrompt } from "../components/TalkPrompt";
 import { AgentFigure } from "./AgentFigure";
 import { Avatar } from "./Avatar";
@@ -133,6 +134,7 @@ export function FloorMap() {
         })()}
         </g>
       </svg>
+      <DemoTicker />
       <TalkPrompt />
       {overview ? (
         <p className="floor-note">Showing the whole floor. Move to follow your avatar again.</p>

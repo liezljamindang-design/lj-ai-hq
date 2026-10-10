@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { AgentPanel } from "./components/AgentPanel";
+import { BottomNav } from "./components/BottomNav";
 import { AutomationPanel } from "./components/AutomationPanel";
 import { CrmPanel } from "./components/CrmPanel";
 import { DemoButton } from "./components/DemoButton";
@@ -44,7 +45,9 @@ export function AIHeadquarters() {
               <p className="eyebrow">Portfolio demo</p>
               <h1 id="hq-title">AI employees working inside an automated CRM</h1>
               <p className="hq-lede">
-                Built by {HQ_CONFIG.ownerName}, {HQ_CONFIG.ownerTitle}. Walk in with WASD or the arrow keys, or tap the floor. Tap an AI employee to meet them.
+                Built by {HQ_CONFIG.ownerName}, {HQ_CONFIG.ownerTitle}.{" "}
+                <span className="only-desktop">Walk in with WASD or the arrow keys, or click the floor. Click an AI employee to meet them.</span>
+                <span className="only-mobile">Tap the floor to walk. Tap an AI employee to meet them.</span>
               </p>
             </div>
             <DemoButton />
@@ -71,6 +74,7 @@ export function AIHeadquarters() {
         )}
       </main>
 
+      <BottomNav />
       <Onboarding />
       <HelpDialog />
     </div>

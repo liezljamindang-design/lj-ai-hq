@@ -28,7 +28,7 @@ export function TalkPrompt() {
     <button type="button" className="talk-prompt" onClick={() => openAgent(agent.id)}>
       <span>Talk to {agent.name}</span>
       <span className="talk-sub">{agent.title}</span>
-      <kbd>E</kbd>
+      <kbd className="only-desktop">E</kbd>
     </button>
   );
 }
