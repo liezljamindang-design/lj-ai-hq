@@ -40,7 +40,7 @@ export function DemoPanel({ onRetryActivity }: { onRetryActivity: () => void }) 
       </header>
 
       <div className="panel-scroll">
-        <p className="demo-state" role="status">
+        <p className="demo-state">
           {demo.status === "idle" && (demo.wasReset ? "Demo reset. Everything is back to how it was." : "One fictional lead, from first inquiry to booked appointment.")}
           {demo.status === "running" && `Maya K. is moving through the system. Step ${Math.max(1, demo.step + 1)} of ${DEMO_STEPS.length}.`}
           {demo.status === "completed" && "Demo complete. Maya K. was answered, qualified, booked and followed up without anyone lifting a finger."}

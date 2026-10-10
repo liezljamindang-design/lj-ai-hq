@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useAgentDetail } from "../hooks/useAgentDetail";
 import { useHq } from "../store/hqStore";
+import { onTabListKeyDown } from "./tabKeys";
 import type { Agent, TaskState } from "../types";
 import { APPROVALS } from "../data/approvals";
 import { AgentChat } from "./AgentChat";
@@ -79,14 +80,14 @@ export function AgentPanel({ agent }: { agent: Agent }) {
         ))}
       </dl>
 
-      <div className="tabs" role="tablist" aria-label={`${agent.name} details`}>
+      <div className="tabs" role="tablist" onKeyDown={onTabListKeyDown} aria-label={`${agent.name} details`}>
         {TABS.map((t) => (
           <button
             key={t}
             type="button"
             role="tab"
             id={`tab-${t}`}
-            aria-selected={tab === t}
+            aria-selected={tab === t} tabIndex={tab === t ? 0 : -1}
             aria-controls="agent-tabpanel"
             className={tab === t ? "is-active" : ""}
             onClick={() => setTab(t)}

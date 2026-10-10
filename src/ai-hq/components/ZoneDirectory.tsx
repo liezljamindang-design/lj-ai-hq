@@ -16,7 +16,7 @@ export function ZoneDirectory({ onRetryAgents, onRetryActivity }: { onRetryAgent
   const agentsState = useHq((s) => s.agentsState);
 
   return (
-    <aside className="directory" aria-labelledby="directory-title">
+    <aside className="directory" id="hq-directory" tabIndex={-1} aria-labelledby="directory-title">
       <h2 id="directory-title" className="panel-title">Floor directory</h2>
       <ul className="directory-list">
         {ZONES.map((zone) => {
@@ -49,6 +49,9 @@ export function ZoneDirectory({ onRetryAgents, onRetryActivity }: { onRetryAgent
                     <button type="button" className="btn-secondary" onClick={() => openCrm()}>Open the CRM dashboard</button>
                   )}
 
+                  {zone.id === "ai-lab" && (
+                    <button type="button" className="btn-secondary" onClick={() => openAgent("sophia")}>Talk to Sophia, the AI receptionist</button>
+                  )}
                   {zone.id === "executive" && (
                     <button type="button" className="btn-secondary" onClick={() => openPanel("executive")}>Meet Liezl</button>
                   )}

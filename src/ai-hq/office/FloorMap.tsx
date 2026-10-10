@@ -29,6 +29,7 @@ export function FloorMap() {
   const openAgentId = useHq((s) => s.openAgentId);
   const holderId = useHq((s) => s.holderId);
   const token = useHq((s) => s.token);
+  const demoRunning = useHq((s) => s.demo.status === "running");
   const svgRef = useRef<SVGSVGElement>(null);
   const cameraRef = useRef<SVGGElement>(null);
   const avatarRef = useRef<SVGGElement>(null);
@@ -78,7 +79,7 @@ export function FloorMap() {
   const [doorX, doorY] = project(8.25, D);
 
   return (
-    <div className="floor">
+    <div className={`floor${demoRunning ? " demo-running" : ""}`}>
       <svg ref={svgRef} viewBox="-336 -84 736 468" className="floor-svg" aria-hidden="true" focusable="false">
         <g ref={cameraRef}>
         <polygon className="slab-side slab-side-left" points={leftFace} />

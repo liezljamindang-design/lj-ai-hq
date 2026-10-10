@@ -17,7 +17,7 @@ export function ActivityFeed({ limit, onRetry }: { limit: number; onRetry: () =>
   if (activity.length === 0) return <p className="muted">No activity yet.</p>;
 
   return (
-    <ol className="feed" aria-live="polite" aria-relevant="additions">
+    <ol className="feed">
       {activity.slice(0, limit).map((e) => (
         <li key={e.id} className={e.id.startsWith("demo-") ? "feed-new" : undefined}>
           <time>{e.time}</time>

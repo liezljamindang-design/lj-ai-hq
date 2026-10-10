@@ -2,6 +2,7 @@ import { useState } from "react";
 import { HQ_CONFIG } from "../config";
 import { PROFILE } from "../data/profile";
 import { useHq } from "../store/hqStore";
+import { onTabListKeyDown } from "./tabKeys";
 import { PanelShell } from "./PanelShell";
 
 const TABS = ["About me", "Experience", "Contact"] as const;
@@ -25,9 +26,9 @@ export function ExecutivePanel() {
         <a className="link-btn" href={HQ_CONFIG.portfolioUrl}>Open the full portfolio</a>
       </div>
 
-      <div className="tabs" role="tablist" aria-label="About Liezl">
+      <div className="tabs" role="tablist" onKeyDown={onTabListKeyDown} aria-label="About Liezl">
         {TABS.map((t) => (
-          <button key={t} type="button" role="tab" id={`exec-tab-${t}`} aria-selected={tab === t} aria-controls="exec-tabpanel"
+          <button key={t} type="button" role="tab" id={`exec-tab-${t}`} aria-selected={tab === t} tabIndex={tab === t ? 0 : -1} aria-controls="exec-tabpanel"
             className={tab === t ? "is-active" : ""} onClick={() => setTab(t)}>
             {t}
           </button>

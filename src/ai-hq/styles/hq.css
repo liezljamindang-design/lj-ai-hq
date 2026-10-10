@@ -29,8 +29,20 @@ button { font: inherit; color: inherit; }
 .only-mobile { display: none; }
 .bottom-nav { display: none; }
 
+/* Visible only when reached by keyboard */
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 40; padding: 10px 14px; border-radius: 8px; border: 0; cursor: pointer;
+  background: var(--lav); color: var(--on-accent); font-weight: 600; font-size: 14px;
+}
+.skip-link:focus { top: 10px; }
+.offline-note { padding: 8px 20px; background: var(--surface-2); color: var(--ink); font-size: 13px; border-bottom: 1px solid var(--line); }
+.crash { min-height: 100%; display: grid; place-content: center; justify-items: start; gap: 12px; padding: 32px 24px; max-width: 30rem; margin: 0 auto; }
+.crash h1 { font-size: 1.5rem; }
+.directory:focus { outline: none; }
+
 /* ---------- Shell ---------- */
-.hq { min-height: 100%; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; }
+.hq { position: relative; min-height: 100%; display: flex; flex-direction: column; }
+.hq > * { min-width: 0; }
 
 /* ---------- HUD ---------- */
 .hud {
@@ -79,7 +91,7 @@ button { font: inherit; color: inherit; }
 
 /* ---------- Main ---------- */
 .hq-main {
-  display: grid; grid-template-columns: minmax(0, 1fr) 360px;
+  flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 360px;
   min-height: 0;
 }
 .hq-stage { display: flex; flex-direction: column; gap: 8px; padding: 28px 28px 20px; min-width: 0; }
@@ -188,6 +200,8 @@ button { font: inherit; color: inherit; }
 .scene, .displays { pointer-events: none; }
 .display-hit { pointer-events: auto; cursor: pointer; fill: transparent; stroke: transparent; stroke-width: 1.5; }
 .display-hit:hover { stroke: var(--gold); }
+/* While the demo runs, the pipeline board and the workflow screen glow to show they are live. */
+.demo-running .display-hit[data-open="crm"], .demo-running .display-hit[data-open="automation"] { stroke: var(--screen-gold); animation: hq-breathe 2s ease-in-out infinite; }
 .glass { fill: var(--glass); stroke: var(--glass-edge); stroke-width: 0.8; }
 .m-desk .f-t { fill: var(--desk-t); } .m-desk .f-l { fill: var(--desk-l); } .m-desk .f-r { fill: var(--desk-r); }
 .m-dark .f-t { fill: var(--dark-t); } .m-dark .f-l { fill: var(--dark-l); } .m-dark .f-r { fill: var(--dark-r); }
@@ -388,6 +402,7 @@ button { font: inherit; color: inherit; }
 .kind-condition { border-style: dashed; border-radius: 21px; padding: 0 18px; }
 .flow-node.is-selected { border-color: var(--lav); box-shadow: 0 0 0 2px var(--lav-soft); }
 /* Run states, driven by the live demo */
+.flow-node.run-active .flow-kind { color: var(--ink); }
 .flow-node.run-active { border-color: var(--lav); background: var(--lav-soft); animation: hq-node 1.6s ease-in-out infinite; }
 .flow-node.run-done { border-color: var(--ok); }
 .flow-node.run-done .flow-kind { color: var(--ok); }
