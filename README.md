@@ -21,7 +21,7 @@ Built with React, Vite and TypeScript. The one added library is Zustand, a small
 1. Import this repository into [Vercel](https://vercel.com). It detects Vite; the defaults are correct.
 2. In the Vercel project, add the domain `hq.liezljamindang.site`.
 3. At the DNS provider, add the CNAME record Vercel shows for `hq`.
-4. Add the button in `integration/ghl-cta.html` to the GoHighLevel portfolio page.
+4. Add the button to the GoHighLevel portfolio by following `integration/ghl-cta.html`.
 
 "Exit HQ" returns visitors to the portfolio. Change the address with the `VITE_PORTFOLIO_URL` variable (see `.env.example`).
 
@@ -37,7 +37,7 @@ Built with React, Vite and TypeScript. The one added library is Zustand, a small
 | The workflow | `src/ai-hq/data/workflow.ts` |
 | The live demo's steps | `src/ai-hq/demo/script.ts` |
 | Rooms and furniture | `src/ai-hq/data/zones.ts`, `furniture.ts` |
-| Colors and fonts | `src/ai-hq/styles/tokens.css` |
+| Colors and fonts (matched to the portfolio) | `src/ai-hq/styles/tokens.css` |
 | The CV file | `public/Liezl_Jamindang_GoHighLevel_Specialist_CV.pdf` |
 
 ## Structure

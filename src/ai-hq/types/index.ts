@@ -219,8 +219,11 @@ export interface Project {
   automation?: string;
   /** Path or URL of a screenshot. A drawn placeholder is used when missing. */
   screenshot?: string;
-  /** Link to the live project. Falls back to the portfolio. */
+  /** Link to the live website. Falls back to the portfolio. */
   url?: string;
+  /** Link to the matching funnel, with its name. */
+  funnelUrl?: string;
+  funnelLabel?: string;
 }
 
 export type DashboardId = "crm" | "automation" | "demo" | "executive" | "projects" | "strategy";

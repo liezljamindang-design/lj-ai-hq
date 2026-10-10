@@ -1,13 +1,14 @@
 /**
- * Liezl's profile, taken from her GoHighLevel Specialist CV. This is the one
+ * Liezl's profile, taken from her portfolio and her GoHighLevel Specialist CV. This is the one
  * place to edit the Executive Office content. It is real information, unlike
  * the fictional CRM and employee data elsewhere in the HQ.
  */
 export const PROFILE = {
+  // Liezl's own words, from the About page of her portfolio.
   about: [
-    "I'm a GoHighLevel Specialist with 2 years of hands-on GoHighLevel work and 10+ years across business operations, executive administration, project coordination and client communication.",
-    "I build and manage CRM setups, sales pipelines, workflow automations, websites, funnels, appointment calendars, and email and SMS follow-up systems that help businesses stay organized and respond to leads faster.",
-    "Before this I ran my own business for 7 years, so I approach every system as an owner would.",
+    "Hi, I'm Liezl Jamindang, a GoHighLevel Specialist with 2 years of experience in CRM management, automation, and business operations.",
+    "I help businesses simplify their daily tasks through CRM setup, workflows, sales pipelines, websites, funnels, appointment calendars, email and SMS automation, AI agents, and lead management systems.",
+    "I don't just build automations. I create practical systems that help businesses stay organized, respond to leads faster, manage appointments, and save time.",
   ],
   skills: [
     "CRM setup and management",

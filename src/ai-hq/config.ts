@@ -8,6 +8,14 @@ export const HQ_CONFIG = {
   ownerTitle: "GoHighLevel Specialist",
   ownerTagline: "CRM • Automation • AI Systems",
   portfolioUrl: portfolio,
+  /** Pages inside the LIEZL OS portfolio, which uses #/ routes. */
+  portfolioPages: {
+    about: `${portfolio}/#/about`,
+    experience: `${portfolio}/#/experience`,
+    projects: `${portfolio}/#/projects`,
+    cv: `${portfolio}/#/cv`,
+    contact: `${portfolio}/#/contact`,
+  },
   cvPath: "/Liezl_Jamindang_GoHighLevel_Specialist_CV.pdf",
   email: "liezljamindang@gmail.com",
   phone: "+63 961 243 6318",

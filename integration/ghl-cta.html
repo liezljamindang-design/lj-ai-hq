@@ -1,31 +1,23 @@
 <!--
-  ENTER AI HEADQUARTERS button for the GoHighLevel portfolio.
+  ENTER AI HEADQUARTERS button for the LIEZL OS portfolio.
 
-  How to add it:
-  1. Open the portfolio page in the GoHighLevel builder.
-  2. Add a "Custom JS / HTML" element where the button should appear.
-  3. Paste everything in this file into it and save.
+  The portfolio is one full-screen Custom Code element, so the button lives
+  INSIDE that code, in the top bar to the left of the search box. It is added
+  with the three edits below. They use the portfolio's own colour variables,
+  so the button follows its light and dark themes.
 
-  If the HQ lives at a different address, change the link below.
-  Class names are prefixed "ljhq-" so they cannot clash with the page's own styles.
+  1. In the <style> block, after the "#los .kbtn kbd{...}" rule, add:
+
+     #los .hqbtn{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:8px;border:1px solid var(--gold);background:var(--goldsoft);color:var(--goldtx);font-weight:700;font-size:14px;white-space:nowrap;flex:none;transition:background .15s,border-color .15s,color .15s}
+     #los .hqbtn:hover,#los .hqbtn:focus-visible{background:var(--soft);border-color:var(--accent);color:var(--accent)}
+     #los .hqbtn .hq-short{display:none}
+
+  2. In the phone rules (@media max-width:900px), after
+     "#los .kbtn span,#los .kbtn kbd{display:none}", add:
+
+     #los .hqbtn{padding:0 9px;font-size:13px}#los .hqbtn .hq-long{display:none}#los .hqbtn .hq-short{display:inline}
+
+  3. In the script, in the line that builds the top bar (var top=...),
+     paste the link below immediately before <button class="kbtn" ...>.
 -->
-<style>
-  .ljhq-cta { display: flex; justify-content: center; padding: 8px 16px; font-family: inherit; }
-  .ljhq-cta a {
-    display: inline-flex; flex-direction: column; align-items: center; gap: 4px;
-    padding: 16px 32px; border-radius: 12px; text-decoration: none; text-align: center;
-    background: #1c1824; border: 1px solid #d6b878; color: #f1edf7;
-    transition: background 0.2s ease, transform 0.2s ease;
-  }
-  .ljhq-cta a:hover, .ljhq-cta a:focus-visible { background: #2a2338; transform: translateY(-1px); }
-  .ljhq-cta a:focus-visible { outline: 2px solid #b9a8ee; outline-offset: 3px; }
-  .ljhq-cta strong { font-size: 15px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
-  .ljhq-cta span { font-size: 13px; color: #b9a8ee; }
-  @media (prefers-reduced-motion: reduce) { .ljhq-cta a { transition: none; } .ljhq-cta a:hover { transform: none; } }
-</style>
-<div class="ljhq-cta">
-  <a href="https://hq.liezljamindang.site">
-    <strong>Enter AI Headquarters</strong>
-    <span>See AI + GoHighLevel in action</span>
-  </a>
-</div>
+<a class="hqbtn" href="https://hq.liezljamindang.site" title="See AI + GoHighLevel in action" aria-label="Enter AI Headquarters: see AI and GoHighLevel in action"><span class="hq-long">Enter AI Headquarters</span><span class="hq-short">AI HQ</span><span aria-hidden="true">&#8599;</span></a>

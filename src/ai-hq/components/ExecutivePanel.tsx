@@ -43,10 +43,12 @@ export function ExecutivePanel() {
             <ul className="tag-list">{PROFILE.skills.map((s) => <li key={s}>{s}</li>)}</ul>
             <h3 className="panel-title panel-title-flush">Certifications</h3>
             <ul className="caps-list">{PROFILE.certifications.map((c) => <li key={c}>{c}</li>)}</ul>
+            <a className="link-btn" href={HQ_CONFIG.portfolioPages.about}>Read the full About page in the portfolio</a>
           </>
         )}
 
         {tab === "Experience" && (
+          <>
           <ol className="exp-list">
             {PROFILE.experience.map((e) => (
               <li key={e.role + e.dates}>
@@ -57,6 +59,8 @@ export function ExecutivePanel() {
               </li>
             ))}
           </ol>
+          <a className="link-btn" href={HQ_CONFIG.portfolioPages.experience}>See full experience in the portfolio</a>
+          </>
         )}
 
         {tab === "Contact" && (
@@ -68,6 +72,7 @@ export function ExecutivePanel() {
               <div><dt>Based in</dt><dd>{HQ_CONFIG.location}</dd></div>
               <div><dt>Portfolio</dt><dd><a className="link-btn" href={HQ_CONFIG.portfolioUrl}>{HQ_CONFIG.portfolioUrl.replace("https://", "")}</a></dd></div>
             </dl>
+            <a className="btn-secondary exec-contact" href={HQ_CONFIG.portfolioPages.contact}>Open the contact form in the portfolio</a>
           </>
         )}
       </div>

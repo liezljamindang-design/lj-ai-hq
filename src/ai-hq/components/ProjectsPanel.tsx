@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { HQ_CONFIG } from "../config";
 import { PROJECTS } from "../data/projects";
 import { useHq } from "../store/hqStore";
@@ -6,8 +6,7 @@ import type { Project } from "../types";
 import { PanelShell } from "./PanelShell";
 
 /** A drawn stand-in for a screenshot: a small page wireframe, varied a little per project. */
-function Thumb({ project, index }: { project: Project; index: number }) {
-  if (project.screenshot) return <img className="proj-thumb" src={project.screenshot} alt="" loading="lazy" />;
+function Wireframe({ index }: { index: number }) {
   const v = index % 3;
   return (
     <svg className="proj-thumb" viewBox="0 0 120 76" aria-hidden="true">
@@ -25,6 +24,13 @@ function Thumb({ project, index }: { project: Project; index: number }) {
       <rect className="thumb-block" x="80" y="58" width="32" height="12" rx="3" />
     </svg>
   );
+}
+
+/** The project's screenshot, or the wireframe if there is none or it fails to load. */
+function Thumb({ project, index }: { project: Project; index: number }) {
+  const [failed, setFailed] = useState(false);
+  if (!project.screenshot || failed) return <Wireframe index={index} />;
+  return <img className="proj-thumb" src={project.screenshot} alt="" loading="lazy" onError={() => setFailed(true)} />;
 }
 
 /** Website & Funnel Studio: the portfolio projects, each opening to its details. */
@@ -52,16 +58,23 @@ export function ProjectsPanel() {
         <div className="lead-detail">
           <button type="button" className="link-btn" onClick={() => setOpen(null)}>← All projects</button>
           <Thumb project={project} index={index} />
-          {!project.screenshot && <p className="muted">Illustration. A screenshot of the live build goes here.</p>}
           <dl className="lead-facts">
             <div><dt>Industry</dt><dd>{project.industry}</dd></div>
             <div><dt>What I built</dt><dd>{project.built.join(", ")}</dd></div>
             <div><dt>Technology</dt><dd>{project.technology.join(", ")}</dd></div>
             {project.automation && <div><dt>Automation</dt><dd>{project.automation}</dd></div>}
           </dl>
-          <a className="btn-primary proj-link" href={project.url ?? HQ_CONFIG.portfolioUrl}>
-            {project.url ? "View project" : "View it in the portfolio"}
-          </a>
+          <div className="proj-links">
+            <a className="btn-primary proj-link" href={project.url ?? HQ_CONFIG.portfolioUrl} target="_blank" rel="noopener noreferrer">
+              {project.url ? "View website" : "View it in the portfolio"}
+            </a>
+            {project.funnelUrl && (
+              <a className="btn-secondary proj-link" href={project.funnelUrl} target="_blank" rel="noopener noreferrer">
+                View {project.funnelLabel ?? "funnel"}
+              </a>
+            )}
+          </div>
+          <p className="muted">Links open the live build in a new tab.</p>
         </div>
       ) : (
         <>
@@ -81,7 +94,7 @@ export function ProjectsPanel() {
               ))}
             </ul>
           )}
-          <a className="link-btn" href={HQ_CONFIG.portfolioUrl}>See them live in the portfolio</a>
+          <a className="link-btn" href={HQ_CONFIG.portfolioPages.projects}>See all projects in the portfolio</a>
         </>
       )}
     </PanelShell>
