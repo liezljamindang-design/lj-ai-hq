@@ -75,23 +75,53 @@ button { font: inherit; color: inherit; }
 .hq-lede { color: var(--ink-2); max-width: 60ch; }
 
 /* ---------- Floor ---------- */
-.floor { flex: 1; display: grid; place-items: center; min-height: 0; }
-.floor-svg { width: 100%; max-width: 980px; height: auto; max-height: 100%; overflow: visible; }
+.floor { flex: 1; position: relative; min-height: 320px; }
+/* The drawing fills whatever space the stage has and scales to fit, so it never crops. */
+.floor-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .slab-top { fill: var(--floor); }
 .slab-side-left { fill: var(--floor-side-a); }
 .slab-side-right { fill: var(--floor-side-b); }
+.wall-right { fill: var(--wall-a); }
+.wall-left { fill: var(--wall-b); }
+.wall-cap { fill: none; stroke: var(--gold-soft); stroke-width: 1.2; stroke-linejoin: round; }
 .entrance { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; }
 .entrance-label { fill: var(--gold); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; }
+
 .zone { cursor: pointer; }
 .zone-plate { fill: var(--plate); stroke: var(--plate-edge); stroke-width: 1; transition: fill 0.18s ease, stroke 0.18s ease; }
 .zone-key { fill: var(--surface); stroke: var(--plate-edge); stroke-width: 1; transition: fill 0.18s ease, stroke 0.18s ease; }
-.zone-key-text { fill: var(--ink); font-family: var(--font-mono); font-size: 12px; font-weight: 500; }
-.zone-name { fill: var(--ink-2); font-family: var(--font-body); font-size: 10.5px; font-weight: 500; }
+.zone-key-text { fill: var(--ink); font-family: var(--font-mono); font-size: 9.5px; font-weight: 500; }
+.zone-name { fill: var(--ink-2); font-family: var(--font-body); font-size: 9.5px; font-weight: 600; letter-spacing: 0.02em; }
 .zone:hover .zone-plate { stroke: var(--lav); }
 .zone.is-selected .zone-plate { fill: var(--lav-soft); stroke: var(--lav); stroke-width: 1.5; }
 .zone.is-selected .zone-key { fill: var(--lav); stroke: var(--lav); }
 .zone.is-selected .zone-key-text { fill: var(--on-accent); }
 .zone.is-selected .zone-name { fill: var(--ink); }
+
+/* Furniture, glass and screens never take clicks; the room plate underneath does. */
+.scene, .displays { pointer-events: none; }
+.glass { fill: var(--glass); stroke: var(--glass-edge); stroke-width: 0.8; }
+.m-desk .f-t { fill: var(--desk-t); } .m-desk .f-l { fill: var(--desk-l); } .m-desk .f-r { fill: var(--desk-r); }
+.m-dark .f-t { fill: var(--dark-t); } .m-dark .f-l { fill: var(--dark-l); } .m-dark .f-r { fill: var(--dark-r); }
+.m-soft .f-t { fill: var(--soft-t); } .m-soft .f-l { fill: var(--soft-l); } .m-soft .f-r { fill: var(--soft-r); }
+.m-gold .f-t { fill: var(--goldm-t); } .m-gold .f-l { fill: var(--goldm-l); } .m-gold .f-r { fill: var(--goldm-r); }
+.m-pot .f-t { fill: var(--pot-t); } .m-pot .f-l { fill: var(--pot-l); } .m-pot .f-r { fill: var(--pot-r); }
+.leaf-a { fill: var(--leaf-a); } .leaf-b { fill: var(--leaf-b); }
+.frame { fill: var(--dark-l); }
+.screen { fill: var(--screen); }
+.screen-line { fill: var(--screen-ink); opacity: 0.8; }
+.screen-gold { fill: var(--screen-gold); opacity: 0.9; }
+.screen-alert { fill: var(--screen-alert); }
+.node { fill: none; stroke: var(--screen-ink); stroke-width: 1; }
+.node-gold { stroke: var(--screen-gold); }
+.wire { fill: none; stroke: var(--screen-ink); stroke-width: 0.8; opacity: 0.6; }
+.wave { fill: none; stroke: var(--screen-ink); stroke-width: 1.4; stroke-linejoin: round; stroke-linecap: round; }
+.plaque { fill: var(--surface); stroke: var(--gold-soft); stroke-width: 1; }
+.plaque-text { fill: var(--gold); font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: 0.06em; }
+
+/* One quiet sign of life: the AI Lab waveform breathes. */
+@keyframes hq-breathe { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+.wave { animation: hq-breathe 3.6s ease-in-out infinite; }
 
 /* ---------- Directory ---------- */
 .directory {
@@ -154,10 +184,12 @@ button { font: inherit; color: inherit; }
   .hq-main { grid-template-columns: minmax(0, 1fr); }
   .hq-stage { padding: 20px 16px 8px; }
   .directory { border-left: 0; border-top: 1px solid var(--line); padding: 18px 8px 28px; overflow: visible; }
+  .floor { flex: none; min-height: 0; }
+  .floor-svg { position: static; height: auto; }
   .zone-name { display: none; }           /* too small to read at phone scale; the directory carries the names */
   .entrance-label { display: none; }
-  .zone-key { r: 17px; }
-  .zone-key-text { font-size: 17px; transform: translateY(2px); }
+  .zone-key { r: 14px; }
+  .zone-key-text { font-size: 15px; transform: translateY(2px); }
   .hud { padding: 8px 16px; gap: 8px 14px; }
   .hud-status { order: 3; width: 100%; margin: 0; gap: 4px 16px; }
   .hud-status li { gap: 6px; }

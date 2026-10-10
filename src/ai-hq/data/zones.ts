@@ -40,6 +40,7 @@ export const ZONES: Zone[] = [
     id: "studio",
     key: 5,
     name: "Website & Funnel Studio",
+    floorLabel: "Web & Funnel Studio",
     summary: "Websites and funnels built in GoHighLevel.",
     contains: ["Website previews", "Funnel mockups", "Project boards"],
     rect: { x: 0, y: 7, w: 4, h: 3 },
