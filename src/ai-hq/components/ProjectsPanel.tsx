@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { HQ_CONFIG } from "../config";
 import { PROJECTS } from "../data/projects";
 import { useHq } from "../store/hqStore";
@@ -26,11 +26,35 @@ function Wireframe({ index }: { index: number }) {
   );
 }
 
-/** The project's screenshot, or the wireframe if there is none or it fails to load. */
+const RETRY_DELAYS = [4000, 10000, 20000];
+
+/**
+ * The project's screenshot, or the wireframe while there is none.
+ * The screenshot service builds each image the first time it is asked for, so
+ * a failure is usually temporary: the image is retried a few times before the
+ * card settles for the wireframe.
+ */
 function Thumb({ project, index }: { project: Project; index: number }) {
-  const [failed, setFailed] = useState(false);
-  if (!project.screenshot || failed) return <Wireframe index={index} />;
-  return <img className="proj-thumb" src={project.screenshot} alt="" loading="lazy" onError={() => setFailed(true)} />;
+  const [attempt, setAttempt] = useState(0);
+  const [waiting, setWaiting] = useState(false);
+
+  useEffect(() => {
+    if (!waiting || attempt >= RETRY_DELAYS.length) return; // out of retries: stay on the wireframe
+    const timer = window.setTimeout(() => { setWaiting(false); setAttempt((n) => n + 1); }, RETRY_DELAYS[attempt]);
+    return () => window.clearTimeout(timer);
+  }, [waiting, attempt]);
+
+  if (!project.screenshot || waiting) return <Wireframe index={index} />;
+  return (
+    <img
+      key={attempt}
+      className="proj-thumb"
+      src={project.screenshot}
+      alt=""
+      loading="lazy"
+      onError={() => setWaiting(true)}
+    />
+  );
 }
 
 /** Website & Funnel Studio: the portfolio projects, each opening to its details. */
